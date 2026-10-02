@@ -141,11 +141,13 @@ Ctrl+C等待在途请求结束并关闭服务。
 ## 7. 验收
 
 ```sh
-.venv/bin/python -m unittest backends.metal25.tools.test_http_service -v
-.venv/bin/python -m backends.metal25.tools.validate_http --url http://127.0.0.1:7860
+ctest --test-dir build --output-on-failure
+curl -fsS http://127.0.0.1:7860/health
+curl -fsS http://127.0.0.1:7860/api/status
+shasum -a 256 -c docs/model-packages.sha256
 ```
 
-单元测试使用替代引擎验证 HTTP、音色、SQLite、LRU、锁定和队列契约；
-实时验收真实克隆、保存/二进制返回、GPU提交、固定种子复现及清理。
-完整原生服务报告见 `native-http-validation.json` 和 `native-runtime-validation.json`；
+本项目独立构建和真实运行的验收见 `standalone-build.txt`、`standalone-ctest.txt`、
+`standalone-model-copy-check.txt` 和 `standalone-runtime-validation.json`。
+原项目完整原生服务报告见 `native-http-validation.json` 和 `native-runtime-validation.json`；
 `http-validation.json` 和 `PROGRESS.md` 保留此前 Python HTTP 入口的历史验收。

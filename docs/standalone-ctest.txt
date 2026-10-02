@@ -1,0 +1,10 @@
+Internal ctest changing into directory: /Users/raoqu/mylab/index-tts-25-metal/build
+Test project /Users/raoqu/mylab/index-tts-25-metal/build
+    Start 1: metal_device
+1/2 Test #1: metal_device .....................   Passed    2.71 sec
+    Start 2: mps_zero_bias_reuse
+2/2 Test #2: mps_zero_bias_reuse ..............   Passed    0.09 sec
+
+100% tests passed, 0 tests failed out of 2
+
+Total Test time (real) =   2.80 sec
