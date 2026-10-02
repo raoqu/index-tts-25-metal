@@ -1,0 +1,6 @@
+/build*/
+/bundles/
+/voices/
+/outputs/
+/examples/*.wav
+.DS_Store

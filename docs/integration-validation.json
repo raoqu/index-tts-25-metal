@@ -1,0 +1,1262 @@
+{
+  "status": "pass",
+  "neural_python_calls": 0,
+  "repeated_audio_exact": true,
+  "speed_duration_pass": true,
+  "cases": [
+    {
+      "case": "zh",
+      "text": "你好，这是本地语音测试。",
+      "language": "ZH",
+      "options": {},
+      "seconds": 23.89725812501274,
+      "audio": {
+        "rate": 22050,
+        "channels": 1,
+        "frames": 50944,
+        "duration": 2.3103854875283445,
+        "rms": 0.09642456301104223,
+        "peak": 0.556427001953125,
+        "finite": true,
+        "sha256": "7a3293898480d0f5301e437ee57055c8bd2382bf359d86c565361abf2afc7623"
+      },
+      "metrics": [
+        {
+          "operation": "speech",
+          "ok": true,
+          "dtype": "f32",
+          "shape": [
+            1,
+            121,
+            1024
+          ],
+          "gpu_submissions": 463,
+          "seconds": 0.671146
+        },
+        {
+          "operation": "camp",
+          "ok": true,
+          "dtype": "f32",
+          "shape": [
+            1,
+            192
+          ],
+          "gpu_submissions": 225,
+          "seconds": 0.123611
+        },
+        {
+          "operation": "regulate",
+          "ok": true,
+          "dtype": "f32",
+          "shape": [
+            1,
+            210,
+            512
+          ],
+          "gpu_submissions": 15,
+          "seconds": 0.0451485
+        },
+        {
+          "operation": "speech",
+          "ok": true,
+          "dtype": "f32",
+          "shape": [
+            1,
+            121,
+            1024
+          ],
+          "gpu_submissions": 463,
+          "seconds": 0.183393
+        },
+        {
+          "operation": "emotion",
+          "ok": true,
+          "dtype": "f32",
+          "shape": [
+            1,
+            1280
+          ],
+          "gpu_submissions": 121,
+          "seconds": 0.743704
+        },
+        {
+          "operation": "gpt",
+          "ok": true,
+          "dtype": "u32",
+          "shape": [
+            1,
+            59
+          ],
+          "gpu_submissions": 69,
+          "seconds": 7.88806
+        },
+        {
+          "operation": "codec",
+          "ok": true,
+          "dtype": "f32",
+          "shape": [
+            1,
+            116,
+            1024
+          ],
+          "gpu_submissions": 92,
+          "seconds": 0.133304
+        },
+        {
+          "operation": "regulate",
+          "ok": true,
+          "dtype": "f32",
+          "shape": [
+            1,
+            199,
+            512
+          ],
+          "gpu_submissions": 15,
+          "seconds": 0.0395127
+        },
+        {
+          "operation": "flow",
+          "ok": true,
+          "dtype": "f32",
+          "shape": [
+            1,
+            409,
+            80
+          ],
+          "gpu_submissions": 250,
+          "seconds": 4.00739
+        },
+        {
+          "operation": "vocode",
+          "ok": true,
+          "dtype": "f32",
+          "shape": [
+            1,
+            1,
+            50944
+          ],
+          "gpu_submissions": 1,
+          "seconds": 9.83348
+        }
+      ]
+    },
+    {
+      "case": "repeat",
+      "text": "你好，这是本地语音测试。",
+      "language": "ZH",
+      "options": {},
+      "seconds": 19.33522529201582,
+      "audio": {
+        "rate": 22050,
+        "channels": 1,
+        "frames": 50944,
+        "duration": 2.3103854875283445,
+        "rms": 0.09642456301104223,
+        "peak": 0.556427001953125,
+        "finite": true,
+        "sha256": "7a3293898480d0f5301e437ee57055c8bd2382bf359d86c565361abf2afc7623"
+      },
+      "metrics": [
+        {
+          "operation": "emotion",
+          "ok": true,
+          "dtype": "f32",
+          "shape": [
+            1,
+            1280
+          ],
+          "gpu_submissions": 121,
+          "seconds": 0.816493
+        },
+        {
+          "operation": "gpt",
+          "ok": true,
+          "dtype": "u32",
+          "shape": [
+            1,
+            59
+          ],
+          "gpu_submissions": 69,
+          "seconds": 4.83753
+        },
+        {
+          "operation": "codec",
+          "ok": true,
+          "dtype": "f32",
+          "shape": [
+            1,
+            116,
+            1024
+          ],
+          "gpu_submissions": 92,
+          "seconds": 0.101733
+        },
+        {
+          "operation": "regulate",
+          "ok": true,
+          "dtype": "f32",
+          "shape": [
+            1,
+            199,
+            512
+          ],
+          "gpu_submissions": 15,
+          "seconds": 0.0380899
+        },
+        {
+          "operation": "flow",
+          "ok": true,
+          "dtype": "f32",
+          "shape": [
+            1,
+            409,
+            80
+          ],
+          "gpu_submissions": 250,
+          "seconds": 3.91317
+        },
+        {
+          "operation": "vocode",
+          "ok": true,
+          "dtype": "f32",
+          "shape": [
+            1,
+            1,
+            50944
+          ],
+          "gpu_submissions": 1,
+          "seconds": 9.61019
+        }
+      ]
+    },
+    {
+      "case": "fast",
+      "text": "你好，这是本地语音测试。",
+      "language": "ZH",
+      "options": {
+        "duration_factor": 0.8
+      },
+      "seconds": 16.894547125004465,
+      "audio": {
+        "rate": 22050,
+        "channels": 1,
+        "frames": 40704,
+        "duration": 1.8459863945578232,
+        "rms": 0.09251644161464224,
+        "peak": 0.607452392578125,
+        "finite": true,
+        "sha256": "3dc45a2145ce823d3b73dec6316f8a219cadf593237c064f3457bd44435fdc00"
+      },
+      "metrics": [
+        {
+          "operation": "emotion",
+          "ok": true,
+          "dtype": "f32",
+          "shape": [
+            1,
+            1280
+          ],
+          "gpu_submissions": 121,
+          "seconds": 0.778807
+        },
+        {
+          "operation": "gpt",
+          "ok": true,
+          "dtype": "u32",
+          "shape": [
+            1,
+            59
+          ],
+          "gpu_submissions": 69,
+          "seconds": 4.9448
+        },
+        {
+          "operation": "codec",
+          "ok": true,
+          "dtype": "f32",
+          "shape": [
+            1,
+            116,
+            1024
+          ],
+          "gpu_submissions": 92,
+          "seconds": 0.121913
+        },
+        {
+          "operation": "regulate",
+          "ok": true,
+          "dtype": "f32",
+          "shape": [
+            1,
+            159,
+            512
+          ],
+          "gpu_submissions": 15,
+          "seconds": 0.0347336
+        },
+        {
+          "operation": "flow",
+          "ok": true,
+          "dtype": "f32",
+          "shape": [
+            1,
+            369,
+            80
+          ],
+          "gpu_submissions": 250,
+          "seconds": 3.30256
+        },
+        {
+          "operation": "vocode",
+          "ok": true,
+          "dtype": "f32",
+          "shape": [
+            1,
+            1,
+            40704
+          ],
+          "gpu_submissions": 1,
+          "seconds": 7.68209
+        }
+      ]
+    },
+    {
+      "case": "slow",
+      "text": "你好，这是本地语音测试。",
+      "language": "ZH",
+      "options": {
+        "duration_factor": 1.2
+      },
+      "seconds": 21.878417957981583,
+      "audio": {
+        "rate": 22050,
+        "channels": 1,
+        "frames": 61184,
+        "duration": 2.7747845804988662,
+        "rms": 0.10266168488139729,
+        "peak": 0.65350341796875,
+        "finite": true,
+        "sha256": "41ee28d2cdec605c476a6afe3e78cf8593555bb51e9dd085f15271d3dbaff3b0"
+      },
+      "metrics": [
+        {
+          "operation": "emotion",
+          "ok": true,
+          "dtype": "f32",
+          "shape": [
+            1,
+            1280
+          ],
+          "gpu_submissions": 121,
+          "seconds": 0.778847
+        },
+        {
+          "operation": "gpt",
+          "ok": true,
+          "dtype": "u32",
+          "shape": [
+            1,
+            59
+          ],
+          "gpu_submissions": 69,
+          "seconds": 4.83995
+        },
+        {
+          "operation": "codec",
+          "ok": true,
+          "dtype": "f32",
+          "shape": [
+            1,
+            116,
+            1024
+          ],
+          "gpu_submissions": 92,
+          "seconds": 0.101758
+        },
+        {
+          "operation": "regulate",
+          "ok": true,
+          "dtype": "f32",
+          "shape": [
+            1,
+            239,
+            512
+          ],
+          "gpu_submissions": 15,
+          "seconds": 0.048124
+        },
+        {
+          "operation": "flow",
+          "ok": true,
+          "dtype": "f32",
+          "shape": [
+            1,
+            449,
+            80
+          ],
+          "gpu_submissions": 250,
+          "seconds": 4.56357
+        },
+        {
+          "operation": "vocode",
+          "ok": true,
+          "dtype": "f32",
+          "shape": [
+            1,
+            1,
+            61184
+          ],
+          "gpu_submissions": 1,
+          "seconds": 11.5297
+        }
+      ]
+    },
+    {
+      "case": "en",
+      "text": "Hello, this is a local speech test.",
+      "language": "EN",
+      "options": {},
+      "seconds": 25.43686012501712,
+      "audio": {
+        "rate": 22050,
+        "channels": 1,
+        "frames": 68608,
+        "duration": 3.111473922902494,
+        "rms": 0.06320176747262969,
+        "peak": 0.489013671875,
+        "finite": true,
+        "sha256": "fb127433dbdd354e26408d9eefaa8f0c710281c69a0e62fc6d91fed94665b0a3"
+      },
+      "metrics": [
+        {
+          "operation": "emotion",
+          "ok": true,
+          "dtype": "f32",
+          "shape": [
+            1,
+            1280
+          ],
+          "gpu_submissions": 121,
+          "seconds": 0.752819
+        },
+        {
+          "operation": "gpt",
+          "ok": true,
+          "dtype": "u32",
+          "shape": [
+            1,
+            79
+          ],
+          "gpu_submissions": 89,
+          "seconds": 6.50328
+        },
+        {
+          "operation": "codec",
+          "ok": true,
+          "dtype": "f32",
+          "shape": [
+            1,
+            156,
+            1024
+          ],
+          "gpu_submissions": 92,
+          "seconds": 0.0715115
+        },
+        {
+          "operation": "regulate",
+          "ok": true,
+          "dtype": "f32",
+          "shape": [
+            1,
+            268,
+            512
+          ],
+          "gpu_submissions": 15,
+          "seconds": 0.0515752
+        },
+        {
+          "operation": "flow",
+          "ok": true,
+          "dtype": "f32",
+          "shape": [
+            1,
+            478,
+            80
+          ],
+          "gpu_submissions": 250,
+          "seconds": 5.09729
+        },
+        {
+          "operation": "vocode",
+          "ok": true,
+          "dtype": "f32",
+          "shape": [
+            1,
+            1,
+            68608
+          ],
+          "gpu_submissions": 1,
+          "seconds": 12.9399
+        }
+      ]
+    },
+    {
+      "case": "ja",
+      "text": "こんにちは。音声のテストです。",
+      "language": "JA",
+      "options": {},
+      "seconds": 22.901886374980677,
+      "audio": {
+        "rate": 22050,
+        "channels": 1,
+        "frames": 61440,
+        "duration": 2.786394557823129,
+        "rms": 0.06469323033616445,
+        "peak": 0.36444091796875,
+        "finite": true,
+        "sha256": "e1351c6634491347b1fc91f9cb67e9f7751b3bfb8168703e7bbee02408cd2e9c"
+      },
+      "metrics": [
+        {
+          "operation": "emotion",
+          "ok": true,
+          "dtype": "f32",
+          "shape": [
+            1,
+            1280
+          ],
+          "gpu_submissions": 121,
+          "seconds": 0.735836
+        },
+        {
+          "operation": "gpt",
+          "ok": true,
+          "dtype": "u32",
+          "shape": [
+            1,
+            71
+          ],
+          "gpu_submissions": 81,
+          "seconds": 5.85026
+        },
+        {
+          "operation": "codec",
+          "ok": true,
+          "dtype": "f32",
+          "shape": [
+            1,
+            140,
+            1024
+          ],
+          "gpu_submissions": 92,
+          "seconds": 0.068232
+        },
+        {
+          "operation": "regulate",
+          "ok": true,
+          "dtype": "f32",
+          "shape": [
+            1,
+            240,
+            512
+          ],
+          "gpu_submissions": 15,
+          "seconds": 0.0464453
+        },
+        {
+          "operation": "flow",
+          "ok": true,
+          "dtype": "f32",
+          "shape": [
+            1,
+            450,
+            80
+          ],
+          "gpu_submissions": 250,
+          "seconds": 4.60042
+        },
+        {
+          "operation": "vocode",
+          "ok": true,
+          "dtype": "f32",
+          "shape": [
+            1,
+            1,
+            61440
+          ],
+          "gpu_submissions": 1,
+          "seconds": 11.568
+        }
+      ]
+    },
+    {
+      "case": "es",
+      "text": "Hola, esta es una prueba de voz.",
+      "language": "ES",
+      "options": {},
+      "seconds": 20.512153207993833,
+      "audio": {
+        "rate": 22050,
+        "channels": 1,
+        "frames": 54528,
+        "duration": 2.4729251700680273,
+        "rms": 0.09327619932607777,
+        "peak": 0.56854248046875,
+        "finite": true,
+        "sha256": "1e6aaf2438de8d9072c1d72cf998ca3122f35d18dc8837ffd70ff489b987f331"
+      },
+      "metrics": [
+        {
+          "operation": "emotion",
+          "ok": true,
+          "dtype": "f32",
+          "shape": [
+            1,
+            1280
+          ],
+          "gpu_submissions": 121,
+          "seconds": 0.735951
+        },
+        {
+          "operation": "gpt",
+          "ok": true,
+          "dtype": "u32",
+          "shape": [
+            1,
+            63
+          ],
+          "gpu_submissions": 73,
+          "seconds": 5.18239
+        },
+        {
+          "operation": "codec",
+          "ok": true,
+          "dtype": "f32",
+          "shape": [
+            1,
+            124,
+            1024
+          ],
+          "gpu_submissions": 92,
+          "seconds": 0.109077
+        },
+        {
+          "operation": "regulate",
+          "ok": true,
+          "dtype": "f32",
+          "shape": [
+            1,
+            213,
+            512
+          ],
+          "gpu_submissions": 15,
+          "seconds": 0.0423344
+        },
+        {
+          "operation": "flow",
+          "ok": true,
+          "dtype": "f32",
+          "shape": [
+            1,
+            423,
+            80
+          ],
+          "gpu_submissions": 250,
+          "seconds": 4.14482
+        },
+        {
+          "operation": "vocode",
+          "ok": true,
+          "dtype": "f32",
+          "shape": [
+            1,
+            1,
+            54528
+          ],
+          "gpu_submissions": 1,
+          "seconds": 10.2802
+        }
+      ]
+    },
+    {
+      "case": "ar",
+      "text": "مرحبا، هذا اختبار للصوت.",
+      "language": "AR",
+      "options": {},
+      "seconds": 22.970601042005,
+      "audio": {
+        "rate": 22050,
+        "channels": 1,
+        "frames": 61440,
+        "duration": 2.786394557823129,
+        "rms": 0.09888140694973098,
+        "peak": 0.61370849609375,
+        "finite": true,
+        "sha256": "bd9d7162ad7ca69c8642cd0e8e57f497289c1ca91eb1665af4b336cd661e70d2"
+      },
+      "metrics": [
+        {
+          "operation": "emotion",
+          "ok": true,
+          "dtype": "f32",
+          "shape": [
+            1,
+            1280
+          ],
+          "gpu_submissions": 121,
+          "seconds": 0.729454
+        },
+        {
+          "operation": "gpt",
+          "ok": true,
+          "dtype": "u32",
+          "shape": [
+            1,
+            71
+          ],
+          "gpu_submissions": 81,
+          "seconds": 5.85485
+        },
+        {
+          "operation": "codec",
+          "ok": true,
+          "dtype": "f32",
+          "shape": [
+            1,
+            140,
+            1024
+          ],
+          "gpu_submissions": 92,
+          "seconds": 0.0996971
+        },
+        {
+          "operation": "regulate",
+          "ok": true,
+          "dtype": "f32",
+          "shape": [
+            1,
+            240,
+            512
+          ],
+          "gpu_submissions": 15,
+          "seconds": 0.0560698
+        },
+        {
+          "operation": "flow",
+          "ok": true,
+          "dtype": "f32",
+          "shape": [
+            1,
+            450,
+            80
+          ],
+          "gpu_submissions": 250,
+          "seconds": 4.60618
+        },
+        {
+          "operation": "vocode",
+          "ok": true,
+          "dtype": "f32",
+          "shape": [
+            1,
+            1,
+            61440
+          ],
+          "gpu_submissions": 1,
+          "seconds": 11.568
+        }
+      ]
+    },
+    {
+      "case": "emotion_reference",
+      "text": "今天的天气真好。",
+      "language": "ZH",
+      "options": {
+        "emo_audio_prompt": "examples/voice_02.wav",
+        "emo_alpha": 0.5
+      },
+      "seconds": 19.747018333000597,
+      "audio": {
+        "rate": 22050,
+        "channels": 1,
+        "frames": 50176,
+        "duration": 2.2755555555555556,
+        "rms": 0.05618431199225545,
+        "peak": 0.356201171875,
+        "finite": true,
+        "sha256": "b3cf13bb8b5f291b2de553a9b3fe80d9263a5b4d04c54ebd5c3e93050aa64036"
+      },
+      "metrics": [
+        {
+          "operation": "speech",
+          "ok": true,
+          "dtype": "f32",
+          "shape": [
+            1,
+            146,
+            1024
+          ],
+          "gpu_submissions": 463,
+          "seconds": 0.222002
+        },
+        {
+          "operation": "emotion",
+          "ok": true,
+          "dtype": "f32",
+          "shape": [
+            1,
+            1280
+          ],
+          "gpu_submissions": 121,
+          "seconds": 0.732992
+        },
+        {
+          "operation": "emotion",
+          "ok": true,
+          "dtype": "f32",
+          "shape": [
+            1,
+            1280
+          ],
+          "gpu_submissions": 121,
+          "seconds": 0.571772
+        },
+        {
+          "operation": "gpt",
+          "ok": true,
+          "dtype": "u32",
+          "shape": [
+            1,
+            58
+          ],
+          "gpu_submissions": 68,
+          "seconds": 4.77742
+        },
+        {
+          "operation": "codec",
+          "ok": true,
+          "dtype": "f32",
+          "shape": [
+            1,
+            114,
+            1024
+          ],
+          "gpu_submissions": 92,
+          "seconds": 0.101474
+        },
+        {
+          "operation": "regulate",
+          "ok": true,
+          "dtype": "f32",
+          "shape": [
+            1,
+            196,
+            512
+          ],
+          "gpu_submissions": 15,
+          "seconds": 0.0394483
+        },
+        {
+          "operation": "flow",
+          "ok": true,
+          "dtype": "f32",
+          "shape": [
+            1,
+            406,
+            80
+          ],
+          "gpu_submissions": 250,
+          "seconds": 3.82072
+        },
+        {
+          "operation": "vocode",
+          "ok": true,
+          "dtype": "f32",
+          "shape": [
+            1,
+            1,
+            50176
+          ],
+          "gpu_submissions": 1,
+          "seconds": 9.45459
+        }
+      ]
+    },
+    {
+      "case": "emotion_vector",
+      "text": "今天的天气真好。",
+      "language": "ZH",
+      "options": {
+        "emo_vector": [
+          0.6,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0.1
+        ]
+      },
+      "seconds": 17.347594082995784,
+      "audio": {
+        "rate": 22050,
+        "channels": 1,
+        "frames": 44800,
+        "duration": 2.0317460317460316,
+        "rms": 0.08117118057524848,
+        "peak": 0.530548095703125,
+        "finite": true,
+        "sha256": "9fbf6ab262920aff8f6fdd30fd5f03e8e3a0db9dd9f07fd09b9dc68ffe3fd3ee"
+      },
+      "metrics": [
+        {
+          "operation": "speech",
+          "ok": true,
+          "dtype": "f32",
+          "shape": [
+            1,
+            121,
+            1024
+          ],
+          "gpu_submissions": 463,
+          "seconds": 0.212703
+        },
+        {
+          "operation": "emotion",
+          "ok": true,
+          "dtype": "f32",
+          "shape": [
+            1,
+            1280
+          ],
+          "gpu_submissions": 121,
+          "seconds": 0.725729
+        },
+        {
+          "operation": "gpt",
+          "ok": true,
+          "dtype": "u32",
+          "shape": [
+            1,
+            52
+          ],
+          "gpu_submissions": 62,
+          "seconds": 4.26112
+        },
+        {
+          "operation": "codec",
+          "ok": true,
+          "dtype": "f32",
+          "shape": [
+            1,
+            102,
+            1024
+          ],
+          "gpu_submissions": 92,
+          "seconds": 0.0940022
+        },
+        {
+          "operation": "regulate",
+          "ok": true,
+          "dtype": "f32",
+          "shape": [
+            1,
+            175,
+            512
+          ],
+          "gpu_submissions": 15,
+          "seconds": 0.0383037
+        },
+        {
+          "operation": "flow",
+          "ok": true,
+          "dtype": "f32",
+          "shape": [
+            1,
+            385,
+            80
+          ],
+          "gpu_submissions": 250,
+          "seconds": 3.53151
+        },
+        {
+          "operation": "vocode",
+          "ok": true,
+          "dtype": "f32",
+          "shape": [
+            1,
+            1,
+            44800
+          ],
+          "gpu_submissions": 1,
+          "seconds": 8.45476
+        }
+      ]
+    },
+    {
+      "case": "emotion_text",
+      "text": "今天的天气真好。",
+      "language": "ZH",
+      "options": {
+        "use_emo_text": true,
+        "emo_text": "今天很高兴，终于完成了任务！"
+      },
+      "seconds": 29.05002012499608,
+      "audio": {
+        "rate": 22050,
+        "channels": 1,
+        "frames": 50944,
+        "duration": 2.3103854875283445,
+        "rms": 0.06567307766390093,
+        "peak": 0.4747314453125,
+        "finite": true,
+        "sha256": "22b35a2885e9a2dac35ad2890eb248c4df7f1e60508d75a902bbe46e54565b1f"
+      },
+      "metrics": [
+        {
+          "operation": "qwen",
+          "ok": true,
+          "dtype": "u32",
+          "shape": [
+            1,
+            76
+          ],
+          "gpu_submissions": 152,
+          "seconds": 9.48355
+        },
+        {
+          "operation": "emotion",
+          "ok": true,
+          "dtype": "f32",
+          "shape": [
+            1,
+            1280
+          ],
+          "gpu_submissions": 121,
+          "seconds": 0.815987
+        },
+        {
+          "operation": "gpt",
+          "ok": true,
+          "dtype": "u32",
+          "shape": [
+            1,
+            59
+          ],
+          "gpu_submissions": 69,
+          "seconds": 4.88197
+        },
+        {
+          "operation": "codec",
+          "ok": true,
+          "dtype": "f32",
+          "shape": [
+            1,
+            116,
+            1024
+          ],
+          "gpu_submissions": 92,
+          "seconds": 0.10834
+        },
+        {
+          "operation": "regulate",
+          "ok": true,
+          "dtype": "f32",
+          "shape": [
+            1,
+            199,
+            512
+          ],
+          "gpu_submissions": 15,
+          "seconds": 0.0396256
+        },
+        {
+          "operation": "flow",
+          "ok": true,
+          "dtype": "f32",
+          "shape": [
+            1,
+            409,
+            80
+          ],
+          "gpu_submissions": 250,
+          "seconds": 4.08801
+        },
+        {
+          "operation": "vocode",
+          "ok": true,
+          "dtype": "f32",
+          "shape": [
+            1,
+            1,
+            50944
+          ],
+          "gpu_submissions": 1,
+          "seconds": 9.60859
+        }
+      ]
+    },
+    {
+      "case": "chunks",
+      "text": "This is the first sentence. Here is another short sentence. Finally, the third sentence ends the test.",
+      "language": "EN",
+      "options": {
+        "max_text_tokens_per_segment": 20
+      },
+      "seconds": 68.90463941701455,
+      "audio": {
+        "rate": 22050,
+        "channels": 1,
+        "frames": 159034,
+        "duration": 7.212426303854875,
+        "rms": 0.07854543880965888,
+        "peak": 0.802764892578125,
+        "finite": true,
+        "sha256": "43f8516f5c632f21adf91ddd243e8215b02c18a6b8b76b28928b74d55ccd2218"
+      },
+      "metrics": [
+        {
+          "operation": "emotion",
+          "ok": true,
+          "dtype": "f32",
+          "shape": [
+            1,
+            1280
+          ],
+          "gpu_submissions": 121,
+          "seconds": 0.972898
+        },
+        {
+          "operation": "gpt",
+          "ok": true,
+          "dtype": "u32",
+          "shape": [
+            1,
+            112
+          ],
+          "gpu_submissions": 122,
+          "seconds": 12.5238
+        },
+        {
+          "operation": "codec",
+          "ok": true,
+          "dtype": "f32",
+          "shape": [
+            1,
+            222,
+            1024
+          ],
+          "gpu_submissions": 92,
+          "seconds": 0.131082
+        },
+        {
+          "operation": "regulate",
+          "ok": true,
+          "dtype": "f32",
+          "shape": [
+            1,
+            381,
+            512
+          ],
+          "gpu_submissions": 15,
+          "seconds": 0.0790395
+        },
+        {
+          "operation": "flow",
+          "ok": true,
+          "dtype": "f32",
+          "shape": [
+            1,
+            591,
+            80
+          ],
+          "gpu_submissions": 250,
+          "seconds": 8.16494
+        },
+        {
+          "operation": "vocode",
+          "ok": true,
+          "dtype": "f32",
+          "shape": [
+            1,
+            1,
+            97536
+          ],
+          "gpu_submissions": 1,
+          "seconds": 22.75
+        },
+        {
+          "operation": "emotion",
+          "ok": true,
+          "dtype": "f32",
+          "shape": [
+            1,
+            1280
+          ],
+          "gpu_submissions": 121,
+          "seconds": 0.925966
+        },
+        {
+          "operation": "gpt",
+          "ok": true,
+          "dtype": "u32",
+          "shape": [
+            1,
+            66
+          ],
+          "gpu_submissions": 76,
+          "seconds": 7.80105
+        },
+        {
+          "operation": "codec",
+          "ok": true,
+          "dtype": "f32",
+          "shape": [
+            1,
+            130,
+            1024
+          ],
+          "gpu_submissions": 92,
+          "seconds": 0.0816146
+        },
+        {
+          "operation": "regulate",
+          "ok": true,
+          "dtype": "f32",
+          "shape": [
+            1,
+            223,
+            512
+          ],
+          "gpu_submissions": 15,
+          "seconds": 0.0452089
+        },
+        {
+          "operation": "flow",
+          "ok": true,
+          "dtype": "f32",
+          "shape": [
+            1,
+            433,
+            80
+          ],
+          "gpu_submissions": 250,
+          "seconds": 4.50492
+        },
+        {
+          "operation": "vocode",
+          "ok": true,
+          "dtype": "f32",
+          "shape": [
+            1,
+            1,
+            57088
+          ],
+          "gpu_submissions": 1,
+          "seconds": 10.8868
+        }
+      ]
+    }
+  ]
+}

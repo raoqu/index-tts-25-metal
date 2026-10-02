@@ -1,0 +1,15 @@
+{
+  "status": "pass",
+  "components": 119,
+  "functions": 22,
+  "signatures_exact": true,
+  "fields": [
+    "id",
+    "type",
+    "label",
+    "visible",
+    "choices",
+    "minimum",
+    "maximum"
+  ]
+}

@@ -1,0 +1,199 @@
+{
+  "passed": true,
+  "input_format": "M4A/AAC",
+  "voice_shapes": {
+    "voice.spk_cond": [
+      1,
+      121,
+      1024
+    ],
+    "voice.emo_cond": [
+      1,
+      121,
+      1024
+    ],
+    "voice.style": [
+      1,
+      192
+    ],
+    "voice.prompt_condition": [
+      1,
+      210,
+      512
+    ],
+    "voice.mel": [
+      1,
+      80,
+      210
+    ],
+    "voice.audio": [
+      1,
+      53774
+    ]
+  },
+  "synthesis": {
+    "audio_seconds": 1.8343764172335602,
+    "backend": "native-metal",
+    "emotion_cache_hits": 0,
+    "gpu_submissions": 295,
+    "model": "2.5",
+    "output": "/Users/raoqu/research/itts25/outputs/native-aac.wav",
+    "rtf": 2.428266926107595,
+    "seed": 5150,
+    "segments": [
+      {
+        "codes": [
+          2616,
+          905,
+          1242,
+          5617,
+          96,
+          170,
+          7854,
+          2119,
+          7712,
+          7081,
+          5040,
+          4072,
+          4110,
+          4879,
+          1619,
+          3505,
+          6511,
+          2783,
+          7973,
+          7889,
+          1341,
+          3883,
+          1351,
+          3512,
+          7568,
+          6046,
+          5914,
+          46,
+          1503,
+          4081,
+          813,
+          4800,
+          2238,
+          5492,
+          3922,
+          3931,
+          6307,
+          6394,
+          4579,
+          5989,
+          4290,
+          2765,
+          4615,
+          72,
+          5799,
+          1140
+        ],
+        "mel_frames": 158,
+        "stopped": true,
+        "text": "你好世界",
+        "text_ids": [
+          58839,
+          220,
+          48934,
+          50371,
+          48721,
+          53743,
+          1
+        ]
+      }
+    ],
+    "stage_seconds": {
+      "acoustic": 1.064345375,
+      "features": 0.7495945,
+      "gpt": 2.142497292,
+      "vocoder": 0.497108416
+    },
+    "status": "ok",
+    "total_seconds": 4.454355584
+  },
+  "warm_repeat": {
+    "audio_seconds": 1.8343764172335602,
+    "backend": "native-metal",
+    "emotion_cache_hits": 1,
+    "gpu_submissions": 166,
+    "model": "2.5",
+    "output": "/Users/raoqu/research/itts25/outputs/native-aac-repeat.wav",
+    "rtf": 0.7906902920107298,
+    "seed": 5150,
+    "segments": [
+      {
+        "codes": [
+          2616,
+          905,
+          1242,
+          5617,
+          96,
+          170,
+          7854,
+          2119,
+          7712,
+          7081,
+          5040,
+          4072,
+          4110,
+          4879,
+          1619,
+          3505,
+          6511,
+          2783,
+          7973,
+          7889,
+          1341,
+          3883,
+          1351,
+          3512,
+          7568,
+          6046,
+          5914,
+          46,
+          1503,
+          4081,
+          813,
+          4800,
+          2238,
+          5492,
+          3922,
+          3931,
+          6307,
+          6394,
+          4579,
+          5989,
+          4290,
+          2765,
+          4615,
+          72,
+          5799,
+          1140
+        ],
+        "mel_frames": 158,
+        "stopped": true,
+        "text": "你好世界",
+        "text_ids": [
+          58839,
+          220,
+          48934,
+          50371,
+          48721,
+          53743,
+          1
+        ]
+      }
+    ],
+    "stage_seconds": {
+      "acoustic": 0.877914709,
+      "features": 0.000424958,
+      "gpt": 0.456486166,
+      "vocoder": 0.114775833
+    },
+    "status": "ok",
+    "total_seconds": 1.450423625
+  },
+  "same_seed_exact": true
+}

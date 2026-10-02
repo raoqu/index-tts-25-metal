@@ -1,0 +1,13 @@
+{
+  "request": "gen_single",
+  "result": {
+    "visible": true,
+    "value": "/private/var/folders/wv/8xxbf2zj11q50psd3f0grnpm0000gn/T/gradio/c36b09474a48280332b5b70b05582da1955c508b67fba047e558525e2004ee99/spk_1790877067.wav",
+    "__type__": "update"
+  },
+  "seconds": 42.63079108399688,
+  "url": "http://127.0.0.1:7861",
+  "components": 119,
+  "functions": 22,
+  "components_equal": true
+}

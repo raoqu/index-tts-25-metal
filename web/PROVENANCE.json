@@ -1,0 +1,7 @@
+{
+  "source": "/Users/raoqu/mylab/index-tts2-metal/runtime/impl/server.cpp",
+  "source_commit": "eda855b2e9d7cfaa4269380f42880d41b060c4d2",
+  "original_html_sha256": "f1e76981f78fbcbb944f361658c90edd97f856ecce312a8f4594b1c6e8451f4d",
+  "scope": "Embedded web_index_html UI reused; HTTP interface follows docs/api.md. 2.5 inference stays in this project.",
+  "adaptations": ["IndexTTS 2.5 title", "Speech language/duration/emotion description controls", "2.5 speech model and options"]
+}

@@ -1,0 +1,151 @@
+{
+  "runs": [
+    {
+      "status": "ok",
+      "output": "/Users/raoqu/Documents/Codex/2026-10-01/get/outputs/itts25-qin-api.wav",
+      "audio_seconds": 1.8692063492063493,
+      "total_seconds": 3.4741454999893904,
+      "rtf": 1.8586206394304652,
+      "gpu_submissions": 288,
+      "stage_seconds": {
+        "emotion": 0.84694,
+        "gpt": 0.45667,
+        "codec": 0.0872059,
+        "regulate": 0.0320829,
+        "flow": 1.90981,
+        "vocode": 0.116709
+      },
+      "emotion_cache_hits": 0
+    },
+    {
+      "status": "ok",
+      "output": "/Users/raoqu/Documents/Codex/2026-10-01/get/outputs/itts25-qin-api.wav",
+      "audio_seconds": 1.8692063492063493,
+      "total_seconds": 2.6159292919910513,
+      "rtf": 1.3994866286976582,
+      "gpu_submissions": 167,
+      "stage_seconds": {
+        "gpt": 0.4492,
+        "codec": 0.0849561,
+        "regulate": 0.032034,
+        "flow": 1.90613,
+        "vocode": 0.121018
+      },
+      "emotion_cache_hits": 1
+    }
+  ],
+  "benchmark_audio_exact": true,
+  "wav_sha256": "df3aa5951b777dfc067c44df8574f0b0d2908d6fbbc6b64b69b497594f18a289",
+  "status": {
+    "status": "ok",
+    "model_bundle": "/Users/raoqu/research/itts25/backends/metal25/bundles/full",
+    "voice_store": "/Users/raoqu/research/itts25/backends/metal25/voices",
+    "model_version": "2.5",
+    "backend": "C++ Metal",
+    "web_enabled": true,
+    "web_auth_required": false,
+    "configured_tts_concurrency": 1,
+    "configured_clone_concurrency": 1,
+    "effective_executor_concurrency": 1,
+    "queue": {
+      "max_waiting": 16,
+      "waiting": 0,
+      "running": false,
+      "current": null
+    },
+    "totals": {
+      "submitted": 5,
+      "completed": 5,
+      "failed": 0,
+      "rejected": 0
+    },
+    "recent": [
+      {
+        "id": 5,
+        "kind": "tts",
+        "label": "你好世界",
+        "status": "completed",
+        "error": "",
+        "audio_seconds": 1.8692063492063493,
+        "elapsed_seconds": 2.6153400839830283,
+        "finished_at": "1790916119",
+        "rtf": 1.3991714104189095
+      },
+      {
+        "id": 4,
+        "kind": "tts",
+        "label": "你好世界",
+        "status": "completed",
+        "error": "",
+        "audio_seconds": 1.8692063492063493,
+        "elapsed_seconds": 3.473552582989214,
+        "finished_at": "1790916116",
+        "rtf": 1.8583034368913083
+      },
+      {
+        "id": 3,
+        "kind": "tts",
+        "label": "你好，这是复用网页和接口后的本地语音合成测试。",
+        "status": "completed",
+        "error": "",
+        "audio_seconds": 4.504671201814059,
+        "elapsed_seconds": 2.853635041974485,
+        "finished_at": "1790916038",
+        "rtf": 0.6334835361180875
+      },
+      {
+        "id": 2,
+        "kind": "tts",
+        "label": "你好，这是复用网页和接口后的本地语音合成测试。",
+        "status": "completed",
+        "error": "",
+        "audio_seconds": 4.504671201814059,
+        "elapsed_seconds": 5.636249792005401,
+        "finished_at": "1790916035",
+        "rtf": 1.2512011508710443
+      },
+      {
+        "id": 1,
+        "kind": "clone",
+        "label": "HTTP acceptance voice",
+        "status": "completed",
+        "error": "",
+        "audio_seconds": 2.438730158730159,
+        "elapsed_seconds": 4.940369499992812,
+        "finished_at": "1790916030",
+        "rtf": 2.0257958767218636
+      }
+    ]
+  },
+  "voices": {
+    "object": "list",
+    "data": [
+      {
+        "id": "voice_92c85f8a49b34f1ca2e13a7c1028ee54",
+        "name": "qin",
+        "description": "",
+        "bundle_path": "/Users/raoqu/research/itts25/backends/metal25/voices/bundles/voice_92c85f8a49b34f1ca2e13a7c1028ee54.pt",
+        "sample_path": "",
+        "source_audio_seconds": 7.3040816326530615,
+        "source": "clone",
+        "created_at": "1790912202",
+        "updated_at": "1790912202",
+        "locked": false,
+        "object": "audio.voice"
+      },
+      {
+        "id": "voice_demo",
+        "name": "IndexTTS 2.5 demo",
+        "description": "Official example voice",
+        "bundle_path": "/Users/raoqu/research/itts25/backends/metal25/voices/bundles/voice_demo.pt",
+        "sample_path": "",
+        "source_audio_seconds": 2.438730158730159,
+        "source": "example",
+        "created_at": "1790910694",
+        "updated_at": "1790910694",
+        "locked": true,
+        "object": "audio.voice"
+      }
+    ]
+  }
+}

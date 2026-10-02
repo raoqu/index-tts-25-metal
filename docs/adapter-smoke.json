@@ -1,0 +1,124 @@
+{
+  "output": "backends/metal25/artifacts/adapter-smoke-zh.wav",
+  "seconds": 41.57235479098745,
+  "neural_python_calls": 0,
+  "metrics": [
+    {
+      "operation": "speech",
+      "ok": true,
+      "dtype": "f32",
+      "shape": [
+        1,
+        121,
+        1024
+      ],
+      "gpu_submissions": 463,
+      "seconds": 0.6771
+    },
+    {
+      "operation": "camp",
+      "ok": true,
+      "dtype": "f32",
+      "shape": [
+        1,
+        192
+      ],
+      "gpu_submissions": 225,
+      "seconds": 0.123289
+    },
+    {
+      "operation": "regulate",
+      "ok": true,
+      "dtype": "f32",
+      "shape": [
+        1,
+        210,
+        512
+      ],
+      "gpu_submissions": 15,
+      "seconds": 0.0451423
+    },
+    {
+      "operation": "speech",
+      "ok": true,
+      "dtype": "f32",
+      "shape": [
+        1,
+        121,
+        1024
+      ],
+      "gpu_submissions": 463,
+      "seconds": 0.183693
+    },
+    {
+      "operation": "emotion",
+      "ok": true,
+      "dtype": "f32",
+      "shape": [
+        1,
+        1280
+      ],
+      "gpu_submissions": 121,
+      "seconds": 0.736304
+    },
+    {
+      "operation": "gpt",
+      "ok": true,
+      "dtype": "u32",
+      "shape": [
+        1,
+        74
+      ],
+      "gpu_submissions": 236,
+      "seconds": 21.1944
+    },
+    {
+      "operation": "codec",
+      "ok": true,
+      "dtype": "f32",
+      "shape": [
+        1,
+        146,
+        1024
+      ],
+      "gpu_submissions": 92,
+      "seconds": 0.101976
+    },
+    {
+      "operation": "regulate",
+      "ok": true,
+      "dtype": "f32",
+      "shape": [
+        1,
+        251,
+        512
+      ],
+      "gpu_submissions": 15,
+      "seconds": 0.048901
+    },
+    {
+      "operation": "flow",
+      "ok": true,
+      "dtype": "f32",
+      "shape": [
+        1,
+        461,
+        80
+      ],
+      "gpu_submissions": 250,
+      "seconds": 5.07164
+    },
+    {
+      "operation": "vocode",
+      "ok": true,
+      "dtype": "f32",
+      "shape": [
+        1,
+        1,
+        64256
+      ],
+      "gpu_submissions": 1,
+      "seconds": 12.3535
+    }
+  ]
+}

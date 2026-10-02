@@ -1,0 +1,15 @@
+{"case":"decode.1","max_abs_error":4.82798e-06,"mean_abs_error":9.62703e-07,"rmse":1.20746e-06,"pass":true}
+{"case":"decode.2","max_abs_error":5.00679e-06,"mean_abs_error":7.53252e-07,"rmse":9.60479e-07,"pass":true}
+{"case":"decode.7","max_abs_error":5.48363e-06,"mean_abs_error":8.55712e-07,"rmse":1.08697e-06,"pass":true}
+{"case":"decode.31","max_abs_error":6.91414e-06,"mean_abs_error":9.54338e-07,"rmse":1.21375e-06,"pass":true}
+{"case":"encode.1.codes","exact_match":true}
+{"case":"encode.1.projected","max_abs_error":2.38419e-07,"mean_abs_error":3.73576e-08,"rmse":5.6558e-08,"pass":true}
+{"case":"encode.2.codes","exact_match":true}
+{"case":"encode.2.projected","max_abs_error":2.38419e-07,"mean_abs_error":3.60016e-08,"rmse":5.32615e-08,"pass":true}
+{"case":"encode.3.codes","exact_match":true}
+{"case":"encode.3.projected","max_abs_error":2.38419e-07,"mean_abs_error":3.18109e-08,"rmse":4.76316e-08,"pass":true}
+{"case":"encode.17.codes","exact_match":true}
+{"case":"encode.17.projected","max_abs_error":3.57628e-07,"mean_abs_error":3.28946e-08,"rmse":5.10802e-08,"pass":true}
+{"case":"encode.62.codes","exact_match":true}
+{"case":"encode.62.projected","max_abs_error":4.76837e-07,"mean_abs_error":3.42313e-08,"rmse":5.19655e-08,"pass":true}
+{"stage":"enhanced_codec_2.5","cases":9,"gpu_submissions":838,"pass":true}

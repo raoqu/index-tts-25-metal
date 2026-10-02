@@ -1,0 +1,126 @@
+{
+  "pass_all": true,
+  "cases": [
+    {
+      "kind": "--tokenize",
+      "text": "你好，这是2.5测试。",
+      "exact": true
+    },
+    {
+      "kind": "--qwen-tokenize",
+      "text": "你好，这是2.5测试。",
+      "exact": true
+    },
+    {
+      "kind": "--tokenize",
+      "text": "Hello world! I'm testing 12.5% and tabs\t \n",
+      "exact": true
+    },
+    {
+      "kind": "--qwen-tokenize",
+      "text": "Hello world! I'm testing 12.5% and tabs\t \n",
+      "exact": true
+    },
+    {
+      "kind": "--tokenize",
+      "text": "こんにちは、世界！",
+      "exact": true
+    },
+    {
+      "kind": "--qwen-tokenize",
+      "text": "こんにちは、世界！",
+      "exact": true
+    },
+    {
+      "kind": "--tokenize",
+      "text": "¡Hola! ¿Cómo estás?",
+      "exact": true
+    },
+    {
+      "kind": "--qwen-tokenize",
+      "text": "¡Hola! ¿Cómo estás?",
+      "exact": true
+    },
+    {
+      "kind": "--tokenize",
+      "text": "مرحبا بالعالم",
+      "exact": true
+    },
+    {
+      "kind": "--qwen-tokenize",
+      "text": "مرحبا بالعالم",
+      "exact": true
+    },
+    {
+      "kind": "--tokenize",
+      "text": "x  \n  y z",
+      "exact": true
+    },
+    {
+      "kind": "--qwen-tokenize",
+      "text": "x  \n  y z",
+      "exact": true
+    },
+    {
+      "kind": "--tokenize",
+      "text": "<|zh|> 我爱你<|HAPPY|>",
+      "exact": true
+    },
+    {
+      "kind": "--qwen-tokenize",
+      "text": "<|zh|> 我爱你<|HAPPY|>",
+      "exact": true
+    },
+    {
+      "kind": "--tokenize",
+      "text": "SPECIAL_TOKEN_1 [noise] 😂",
+      "exact": true
+    },
+    {
+      "kind": "--qwen-tokenize",
+      "text": "SPECIAL_TOKEN_1 [noise] 😂",
+      "exact": true
+    },
+    {
+      "kind": "--tokenize",
+      "text": " é é 中文 English 日本語",
+      "exact": true
+    },
+    {
+      "kind": "--qwen-tokenize",
+      "text": " é é 中文 English 日本語",
+      "exact": true
+    },
+    {
+      "kind": "--tokenize",
+      "text": "\r\n\t   ",
+      "exact": true
+    },
+    {
+      "kind": "--qwen-tokenize",
+      "text": "\r\n\t   ",
+      "exact": true
+    },
+    {
+      "kind": "audio",
+      "voice": "examples/voice_01.wav",
+      "tensor": "speech.input",
+      "max_abs": 0.0013499259948730469,
+      "rmse": 1.0802161407587648e-05
+    },
+    {
+      "kind": "audio",
+      "voice": "examples/voice_01.wav",
+      "tensor": "camp.input",
+      "max_abs": 0.0006215572357177734,
+      "rmse": 1.0732161560339285e-05
+    },
+    {
+      "kind": "audio",
+      "voice": "examples/voice_01.wav",
+      "tensor": "prompt.mel",
+      "max_abs": 0.00027942657470703125,
+      "rmse": 4.186593071016315e-06
+    }
+  ]
+}

@@ -1,0 +1,63 @@
+{
+  "passed": true,
+  "process": "86988 35282 backends/metal25/build/itts25-native --http --model_bundle /Users/raoqu/research/itts25/backends/metal25/bundles/full --frontend /Users/raoqu/research/itts25/backends/metal25/bundles/frontend --host 127.0.0.1 --port 7860 --voice_store /Users/raoqu/research/itts25/backends/metal25/voices --queue_size 16 --voice_cache_size 20 --tts_concurrency 1 --clone_concurrency 1 --webkey  --seed_example",
+  "child_processes": [],
+  "mapped_python_or_torch": false,
+  "status": {
+    "backend": "native C++ Metal",
+    "configured_clone_concurrency": 1,
+    "configured_tts_concurrency": 1,
+    "effective_executor_concurrency": 1,
+    "model_bundle": "/Users/raoqu/research/itts25/backends/metal25/bundles/full",
+    "model_version": "2.5",
+    "queue": {
+      "current": null,
+      "max_waiting": 16,
+      "running": false,
+      "waiting": 0
+    },
+    "recent": [],
+    "runtime": "C++",
+    "status": "ok",
+    "totals": {
+      "completed": 0,
+      "failed": 0,
+      "rejected": 0,
+      "submitted": 0
+    },
+    "voice_store": "/Users/raoqu/research/itts25/backends/metal25/voices",
+    "web_auth_required": false,
+    "web_enabled": true
+  },
+  "voices": {
+    "data": [
+      {
+        "bundle_path": "/Users/raoqu/research/itts25/backends/metal25/voices/bundles/voice_92c85f8a49b34f1ca2e13a7c1028ee54.pt",
+        "created_at": "1790912202",
+        "description": "",
+        "id": "voice_92c85f8a49b34f1ca2e13a7c1028ee54",
+        "locked": false,
+        "name": "qin",
+        "object": "audio.voice",
+        "sample_path": "",
+        "source": "clone",
+        "source_audio_seconds": 7.3040816326530615,
+        "updated_at": "1790912202"
+      },
+      {
+        "bundle_path": "/Users/raoqu/research/itts25/backends/metal25/voices/bundles/voice_demo.pt",
+        "created_at": "1790910694",
+        "description": "Official example voice",
+        "id": "voice_demo",
+        "locked": true,
+        "name": "IndexTTS 2.5 demo",
+        "object": "audio.voice",
+        "sample_path": "",
+        "source": "example",
+        "source_audio_seconds": 2.438730158730159,
+        "updated_at": "1790910694"
+      }
+    ],
+    "object": "list"
+  }
+}

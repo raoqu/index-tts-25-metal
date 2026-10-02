@@ -1,0 +1,8 @@
+{"case":"standard.filter","exact_match":true}
+{"case":"standard","max_abs_error":0,"mean_abs_error":0,"rmse":0,"pass":true}
+{"case":"beam.filter","exact_match":true}
+{"case":"beam","max_abs_error":0,"mean_abs_error":0,"rmse":0,"pass":true}
+{"case":"beam_edge.filter","exact_match":true}
+{"case":"beam_edge","max_abs_error":0,"mean_abs_error":0,"rmse":0,"pass":true}
+{"case":"unfiltered.filter","exact_match":true}
+{"case":"unfiltered","max_abs_error":0,"mean_abs_error":0,"rmse":0,"pass":true}

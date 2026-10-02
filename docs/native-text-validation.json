@@ -1,0 +1,201 @@
+{
+  "pass_all": true,
+  "cases": [
+    {
+      "language": "zh",
+      "input": "你好，这是 IndexTTS 2.5 测试。",
+      "text": "你好,这是 indextts 二点五 测试.",
+      "segments": [
+        "你好,这是 indextts 二点五 测试."
+      ],
+      "exact": true
+    },
+    {
+      "language": "en",
+      "input": "Where's the money? This costs $12.50, at 8:00 AM.",
+      "text": "where is the money ?  this costs twelve point five dollars ,  at eight , zero am .",
+      "segments": [
+        "where is the money ?  this costs twelve point five dollars ,  at eight ,",
+        " zero am ."
+      ],
+      "exact": true
+    },
+    {
+      "language": "zh",
+      "input": "晕xuan4是一种gan3觉，我爱你！",
+      "text": "晕xvan4是一种gan3觉,我爱你!",
+      "segments": [
+        "晕xvan4是一种gan3觉,我爱你!"
+      ],
+      "exact": true
+    },
+    {
+      "language": "zh",
+      "input": "约瑟夫·高登-莱维特和 GPT-5-nano，C++ 编程。",
+      "text": "约瑟夫-高登-莱维特和 gpt-五-nano,c加加 编程.",
+      "segments": [
+        "约瑟夫-高登-莱维特和 gpt-五-nano",
+        ",c加加 编程."
+      ],
+      "exact": true
+    },
+    {
+      "language": "zh",
+      "input": "<行|XING2> 与 <going|G OW1 . IH0 NG>。",
+      "text": "<|SPECIAL_TOKEN_2|>XING2<|SPECIAL_TOKEN_2|> 与 <|SPECIAL_TOKEN_1|>G OW1 . IH0 NG<|SPECIAL_TOKEN_1|>.",
+      "segments": [
+        "<|SPECIAL_TOKEN_2|>XING2<|SPECIAL_TOKEN_2|> 与 ",
+        "<|SPECIAL_TOKEN_1|>G OW1 . IH0 NG<|SPECIAL_TOKEN_1|>."
+      ],
+      "exact": true
+    },
+    {
+      "language": "ja",
+      "input": "こんにちは、世界！ 実は昨年、11kgの減量にも成功していたという。",
+      "text": "こんにちは , 世界 ! 実 は 昨年 , 11 kg の 減量 に も 成功 し て い た と いう .",
+      "segments": [
+        "こんにちは , 世界 ! 実 は 昨年 ,",
+        " 11 kg の 減量 に も 成功 し て",
+        " い た と いう ."
+      ],
+      "exact": true
+    },
+    {
+      "language": "ja",
+      "input": "<行|こう> 今日は良い天気です。",
+      "text": " こう  今日 は 良い 天気 です .",
+      "segments": [
+        " こう  今日 は 良い 天気 です",
+        " ."
+      ],
+      "exact": true
+    },
+    {
+      "language": "es",
+      "input": "¡Hola! ¿Cómo estás?",
+      "text": "¡HOLA! ¿CÓMO ESTÁS?",
+      "segments": [
+        "¡HOLA! ¿CÓMO ESTÁS?"
+      ],
+      "exact": true
+    },
+    {
+      "language": "ar",
+      "input": "مرحبا بالعالم",
+      "text": "مرحبا بالعالم",
+      "segments": [
+        "مرحبا بالعالم"
+      ],
+      "exact": true
+    },
+    {
+      "language": "en",
+      "input": "Hello world. Hello world. Hello world. Hello world. Hello world. Hello world. Hello world. Hello world. Hello world. Hello world. Hello world. Hello world. Hello world. Hello world. Hello world. Hello world. Hello world. Hello world. Hello world. Hello world. Hello world. Hello world. Hello world. Hello world. Hello world. ",
+      "text": "hello world. hello world. hello world. hello world. hello world. hello world. hello world. hello world. hello world. hello world. hello world. hello world. hello world. hello world. hello world. hello world. hello world. hello world. hello world. hello world. hello world. hello world. hello world. hello world. hello world.",
+      "segments": [
+        "hello world. hello world. hello world. hello world. hello world.",
+        " hello world. hello world. hello world. hello world. hello world. hello world.",
+        " hello world. hello world. hello world. hello world. hello world. hello world.",
+        " hello world. hello world. hello world. hello world. hello world. hello world.",
+        " hello world. hello world."
+      ],
+      "exact": true
+    },
+    {
+      "language": "zh",
+      "input": "长文本测试，保留正确分句。长文本测试，保留正确分句。长文本测试，保留正确分句。长文本测试，保留正确分句。长文本测试，保留正确分句。长文本测试，保留正确分句。长文本测试，保留正确分句。长文本测试，保留正确分句。长文本测试，保留正确分句。长文本测试，保留正确分句。长文本测试，保留正确分句。长文本测试，保留正确分句。长文本测试，保留正确分句。长文本测试，保留正确分句。长文本测试，保留正确分句。长文本测试，保留正确分句。长文本测试，保留正确分句。长文本测试，保留正确分句。长文本测试，保留正确分句。长文本测试，保留正确分句。长文本测试，保留正确分句。长文本测试，保留正确分句。长文本测试，保留正确分句。长文本测试，保留正确分句。长文本测试，保留正确分句。长文本测试，保留正确分句。长文本测试，保留正确分句。长文本测试，保留正确分句。长文本测试，保留正确分句。长文本测试，保留正确分句。",
+      "text": "长文本测试,保留正确分句.长文本测试,保留正确分句.长文本测试,保留正确分句.长文本测试,保留正确分句.长文本测试,保留正确分句.长文本测试,保留正确分句.长文本测试,保留正确分句.长文本测试,保留正确分句.长文本测试,保留正确分句.长文本测试,保留正确分句.长文本测试,保留正确分句.长文本测试,保留正确分句.长文本测试,保留正确分句.长文本测试,保留正确分句.长文本测试,保留正确分句.长文本测试,保留正确分句.长文本测试,保留正确分句.长文本测试,保留正确分句.长文本测试,保留正确分句.长文本测试,保留正确分句.长文本测试,保留正确分句.长文本测试,保留正确分句.长文本测试,保留正确分句.长文本测试,保留正确分句.长文本测试,保留正确分句.长文本测试,保留正确分句.长文本测试,保留正确分句.长文本测试,保留正确分句.长文本测试,保留正确分句.长文本测试,保留正确分句.",
+      "segments": [
+        "长文本测试,保留正确分句.",
+        "长文本测试,保留正确分句.",
+        "长文本测试,保留正确分句.",
+        "长文本测试,保留正确分句.",
+        "长文本测试,保留正确分句.",
+        "长文本测试,保留正确分句.",
+        "长文本测试,保留正确分句.",
+        "长文本测试,保留正确分句.",
+        "长文本测试,保留正确分句.",
+        "长文本测试,保留正确分句.",
+        "长文本测试,保留正确分句.",
+        "长文本测试,保留正确分句.",
+        "长文本测试,保留正确分句.",
+        "长文本测试,保留正确分句.",
+        "长文本测试,保留正确分句.",
+        "长文本测试,保留正确分句.",
+        "长文本测试,保留正确分句.",
+        "长文本测试,保留正确分句.",
+        "长文本测试,保留正确分句.",
+        "长文本测试,保留正确分句.",
+        "长文本测试,保留正确分句.",
+        "长文本测试,保留正确分句.",
+        "长文本测试,保留正确分句.",
+        "长文本测试,保留正确分句.",
+        "长文本测试,保留正确分句.",
+        "长文本测试,保留正确分句.",
+        "长文本测试,保留正确分句.",
+        "长文本测试,保留正确分句.",
+        "长文本测试,保留正确分句.",
+        "长文本测试,保留正确分句."
+      ],
+      "exact": true
+    },
+    {
+      "language": "en",
+      "input": "prefix <going|G OW1 . IH0 NG> suffix. prefix <going|G OW1 . IH0 NG> suffix. prefix <going|G OW1 . IH0 NG> suffix. prefix <going|G OW1 . IH0 NG> suffix. prefix <going|G OW1 . IH0 NG> suffix. prefix <going|G OW1 . IH0 NG> suffix. prefix <going|G OW1 . IH0 NG> suffix. prefix <going|G OW1 . IH0 NG> suffix. prefix <going|G OW1 . IH0 NG> suffix. prefix <going|G OW1 . IH0 NG> suffix. prefix <going|G OW1 . IH0 NG> suffix. prefix <going|G OW1 . IH0 NG> suffix. ",
+      "text": "prefix <|SPECIAL_TOKEN_1|>G OW1 . IH0 NG<|SPECIAL_TOKEN_1|> suffix. prefix <|SPECIAL_TOKEN_1|>G OW1 . IH0 NG<|SPECIAL_TOKEN_1|> suffix. prefix <|SPECIAL_TOKEN_1|>G OW1 . IH0 NG<|SPECIAL_TOKEN_1|> suffix. prefix <|SPECIAL_TOKEN_1|>G OW1 . IH0 NG<|SPECIAL_TOKEN_1|> suffix. prefix <|SPECIAL_TOKEN_1|>G OW1 . IH0 NG<|SPECIAL_TOKEN_1|> suffix. prefix <|SPECIAL_TOKEN_1|>G OW1 . IH0 NG<|SPECIAL_TOKEN_1|> suffix. prefix <|SPECIAL_TOKEN_1|>G OW1 . IH0 NG<|SPECIAL_TOKEN_1|> suffix. prefix <|SPECIAL_TOKEN_1|>G OW1 . IH0 NG<|SPECIAL_TOKEN_1|> suffix. prefix <|SPECIAL_TOKEN_1|>G OW1 . IH0 NG<|SPECIAL_TOKEN_1|> suffix. prefix <|SPECIAL_TOKEN_1|>G OW1 . IH0 NG<|SPECIAL_TOKEN_1|> suffix. prefix <|SPECIAL_TOKEN_1|>G OW1 . IH0 NG<|SPECIAL_TOKEN_1|> suffix. prefix <|SPECIAL_TOKEN_1|>G OW1 . IH0 NG<|SPECIAL_TOKEN_1|> suffix.",
+      "segments": [
+        "prefix <|SPECIAL_TOKEN_1|>G OW1 . IH0 NG<|SPECIAL_TOKEN_1|> suffix.",
+        " prefix <|SPECIAL_TOKEN_1|>G OW1 . IH0 NG<|SPECIAL_TOKEN_1|> suffix. prefix ",
+        "<|SPECIAL_TOKEN_1|>G OW1 . IH0 NG<|SPECIAL_TOKEN_1|> suffix. prefix ",
+        "<|SPECIAL_TOKEN_1|>G OW1 . IH0 NG<|SPECIAL_TOKEN_1|> suffix. prefix ",
+        "<|SPECIAL_TOKEN_1|>G OW1 . IH0 NG<|SPECIAL_TOKEN_1|> suffix. prefix ",
+        "<|SPECIAL_TOKEN_1|>G OW1 . IH0 NG<|SPECIAL_TOKEN_1|> suffix. prefix ",
+        "<|SPECIAL_TOKEN_1|>G OW1 . IH0 NG<|SPECIAL_TOKEN_1|> suffix. prefix ",
+        "<|SPECIAL_TOKEN_1|>G OW1 . IH0 NG<|SPECIAL_TOKEN_1|> suffix. prefix ",
+        "<|SPECIAL_TOKEN_1|>G OW1 . IH0 NG<|SPECIAL_TOKEN_1|> suffix. prefix ",
+        "<|SPECIAL_TOKEN_1|>G OW1 . IH0 NG<|SPECIAL_TOKEN_1|> suffix. prefix ",
+        "<|SPECIAL_TOKEN_1|>G OW1 . IH0 NG<|SPECIAL_TOKEN_1|> suffix. prefix ",
+        "<|SPECIAL_TOKEN_1|>G OW1 . IH0 NG<|SPECIAL_TOKEN_1|> suffix."
+      ],
+      "exact": true
+    },
+    {
+      "language": "en",
+      "input": "<word0|G OW1 . IH0 NG> <word1|G OW1 . IH1 NG> <word2|G OW1 . IH2 NG> <word3|G OW1 . IH3 NG> <word4|G OW1 . IH4 NG> <word5|G OW1 . IH5 NG> <word6|G OW1 . IH6 NG> <word7|G OW1 . IH7 NG> <word8|G OW1 . IH8 NG> <word9|G OW1 . IH9 NG> <word10|G OW1 . IH10 NG> <word11|G OW1 . IH11 NG> <word12|G OW1 . IH12 NG> <word13|G OW1 . IH13 NG> <word14|G OW1 . IH14 NG> <word15|G OW1 . IH15 NG> <word16|G OW1 . IH16 NG> <word17|G OW1 . IH17 NG> <word18|G OW1 . IH18 NG> <word19|G OW1 . IH19 NG> <word20|G OW1 . IH20 NG> <word21|G OW1 . IH21 NG> <word22|G OW1 . IH22 NG> <word23|G OW1 . IH23 NG> <word24|G OW1 . IH24 NG> <word25|G OW1 . IH25 NG> <word26|G OW1 . IH26 NG> <word27|G OW1 . IH27 NG> <word28|G OW1 . IH28 NG> <word29|G OW1 . IH29 NG>",
+      "text": "<|SPECIAL_TOKEN_1|>G OW1 . IH0 NG<|SPECIAL_TOKEN_1|> <|SPECIAL_TOKEN_1|>G OW1 . IH1 NG<|SPECIAL_TOKEN_1|> <|SPECIAL_TOKEN_1|>G OW1 . IH2 NG<|SPECIAL_TOKEN_1|> <|SPECIAL_TOKEN_1|>G OW1 . IH3 NG<|SPECIAL_TOKEN_1|> <|SPECIAL_TOKEN_1|>G OW1 . IH4 NG<|SPECIAL_TOKEN_1|> <|SPECIAL_TOKEN_1|>G OW1 . IH5 NG<|SPECIAL_TOKEN_1|> <|SPECIAL_TOKEN_1|>G OW1 . IH6 NG<|SPECIAL_TOKEN_1|> <|SPECIAL_TOKEN_1|>G OW1 . IH7 NG<|SPECIAL_TOKEN_1|> <|SPECIAL_TOKEN_1|>G OW1 . IH8 NG<|SPECIAL_TOKEN_1|> <|SPECIAL_TOKEN_1|>G OW1 . IH9 NG<|SPECIAL_TOKEN_1|> <|SPECIAL_TOKEN_1|>G OW1 . IH10 NG<|SPECIAL_TOKEN_1|> <|SPECIAL_TOKEN_1|>G OW1 . IH11 NG<|SPECIAL_TOKEN_1|> <|SPECIAL_TOKEN_1|>G OW1 . IH12 NG<|SPECIAL_TOKEN_1|> <|SPECIAL_TOKEN_1|>G OW1 . IH13 NG<|SPECIAL_TOKEN_1|> <|SPECIAL_TOKEN_1|>G OW1 . IH14 NG<|SPECIAL_TOKEN_1|> <|SPECIAL_TOKEN_1|>G OW1 . IH15 NG<|SPECIAL_TOKEN_1|> <|SPECIAL_TOKEN_1|>G OW1 . IH16 NG<|SPECIAL_TOKEN_1|> <|SPECIAL_TOKEN_1|>G OW1 . IH17 NG<|SPECIAL_TOKEN_1|> <|SPECIAL_TOKEN_1|>G OW1 . IH18 NG<|SPECIAL_TOKEN_1|> <|SPECIAL_TOKEN_1|>G OW1 . IH19 NG<|SPECIAL_TOKEN_1|> <|SPECIAL_TOKEN_1|>G OW1 . IH20 NG<|SPECIAL_TOKEN_1|> <|SPECIAL_TOKEN_1|>G OW1 . IH21 NG<|SPECIAL_TOKEN_1|> <|SPECIAL_TOKEN_1|>G OW1 . IH22 NG<|SPECIAL_TOKEN_1|> <|SPECIAL_TOKEN_1|>G OW1 . IH23 NG<|SPECIAL_TOKEN_1|> <|SPECIAL_TOKEN_1|>G OW1 . IH24 NG<|SPECIAL_TOKEN_1|> <|SPECIAL_TOKEN_1|>G OW1 . IH25 NG<|SPECIAL_TOKEN_1|> <|SPECIAL_TOKEN_1|>G OW1 . IH26 NG<|SPECIAL_TOKEN_1|> <|SPECIAL_TOKEN_1|>G OW1 . IH27 NG<|SPECIAL_TOKEN_1|> <|SPECIAL_TOKEN_1|>G OW1 . IH28 NG<|SPECIAL_TOKEN_1|> <|SPECIAL_TOKEN_1|>G OW1 . IH29 NG<|SPECIAL_TOKEN_1|>",
+      "segments": [
+        "<|SPECIAL_TOKEN_1|>G OW1 . IH0 NG<|SPECIAL_TOKEN_1|> ",
+        "<|SPECIAL_TOKEN_1|>G OW1 . IH1 NG<|SPECIAL_TOKEN_1|> ",
+        "<|SPECIAL_TOKEN_1|>G OW1 . IH2 NG<|SPECIAL_TOKEN_1|> ",
+        "<|SPECIAL_TOKEN_1|>G OW1 . IH3 NG<|SPECIAL_TOKEN_1|> ",
+        "<|SPECIAL_TOKEN_1|>G OW1 . IH4 NG<|SPECIAL_TOKEN_1|> ",
+        "<|SPECIAL_TOKEN_1|>G OW1 . IH5 NG<|SPECIAL_TOKEN_1|> ",
+        "<|SPECIAL_TOKEN_1|>G OW1 . IH6 NG<|SPECIAL_TOKEN_1|> ",
+        "<|SPECIAL_TOKEN_1|>G OW1 . IH7 NG<|SPECIAL_TOKEN_1|> ",
+        "<|SPECIAL_TOKEN_1|>G OW1 . IH8 NG<|SPECIAL_TOKEN_1|> ",
+        "<|SPECIAL_TOKEN_1|>G OW1 . IH9 NG<|SPECIAL_TOKEN_1|> ",
+        "<|SPECIAL_TOKEN_1|>G OW1 . IH10 NG<|SPECIAL_TOKEN_1|> ",
+        "<|SPECIAL_TOKEN_1|>G OW1 . IH11 NG<|SPECIAL_TOKEN_1|> ",
+        "<|SPECIAL_TOKEN_1|>G OW1 . IH12 NG<|SPECIAL_TOKEN_1|> ",
+        "<|SPECIAL_TOKEN_1|>G OW1 . IH13 NG<|SPECIAL_TOKEN_1|> ",
+        "<|SPECIAL_TOKEN_1|>G OW1 . IH14 NG<|SPECIAL_TOKEN_1|> ",
+        "<|SPECIAL_TOKEN_1|>G OW1 . IH15 NG<|SPECIAL_TOKEN_1|> ",
+        "<|SPECIAL_TOKEN_1|>G OW1 . IH16 NG<|SPECIAL_TOKEN_1|> ",
+        "<|SPECIAL_TOKEN_1|>G OW1 . IH17 NG<|SPECIAL_TOKEN_1|> ",
+        "<|SPECIAL_TOKEN_1|>G OW1 . IH18 NG<|SPECIAL_TOKEN_1|> ",
+        "<|SPECIAL_TOKEN_1|>G OW1 . IH19 NG<|SPECIAL_TOKEN_1|> ",
+        "<|SPECIAL_TOKEN_1|>G OW1 . IH20 NG<|SPECIAL_TOKEN_1|> ",
+        "<|SPECIAL_TOKEN_1|>G OW1 . IH21 NG<|SPECIAL_TOKEN_1|> ",
+        "<|SPECIAL_TOKEN_1|>G OW1 . IH22 NG<|SPECIAL_TOKEN_1|> ",
+        "<|SPECIAL_TOKEN_1|>G OW1 . IH23 NG<|SPECIAL_TOKEN_1|> ",
+        "<|SPECIAL_TOKEN_1|>G OW1 . IH24 NG<|SPECIAL_TOKEN_1|> ",
+        "<|SPECIAL_TOKEN_1|>G OW1 . IH25 NG<|SPECIAL_TOKEN_1|> ",
+        "<|SPECIAL_TOKEN_1|>G OW1 . IH26 NG<|SPECIAL_TOKEN_1|> ",
+        "<|SPECIAL_TOKEN_1|>G OW1 . IH27 NG<|SPECIAL_TOKEN_1|> ",
+        "<|SPECIAL_TOKEN_1|>G OW1 . IH28 NG<|SPECIAL_TOKEN_1|> ",
+        "<|SPECIAL_TOKEN_1|>G OW1 . IH29 NG<|SPECIAL_TOKEN_1|>"
+      ],
+      "exact": true
+    }
+  ]
+}

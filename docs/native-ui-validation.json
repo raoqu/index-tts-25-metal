@@ -1,0 +1,22 @@
+{
+  "passed": true,
+  "voice": "qin",
+  "text": "你好，这是纯原生语音合成测试。",
+  "emotion_text": "开心而自然",
+  "audio": [
+    {
+      "duration": null,
+      "readyState": 0
+    },
+    {
+      "duration": null,
+      "readyState": 0
+    },
+    {
+      "duration": 3.227574,
+      "readyState": 4
+    }
+  ],
+  "logs": [],
+  "snapshot": "- generic: IndexTTS 2.5 · MTTS Admin\n- generic: /Users/raoqu/research/itts25/backends/metal25/bundles/full | /Users/raoqu/research/itts25/backends/metal25/voices\n- button \"Status\"\n- button \"Voices\"\n- button \"Logout\"\n- heading \"Voices\" [level=2]\n- button \"↻\"\n- button \"☑\"\n- table:\n  - rowgroup:\n    - row \"Name Description Duration\":\n      - columnheader \"Name\"\n      - columnheader \"Description\"\n      - columnheader \"Duration\"\n      - columnheader\n  - rowgroup:\n    - row \"qin ✎ - ✎ 7.3s ► ♫ 🔓\":\n      - cell \"qin ✎\":\n        - generic: qin\n        - button \"✎\"\n      - cell \"- ✎\":\n        - generic: \"-\"\n        - button \"✎\"\n      - cell \"7.3s\"\n      - cell \"► ♫ 🔓\":\n        - button \"►\"\n        - button \"♫\"\n        - button \"🔓\"\n    - row \"IndexTTS 2.5 demo ✎ Official example voice ✎ 2.4s ► ♫ 🔒\":\n      - cell \"IndexTTS 2.5 demo ✎\":\n        - generic: IndexTTS 2.5 demo\n        - button \"✎\"\n      - cell \"Official example voice ✎\":\n        - generic: Official example voice\n        - button \"✎\"\n      - cell \"2.4s\"\n      - cell \"► ♫ 🔒\":\n        - button \"►\"\n        - button \"♫\"\n        - button \"🔒\"\n- generic \"Add Voice\"\n- complementary:\n  - heading \"TTS Speech\" [level=2]\n  - button \"Close\"\n  - term: Voice ID\n  - definition: voice_92c85f8a49b34f1ca2e13a7c1028ee54\n  - term: Name\n  - definition: qin\n  - term: Description\n  - definition: \"-\"\n  - term: Bundle\n  - definition:\n    - generic: /Users/raoqu/research/itts25/backends/metal25/voices/bundles/voice_92c85f8a49b34f1ca2e13a7c1028ee54.pt\n    - button \"⧉\"\n  - generic: Text\n  - textbox: 你好，这是纯原生语音合成测试。\n  - generic: Language\n  - combobox \"Language\":\n    - option \"中文\" [selected]\n    - option \"English\"\n    - option \"日本語\"\n    - option \"Español\"\n    - option \"العربية\"\n  - generic: Duration factor (lower = faster)\n  - spinbutton \"Duration factor (lower = faster)\": \"1\"\n  - generic: Emotion description (optional)\n  - textbox \"Emotion description (optional)\":\n    - /placeholder: 开心而自然\n    - text: 开心而自然\n  - generic: Auto play after generation\n  - generic \"Auto play generated audio\":\n    - checkbox\n  - button \"Generate WAV\"\n  - paragraph: Generated 139 KB\n  - generic: Audio\n  - text: 3.2s\n  - generic: Elapsed\n  - text: 9.49s\n  - generic: RTF\n  - text: \"2.94\""
+}

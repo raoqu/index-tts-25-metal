@@ -1,0 +1,122 @@
+{
+  "url": "http://127.0.0.1:7860",
+  "tests": [
+    "health/root/web",
+    "native clone + portable feature bundle",
+    "preview + lock/delete protection",
+    "speech JSON ack + saved non-silent PCM16 + real GPU submissions",
+    "client bundle upload/cache + binary speech + same-seed equality",
+    "temporary voice cleanup"
+  ],
+  "backend": "C++ Metal",
+  "model_version": "2.5",
+  "clone_seconds": 4.94472954099183,
+  "voice_shapes": {
+    "voice.spk_cond": [
+      1,
+      121,
+      1024
+    ],
+    "voice.emo_cond": [
+      1,
+      121,
+      1024
+    ],
+    "voice.style": [
+      1,
+      192
+    ],
+    "voice.prompt_condition": [
+      1,
+      210,
+      512
+    ],
+    "voice.mel": [
+      1,
+      80,
+      210
+    ],
+    "voice.audio": [
+      1,
+      53774
+    ]
+  },
+  "synthesis": {
+    "status": "ok",
+    "output": "/Users/raoqu/Documents/Codex/2026-10-01/get/outputs/itts25-optimized-api.wav",
+    "audio_seconds": 4.504671201814059,
+    "total_seconds": 5.6370773339876905,
+    "rtf": 1.2513848583926845,
+    "gpu_submissions": 362,
+    "stage_seconds": {
+      "emotion": 0.73864,
+      "gpt": 2.59112,
+      "codec": 0.116298,
+      "regulate": 0.075975,
+      "flow": 1.46758,
+      "vocode": 0.61891
+    },
+    "emotion_cache_hits": 0
+  },
+  "audio_seconds": 4.504671201814059,
+  "wav_sha256": "839359aa3fb765c0bbc88d81cffbc0394ce369e2ea89178bba3a0b85b5eb66f5",
+  "status": {
+    "status": "ok",
+    "model_bundle": "/Users/raoqu/research/itts25/backends/metal25/bundles/full",
+    "voice_store": "/Users/raoqu/research/itts25/backends/metal25/voices",
+    "model_version": "2.5",
+    "backend": "C++ Metal",
+    "web_enabled": true,
+    "web_auth_required": false,
+    "configured_tts_concurrency": 1,
+    "configured_clone_concurrency": 1,
+    "effective_executor_concurrency": 1,
+    "queue": {
+      "max_waiting": 16,
+      "waiting": 0,
+      "running": false,
+      "current": null
+    },
+    "totals": {
+      "submitted": 3,
+      "completed": 3,
+      "failed": 0,
+      "rejected": 0
+    },
+    "recent": [
+      {
+        "id": 3,
+        "kind": "tts",
+        "label": "你好，这是复用网页和接口后的本地语音合成测试。",
+        "status": "completed",
+        "error": "",
+        "audio_seconds": 4.504671201814059,
+        "elapsed_seconds": 2.853635041974485,
+        "finished_at": "1790916038",
+        "rtf": 0.6334835361180875
+      },
+      {
+        "id": 2,
+        "kind": "tts",
+        "label": "你好，这是复用网页和接口后的本地语音合成测试。",
+        "status": "completed",
+        "error": "",
+        "audio_seconds": 4.504671201814059,
+        "elapsed_seconds": 5.636249792005401,
+        "finished_at": "1790916035",
+        "rtf": 1.2512011508710443
+      },
+      {
+        "id": 1,
+        "kind": "clone",
+        "label": "HTTP acceptance voice",
+        "status": "completed",
+        "error": "",
+        "audio_seconds": 2.438730158730159,
+        "elapsed_seconds": 4.940369499992812,
+        "finished_at": "1790916030",
+        "rtf": 2.0257958767218636
+      }
+    ]
+  }
+}

@@ -1,0 +1,8 @@
+{"case": "happy.prefill", "max_abs": 0.000347137451171875, "rmse": 7.292987720575184e-05, "argmax_match": true, "backend": "PyTorch MPS FP32"}
+{"case": "happy.step.1.logits", "max_abs": 0.00013494491577148438, "rmse": 2.450683678034693e-05, "argmax_match": true, "backend": "PyTorch MPS FP32"}
+{"case": "happy.step.2.logits", "max_abs": 0.0001304149627685547, "rmse": 2.8165746698505245e-05, "argmax_match": true, "backend": "PyTorch MPS FP32"}
+{"case": "happy.step.3.logits", "max_abs": 0.00015211105346679688, "rmse": 3.166003443766385e-05, "argmax_match": true, "backend": "PyTorch MPS FP32"}
+{"case": "sad.prefill", "max_abs": 0.00033279508352279663, "rmse": 6.316330836853012e-05, "argmax_match": true, "backend": "PyTorch MPS FP32"}
+{"case": "sad.step.1.logits", "max_abs": 9.226799011230469e-05, "rmse": 1.8987162548000924e-05, "argmax_match": true, "backend": "PyTorch MPS FP32"}
+{"case": "sad.step.2.logits", "max_abs": 9.250640869140625e-05, "rmse": 1.681499088590499e-05, "argmax_match": true, "backend": "PyTorch MPS FP32"}
+{"case": "sad.step.3.logits", "max_abs": 0.00010967254638671875, "rmse": 2.1070292859803885e-05, "argmax_match": true, "backend": "PyTorch MPS FP32"}

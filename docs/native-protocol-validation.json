@@ -1,0 +1,16 @@
+{
+  "pass_all": true,
+  "tests": [
+    "auth/aliases/method/errors",
+    "voice import/update/preview/locking",
+    "LRU eviction",
+    "persist/locked client voice",
+    "checksum/path validation",
+    "external recording preserved",
+    "bounded queue 429 + FIFO recovery + same seed",
+    "managed bundle cleanup/external preservation",
+    "SQLite restart/locked persistence",
+    "API-only mode"
+  ],
+  "runtime_path": "/usr/bin:/bin:/usr/sbin:/sbin"
+}

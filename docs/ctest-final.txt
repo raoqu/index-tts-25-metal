@@ -1,0 +1,24 @@
+Internal ctest changing into directory: /Users/raoqu/research/itts25/backends/metal25/build
+Test project /Users/raoqu/research/itts25/backends/metal25/build
+    Start 1: metal_device
+1/9 Test #1: metal_device .....................   Passed    0.06 sec
+    Start 2: codec_parity
+2/9 Test #2: codec_parity .....................   Passed    2.00 sec
+    Start 3: acoustic_parity
+3/9 Test #3: acoustic_parity ..................   Passed   10.38 sec
+    Start 4: gpt_parity
+4/9 Test #4: gpt_parity .......................   Passed   34.27 sec
+    Start 5: emotion_parity
+5/9 Test #5: emotion_parity ...................   Passed    5.76 sec
+    Start 6: speech_parity
+6/9 Test #6: speech_parity ....................   Passed    3.27 sec
+    Start 7: camp_parity
+7/9 Test #7: camp_parity ......................   Passed    5.91 sec
+    Start 8: qwen_parity
+8/9 Test #8: qwen_parity ......................   Passed   26.59 sec
+    Start 9: sampling_parity
+9/9 Test #9: sampling_parity ..................   Passed    0.01 sec
+
+100% tests passed, 0 tests failed out of 9
+
+Total Test time (real) =  88.26 sec

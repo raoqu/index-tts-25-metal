@@ -1,0 +1,7 @@
+{
+  "pid": 46745,
+  "peak_observed_rss_mib": 23571.921875,
+  "samples": 83,
+  "elapsed_seconds": 82.87046217918396,
+  "scope": "C++ server RSS, sampled during multilingual/emotion/chunk tests; not total GPU memory"
+}

@@ -1,0 +1,4 @@
+{"case":"camp.11","max_abs_error":1.24425e-05,"mean_abs_error":3.74288e-06,"rmse":4.6957e-06,"pass":true}
+{"case":"camp.47","max_abs_error":4.88758e-06,"mean_abs_error":1.29665e-06,"rmse":1.63021e-06,"pass":true}
+{"case":"camp.105","max_abs_error":5.00679e-06,"mean_abs_error":1.17738e-06,"rmse":1.47261e-06,"pass":true}
+{"stage":"campplus_2.5","gpu_submissions":675,"pass":true}

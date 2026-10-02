@@ -1,0 +1,5 @@
+{"case":"emotion.3","max_abs_error":4.70877e-06,"mean_abs_error":6.56067e-07,"rmse":8.36672e-07,"pass":true}
+{"case":"emotion.7","max_abs_error":9.23872e-07,"mean_abs_error":1.48506e-07,"rmse":1.91661e-07,"pass":true}
+{"case":"emotion.17","max_abs_error":5.96046e-07,"mean_abs_error":1.05471e-07,"rmse":1.36221e-07,"pass":true}
+{"case":"emotion.50","max_abs_error":5.96046e-07,"mean_abs_error":1.08391e-07,"rmse":1.43262e-07,"pass":true}
+{"stage":"emotion_2.5","gpu_submissions":484,"pass":true}

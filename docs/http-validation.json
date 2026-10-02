@@ -1,0 +1,124 @@
+{
+  "url": "http://127.0.0.1:7861",
+  "tests": [
+    "health/root/web",
+    "native clone + portable feature bundle",
+    "preview + lock/delete protection",
+    "speech JSON ack + saved non-silent PCM16 + real GPU submissions",
+    "client bundle upload/cache + binary speech + same-seed equality",
+    "temporary voice cleanup"
+  ],
+  "backend": "C++ Metal",
+  "model_version": "2.5",
+  "clone_seconds": 0.5770916659967043,
+  "voice_shapes": {
+    "voice.spk_cond": [
+      1,
+      121,
+      1024
+    ],
+    "voice.emo_cond": [
+      1,
+      121,
+      1024
+    ],
+    "voice.style": [
+      1,
+      192
+    ],
+    "voice.prompt_condition": [
+      1,
+      210,
+      512
+    ],
+    "voice.mel": [
+      1,
+      80,
+      210
+    ],
+    "voice.audio": [
+      1,
+      53774
+    ]
+  },
+  "synthesis": {
+    "status": "ok",
+    "output": "/Users/raoqu/Documents/Codex/2026-10-01/get/outputs/indextts25-mtts-test-zh.wav",
+    "audio_seconds": 4.504671201814059,
+    "total_seconds": 40.563541917013936,
+    "rtf": 9.004773067716629,
+    "gpu_submissions": 603
+  },
+  "audio_seconds": 4.504671201814059,
+  "wav_sha256": "e13aa55a27657d966c4cf6f32a5a45833b6120008644312da1e471520241cdd8",
+  "status": {
+    "status": "ok",
+    "model_bundle": "/Users/raoqu/research/itts25/backends/metal25/bundles/full",
+    "voice_store": "/Users/raoqu/research/itts25/backends/metal25/voices",
+    "model_version": "2.5",
+    "backend": "C++ Metal",
+    "web_enabled": true,
+    "web_auth_required": false,
+    "configured_tts_concurrency": 1,
+    "configured_clone_concurrency": 1,
+    "effective_executor_concurrency": 1,
+    "queue": {
+      "max_waiting": 16,
+      "waiting": 0,
+      "running": false,
+      "current": null
+    },
+    "totals": {
+      "submitted": 4,
+      "completed": 4,
+      "failed": 0,
+      "rejected": 0
+    },
+    "recent": [
+      {
+        "id": 4,
+        "kind": "tts",
+        "label": "你好，这是复用网页和接口后的本地语音合成测试。",
+        "status": "completed",
+        "error": "",
+        "audio_seconds": 4.504671201814059,
+        "elapsed_seconds": 37.851760291989194,
+        "finished_at": "1790910872",
+        "rtf": 8.402779824806316
+      },
+      {
+        "id": 3,
+        "kind": "tts",
+        "label": "你好，这是复用网页和接口后的本地语音合成测试。",
+        "status": "completed",
+        "error": "",
+        "audio_seconds": 4.504671201814059,
+        "elapsed_seconds": 40.562945874989964,
+        "finished_at": "1790910834",
+        "rtf": 9.004640751283915
+      },
+      {
+        "id": 2,
+        "kind": "clone",
+        "label": "HTTP acceptance voice",
+        "status": "completed",
+        "error": "",
+        "audio_seconds": 2.438730158730159,
+        "elapsed_seconds": 0.573963625007309,
+        "finished_at": "1790910793",
+        "rtf": 0.23535347810114857
+      },
+      {
+        "id": 1,
+        "kind": "clone",
+        "label": "Official example voice",
+        "status": "completed",
+        "error": "",
+        "audio_seconds": 0,
+        "elapsed_seconds": 6.1069979580061045,
+        "finished_at": "1790910694",
+        "rtf": 0
+      }
+    ]
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "file": "native-test-zh.wav",
+  "text": "你好，这是本地语音合成测试。",
+  "sample_rate": 22050,
+  "channels": 1,
+  "duration_seconds": 2.995374149659864,
+  "rms": 0.1717355001377004,
+  "peak": 0.999969482421875,
+  "finite": true,
+  "sha256": "0279a476d6d8b2dbf3aaa9fb61166715296381d90b9d7c322763ff4025a81914",
+  "backend": "C++ Metal FP32",
+  "codes": 75,
+  "stopped": true,
+  "features_seconds": 1.87364,
+  "gpt_seconds": 7.94165,
+  "acoustic_seconds": 5.42958,
+  "vocoder_seconds": 12.8819,
+  "total_seconds": 28.7884,
+  "gpu_submissions": 1268
+}

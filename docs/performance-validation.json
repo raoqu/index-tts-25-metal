@@ -1,0 +1,135 @@
+{
+  "status": "pass",
+  "precision": "fp32",
+  "cfm_steps": 25,
+  "cases": [
+    {
+      "voice": "demo",
+      "operation": "gpt",
+      "shape": [
+        1,
+        44
+      ],
+      "max_abs": 0.0,
+      "rmse": 0.0,
+      "exact": true,
+      "pass_test": true,
+      "seconds": [
+        5.18611,
+        2.03657
+      ]
+    },
+    {
+      "voice": "demo",
+      "operation": "flow",
+      "shape": [
+        1,
+        357,
+        80
+      ],
+      "max_abs": 3.814697265625e-06,
+      "rmse": 5.031053320239995e-07,
+      "exact": false,
+      "pass_test": true,
+      "seconds": [
+        3.22739,
+        0.868576
+      ]
+    },
+    {
+      "voice": "demo",
+      "operation": "vocode",
+      "shape": [
+        1,
+        1,
+        37632
+      ],
+      "max_abs": 4.2222440242767334e-05,
+      "rmse": 1.7510664606901336e-06,
+      "exact": false,
+      "pass_test": true,
+      "seconds": [
+        7.44541,
+        0.493964
+      ]
+    },
+    {
+      "voice": "qin",
+      "operation": "gpt",
+      "shape": [
+        1,
+        48
+      ],
+      "max_abs": 0.0,
+      "rmse": 0.0,
+      "exact": true,
+      "pass_test": true,
+      "seconds": [
+        3.90616,
+        0.453285
+      ]
+    },
+    {
+      "voice": "qin",
+      "operation": "flow",
+      "shape": [
+        1,
+        790,
+        80
+      ],
+      "max_abs": 2.86102294921875e-06,
+      "rmse": 3.2745605602611284e-07,
+      "exact": false,
+      "pass_test": true,
+      "seconds": [
+        13.3439,
+        1.92967
+      ]
+    },
+    {
+      "voice": "qin",
+      "operation": "vocode",
+      "shape": [
+        1,
+        1,
+        41216
+      ],
+      "max_abs": 1.0594725608825684e-05,
+      "rmse": 8.105425421406166e-07,
+      "exact": false,
+      "pass_test": true,
+      "seconds": [
+        7.76646,
+        0.131539
+      ]
+    },
+    {
+      "voice": "demo",
+      "operation": "end_to_end_pcm16",
+      "same_frames": true,
+      "max_abs": 9.1552734375e-05,
+      "rmse": 5.617285627116694e-06,
+      "snr_db": 83.18628667217673,
+      "pass_test": true,
+      "warm_baseline_rtf": 8.737667077443234,
+      "warm_optimized_rtf": 0.8107011720710489,
+      "speedup": 10.777913463627602,
+      "baseline_audio_seconds": 1.7066666666666668,
+      "optimized_audio_seconds": 1.7066666666666668
+    },
+    {
+      "voice": "qin",
+      "operation": "end_to_end_pcm16",
+      "same_frames": true,
+      "max_abs": 3.0517578125e-05,
+      "rmse": 4.066986070095996e-06,
+      "snr_db": 87.76711393908079,
+      "pass_test": true,
+      "warm_baseline_rtf": 14.15176371230574,
+      "warm_optimized_rtf": 1.4030544637957676,
+      "speedup": 10.086396556567108,
+      "baseline_audio_seconds": 1.8692063492063493,
+      "optimized_audio_seconds": 1.8692063492063493
+    }
+  ]
+}

@@ -1,0 +1,110 @@
+-- Configuring done (0.0s)
+-- Generating done (0.0s)
+-- Build files have been written to: /Users/raoqu/research/itts25/backends/metal25/build-native-clean
+[  1%] Generating generated/metal_kernels_embedded.inc
+[  6%] Building CXX object CMakeFiles/itts25_fst.dir/vendor/openfst/src/lib/flags.cc.o
+[  6%] Building CXX object CMakeFiles/itts25_fst.dir/vendor/openfst/src/lib/fst.cc.o
+[  6%] Building CXX object CMakeFiles/itts25_fst.dir/vendor/openfst/src/lib/compat.cc.o
+[  8%] Building CXX object CMakeFiles/itts25_native.dir/vendor/metal-runtime/bundle.cpp.o
+[ 10%] Building CXX object CMakeFiles/itts25_fst.dir/vendor/openfst/src/lib/properties.cc.o
+[ 11%] Building CXX object CMakeFiles/itts25_fst.dir/vendor/openfst/src/lib/symbol-table.cc.o
+[ 13%] Building OBJCXX object CMakeFiles/itts25_native.dir/vendor/metal-runtime/metal_context.mm.o
+[ 15%] Building CXX object CMakeFiles/itts25_fst.dir/vendor/openfst/src/lib/util.cc.o
+[ 16%] Building CXX object CMakeFiles/itts25_fst.dir/vendor/openfst/src/lib/symbol-table-ops.cc.o
+/Users/raoqu/research/itts25/backends/metal25/vendor/metal-runtime/metal_context.mm:760:22: warning: 'fastMathEnabled' is deprecated: first deprecated in macOS 15.0 - Use mathMode instead [-Wdeprecated-declarations]
+  760 |         else options.fastMathEnabled = NO;
+      |                      ^
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.0.sdk/System/Library/Frameworks/Metal.framework/Headers/MTLLibrary.h:308:39: note: 'fastMathEnabled' has been explicitly marked deprecated here
+  308 | @property (readwrite, nonatomic) BOOL fastMathEnabled API_DEPRECATED("Use mathMode instead", macos(10.11, 15.0), ios(8.0, 18.0));
+      |                                       ^
+[ 18%] Building CXX object CMakeFiles/itts25_native.dir/src/weights.cpp.o
+[ 20%] Building CXX object CMakeFiles/itts25_fst.dir/vendor/openfst/src/lib/mapped-file.cc.o
+[ 22%] Building CXX object CMakeFiles/itts25_native.dir/src/codec.cpp.o
+[ 23%] Building OBJCXX object CMakeFiles/itts25_native.dir/src/codec_ops.mm.o
+[ 25%] Building CXX object CMakeFiles/itts25_fst.dir/vendor/openfst/src/lib/weight.cc.o
+1 warning generated.
+[ 27%] Building CXX object CMakeFiles/itts25_native.dir/src/gpt.cpp.o
+[ 28%] Building CXX object CMakeFiles/itts25_native.dir/src/gpt_sampling.cpp.o
+/Users/raoqu/research/itts25/backends/metal25/src/codec_ops.mm:68:18: warning: 'fastMathEnabled' is deprecated: first deprecated in macOS 15.0 - Use mathMode instead [-Wdeprecated-declarations]
+   68 |             opts.fastMathEnabled = NO;
+      |                  ^
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.0.sdk/System/Library/Frameworks/Metal.framework/Headers/MTLLibrary.h:308:39: note: 'fastMathEnabled' has been explicitly marked deprecated here
+  308 | @property (readwrite, nonatomic) BOOL fastMathEnabled API_DEPRECATED("Use mathMode instead", macos(10.11, 15.0), ios(8.0, 18.0));
+      |                                       ^
+1 warning generated.
+[ 30%] Building CXX object CMakeFiles/itts25_native.dir/src/pipeline.cpp.o
+[ 32%] Building CXX object CMakeFiles/itts25_native.dir/src/server.cpp.o
+[ 33%] Building CXX object CMakeFiles/itts25_native.dir/src/qwen.cpp.o
+[ 35%] Building CXX object CMakeFiles/itts25_native.dir/src/acoustic.cpp.o
+[ 37%] Building CXX object CMakeFiles/itts25_native.dir/src/acoustic_ops.cpp.o
+[ 38%] Building CXX object CMakeFiles/itts25_native.dir/src/emotion.cpp.o
+[ 40%] Building CXX object CMakeFiles/itts25_native.dir/src/emotion_ops.cpp.o
+[ 42%] Building CXX object CMakeFiles/itts25_native.dir/src/speech_features.cpp.o
+[ 44%] Building OBJCXX object CMakeFiles/itts25_native.dir/src/relative_attention.mm.o
+[ 45%] Building CXX object CMakeFiles/itts25_native.dir/src/campplus.cpp.o
+[ 47%] Building CXX object CMakeFiles/itts25_native.dir/src/campplus_ops.cpp.o
+[ 49%] Building OBJCXX object CMakeFiles/itts25_native.dir/src/camp_convolution.mm.o
+[ 50%] Linking CXX static library libitts25_fst.a
+[ 50%] Built target itts25_fst
+[ 52%] Building CXX object CMakeFiles/itts25_kaldifst.dir/vendor/kaldifst/csrc/context-fst.cc.o
+/Users/raoqu/research/itts25/backends/metal25/src/relative_attention.mm:43:77: warning: 'fastMathEnabled' is deprecated: first deprecated in macOS 15.0 - Use mathMode instead [-Wdeprecated-declarations]
+   43 |         if(@available(macOS 15.0,*))opts.mathMode=MTLMathModeSafe;else opts.fastMathEnabled=NO;
+      |                                                                             ^
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.0.sdk/System/Library/Frameworks/Metal.framework/Headers/MTLLibrary.h:308:39: note: 'fastMathEnabled' has been explicitly marked deprecated here
+  308 | @property (readwrite, nonatomic) BOOL fastMathEnabled API_DEPRECATED("Use mathMode instead", macos(10.11, 15.0), ios(8.0, 18.0));
+      |                                       ^
+1 warning generated.
+[ 54%] Building CXX object CMakeFiles/itts25_kaldifst.dir/vendor/kaldifst/csrc/kaldi-fst-io.cc.o
+[ 55%] Building CXX object CMakeFiles/itts25_kaldifst.dir/vendor/kaldifst/csrc/kaldi-holder.cc.o
+/Users/raoqu/research/itts25/backends/metal25/src/camp_convolution.mm:28:125: warning: 'fastMathEnabled' is deprecated: first deprecated in macOS 15.0 - Use mathMode instead [-Wdeprecated-declarations]
+   28 |         MTLCompileOptions* opts=[MTLCompileOptions new];if(@available(macOS 15.0,*))opts.mathMode=MTLMathModeSafe;else opts.fastMathEnabled=NO;
+      |                                                                                                                             ^
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.0.sdk/System/Library/Frameworks/Metal.framework/Headers/MTLLibrary.h:308:39: note: 'fastMathEnabled' has been explicitly marked deprecated here
+  308 | @property (readwrite, nonatomic) BOOL fastMathEnabled API_DEPRECATED("Use mathMode instead", macos(10.11, 15.0), ios(8.0, 18.0));
+      |                                       ^
+1 warning generated.
+[ 57%] Linking CXX static library libitts25_native.a
+[ 57%] Built target itts25_native
+[ 59%] Building CXX object CMakeFiles/itts25_kaldifst.dir/vendor/kaldifst/csrc/kaldi-io.cc.o
+[ 61%] Building CXX object CMakeFiles/itts25_kaldifst.dir/vendor/kaldifst/csrc/kaldi-math.cc.o
+[ 62%] Building CXX object CMakeFiles/itts25-metal.dir/src/main.cpp.o
+[ 64%] Building CXX object CMakeFiles/itts25_kaldifst.dir/vendor/kaldifst/csrc/kaldi-semaphore.cc.o
+[ 66%] Building CXX object CMakeFiles/itts25_kaldifst.dir/vendor/kaldifst/csrc/kaldi-table.cc.o
+[ 67%] Building CXX object CMakeFiles/itts25_kaldifst.dir/vendor/kaldifst/csrc/parse-options.cc.o
+[ 69%] Building CXX object CMakeFiles/itts25_kaldifst.dir/vendor/kaldifst/csrc/text-normalizer.cc.o
+[ 71%] Building CXX object CMakeFiles/itts25_kaldifst.dir/vendor/kaldifst/csrc/text-utils.cc.o
+[ 72%] Linking CXX executable itts25-metal
+[ 72%] Built target itts25-metal
+[ 74%] Linking CXX static library libitts25_kaldifst.a
+[ 74%] Built target itts25_kaldifst
+[ 76%] Building OBJCXX object CMakeFiles/itts25_frontend.dir/src/unicode.mm.o
+[ 81%] Building OBJCXX object CMakeFiles/itts25_frontend.dir/src/audio_decode.mm.o
+[ 81%] Building CXX object CMakeFiles/itts25_frontend.dir/src/audio_frontend.cpp.o
+[ 81%] Building CXX object CMakeFiles/itts25_frontend.dir/src/tokenizer.cpp.o
+[ 83%] Building CXX object CMakeFiles/itts25_frontend.dir/src/text_processor.cpp.o
+[ 84%] Linking CXX static library libitts25_frontend.a
+[ 84%] Built target itts25_frontend
+[ 89%] Building CXX object CMakeFiles/itts25-frontend.dir/src/frontend_main.cpp.o
+[ 89%] Building CXX object CMakeFiles/itts25_runtime.dir/src/native_voice.cpp.o
+[ 89%] Building CXX object CMakeFiles/itts25_runtime.dir/src/native_runtime.cpp.o
+[ 91%] Linking CXX executable itts25-frontend
+[ 91%] Built target itts25-frontend
+[ 93%] Linking CXX static library libitts25_runtime.a
+[ 93%] Built target itts25_runtime
+[ 98%] Building CXX object CMakeFiles/itts25-native.dir/src/native_main.cpp.o
+[ 98%] Building CXX object CMakeFiles/itts25-native.dir/vendor/headers/httplib.cpp.o
+[ 98%] Building CXX object CMakeFiles/itts25-native.dir/src/http.cpp.o
+[100%] Linking CXX executable itts25-native
+[100%] Built target itts25-native
+[ 16%] Built target itts25_fst
+[ 52%] Built target itts25_native
+[ 71%] Built target itts25_kaldifst
+[ 74%] Built target itts25-metal
+[ 76%] Building CXX object CMakeFiles/itts25_frontend.dir/src/text_processor.cpp.o
+[ 77%] Linking CXX static library libitts25_frontend.a
+[ 84%] Built target itts25_frontend
+[ 86%] Linking CXX executable itts25-frontend
+[ 91%] Built target itts25_runtime
+[ 93%] Linking CXX executable itts25-native
+[ 94%] Built target itts25-frontend
+[100%] Built target itts25-native

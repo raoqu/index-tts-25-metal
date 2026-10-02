@@ -1,0 +1,1150 @@
+{
+  "device": "Apple M1 Max, 64 GB",
+  "baseline_commit": "be3c7ef",
+  "optimized_commit": "272d811",
+  "weight_precision": "fp32",
+  "kv_precision": "fp32",
+  "CFM_steps": 25,
+  "cfg_rate": 0.7,
+  "seed": 424242,
+  "num_beams": 1,
+  "duration_factor": 1,
+  "text": "你好世界",
+  "reference_seconds": {
+    "demo": 2.438730158730159,
+    "qin": 7.304081632653061
+  },
+  "models_source": "ModelScope / getmodel",
+  "results": {
+    "demo": {
+      "baseline": {
+        "binary": "/Users/raoqu/research/itts25/backends/metal25/artifacts/performance/itts25-metal-baseline",
+        "text": "你好世界",
+        "voice": "/Users/raoqu/research/itts25/backends/metal25/voices/bundles/voice_demo.pt",
+        "voice_sha256": "87b19f2d5c076b5651e7dde5df62582db0d2f4251612611bb8cff30950dfa753",
+        "options": {
+          "lang": "ZH",
+          "seed": 424242,
+          "num_beams": 1,
+          "duration_factor": 1,
+          "verbose": false
+        },
+        "runs": [
+          {
+            "index": 0,
+            "cold": true,
+            "elapsed_seconds": 17.083183124981588,
+            "audio_seconds": 1.7066666666666668,
+            "rtf": 10.009677612293899,
+            "stages": {
+              "emotion": 0.753832,
+              "gpt": 5.25965,
+              "codec": 0.130088,
+              "regulate": 0.0362607,
+              "flow": 3.32951,
+              "vocode": 7.52217
+            },
+            "gpu_submissions": 533,
+            "wav_sha256": "ade5f6f116c84e7ea9aa14717ba11e9954e377bf0c210aaa8102768cf8f767ee",
+            "rms": 0.08106639136232967,
+            "peak": 0.500762939453125,
+            "metrics": [
+              {
+                "operation": "emotion",
+                "ok": true,
+                "dtype": "f32",
+                "shape": [
+                  1,
+                  1280
+                ],
+                "gpu_submissions": 121,
+                "seconds": 0.753832
+              },
+              {
+                "operation": "gpt",
+                "ok": true,
+                "dtype": "u32",
+                "shape": [
+                  1,
+                  44
+                ],
+                "gpu_submissions": 54,
+                "seconds": 5.25965
+              },
+              {
+                "operation": "codec",
+                "ok": true,
+                "dtype": "f32",
+                "shape": [
+                  1,
+                  86,
+                  1024
+                ],
+                "gpu_submissions": 92,
+                "seconds": 0.130088
+              },
+              {
+                "operation": "regulate",
+                "ok": true,
+                "dtype": "f32",
+                "shape": [
+                  1,
+                  147,
+                  512
+                ],
+                "gpu_submissions": 15,
+                "seconds": 0.0362607
+              },
+              {
+                "operation": "flow",
+                "ok": true,
+                "dtype": "f32",
+                "shape": [
+                  1,
+                  357,
+                  80
+                ],
+                "gpu_submissions": 250,
+                "seconds": 3.32951
+              },
+              {
+                "operation": "vocode",
+                "ok": true,
+                "dtype": "f32",
+                "shape": [
+                  1,
+                  1,
+                  37632
+                ],
+                "gpu_submissions": 1,
+                "seconds": 7.52217
+              }
+            ]
+          },
+          {
+            "index": 1,
+            "cold": false,
+            "elapsed_seconds": 14.940738000004785,
+            "audio_seconds": 1.7066666666666668,
+            "rtf": 8.754338671877804,
+            "stages": {
+              "emotion": 0.79967,
+              "gpt": 3.57822,
+              "codec": 0.0836135,
+              "regulate": 0.0313412,
+              "flow": 3.17629,
+              "vocode": 7.24514
+            },
+            "gpu_submissions": 533,
+            "wav_sha256": "ade5f6f116c84e7ea9aa14717ba11e9954e377bf0c210aaa8102768cf8f767ee",
+            "rms": 0.08106639136232967,
+            "peak": 0.500762939453125,
+            "metrics": [
+              {
+                "operation": "emotion",
+                "ok": true,
+                "dtype": "f32",
+                "shape": [
+                  1,
+                  1280
+                ],
+                "gpu_submissions": 121,
+                "seconds": 0.79967
+              },
+              {
+                "operation": "gpt",
+                "ok": true,
+                "dtype": "u32",
+                "shape": [
+                  1,
+                  44
+                ],
+                "gpu_submissions": 54,
+                "seconds": 3.57822
+              },
+              {
+                "operation": "codec",
+                "ok": true,
+                "dtype": "f32",
+                "shape": [
+                  1,
+                  86,
+                  1024
+                ],
+                "gpu_submissions": 92,
+                "seconds": 0.0836135
+              },
+              {
+                "operation": "regulate",
+                "ok": true,
+                "dtype": "f32",
+                "shape": [
+                  1,
+                  147,
+                  512
+                ],
+                "gpu_submissions": 15,
+                "seconds": 0.0313412
+              },
+              {
+                "operation": "flow",
+                "ok": true,
+                "dtype": "f32",
+                "shape": [
+                  1,
+                  357,
+                  80
+                ],
+                "gpu_submissions": 250,
+                "seconds": 3.17629
+              },
+              {
+                "operation": "vocode",
+                "ok": true,
+                "dtype": "f32",
+                "shape": [
+                  1,
+                  1,
+                  37632
+                ],
+                "gpu_submissions": 1,
+                "seconds": 7.24514
+              }
+            ]
+          },
+          {
+            "index": 2,
+            "cold": false,
+            "elapsed_seconds": 14.883832291001454,
+            "audio_seconds": 1.7066666666666668,
+            "rtf": 8.720995483008664,
+            "stages": {
+              "emotion": 0.703891,
+              "gpt": 3.5755,
+              "codec": 0.0826024,
+              "regulate": 0.0294647,
+              "flow": 3.15885,
+              "vocode": 7.30744
+            },
+            "gpu_submissions": 533,
+            "wav_sha256": "ade5f6f116c84e7ea9aa14717ba11e9954e377bf0c210aaa8102768cf8f767ee",
+            "rms": 0.08106639136232967,
+            "peak": 0.500762939453125,
+            "metrics": [
+              {
+                "operation": "emotion",
+                "ok": true,
+                "dtype": "f32",
+                "shape": [
+                  1,
+                  1280
+                ],
+                "gpu_submissions": 121,
+                "seconds": 0.703891
+              },
+              {
+                "operation": "gpt",
+                "ok": true,
+                "dtype": "u32",
+                "shape": [
+                  1,
+                  44
+                ],
+                "gpu_submissions": 54,
+                "seconds": 3.5755
+              },
+              {
+                "operation": "codec",
+                "ok": true,
+                "dtype": "f32",
+                "shape": [
+                  1,
+                  86,
+                  1024
+                ],
+                "gpu_submissions": 92,
+                "seconds": 0.0826024
+              },
+              {
+                "operation": "regulate",
+                "ok": true,
+                "dtype": "f32",
+                "shape": [
+                  1,
+                  147,
+                  512
+                ],
+                "gpu_submissions": 15,
+                "seconds": 0.0294647
+              },
+              {
+                "operation": "flow",
+                "ok": true,
+                "dtype": "f32",
+                "shape": [
+                  1,
+                  357,
+                  80
+                ],
+                "gpu_submissions": 250,
+                "seconds": 3.15885
+              },
+              {
+                "operation": "vocode",
+                "ok": true,
+                "dtype": "f32",
+                "shape": [
+                  1,
+                  1,
+                  37632
+                ],
+                "gpu_submissions": 1,
+                "seconds": 7.30744
+              }
+            ]
+          }
+        ],
+        "load_seconds": 6.211951417004457,
+        "warm_median_seconds": 14.91228514550312,
+        "warm_median_rtf": 8.737667077443234,
+        "repeated_audio_exact": true
+      },
+      "optimized": {
+        "binary": "/Users/raoqu/research/itts25/backends/metal25/build/itts25-metal",
+        "text": "你好世界",
+        "voice": "/Users/raoqu/research/itts25/backends/metal25/voices/bundles/voice_demo.pt",
+        "voice_sha256": "87b19f2d5c076b5651e7dde5df62582db0d2f4251612611bb8cff30950dfa753",
+        "options": {
+          "lang": "ZH",
+          "seed": 424242,
+          "num_beams": 1,
+          "duration_factor": 1,
+          "verbose": false
+        },
+        "runs": [
+          {
+            "index": 0,
+            "cold": true,
+            "elapsed_seconds": 4.249406707996968,
+            "audio_seconds": 1.7066666666666668,
+            "rtf": 2.4898867429669735,
+            "stages": {
+              "emotion": 0.750672,
+              "gpt": 1.99108,
+              "codec": 0.106386,
+              "regulate": 0.0317257,
+              "flow": 0.86315,
+              "vocode": 0.477265
+            },
+            "gpu_submissions": 292,
+            "wav_sha256": "f0bbfd7b402c27d83ad3ed4ace8343ef44389f805f45e2e60bb6948b55eb8d8f",
+            "rms": 0.08106638975516965,
+            "peak": 0.500762939453125,
+            "metrics": [
+              {
+                "operation": "emotion",
+                "ok": true,
+                "dtype": "f32",
+                "shape": [
+                  1,
+                  1280
+                ],
+                "gpu_submissions": 121,
+                "seconds": 0.750672
+              },
+              {
+                "operation": "gpt",
+                "ok": true,
+                "dtype": "u32",
+                "shape": [
+                  1,
+                  44
+                ],
+                "gpu_submissions": 54,
+                "seconds": 1.99108
+              },
+              {
+                "operation": "codec",
+                "ok": true,
+                "dtype": "f32",
+                "shape": [
+                  1,
+                  86,
+                  1024
+                ],
+                "gpu_submissions": 92,
+                "seconds": 0.106386
+              },
+              {
+                "operation": "regulate",
+                "ok": true,
+                "dtype": "f32",
+                "shape": [
+                  1,
+                  147,
+                  512
+                ],
+                "gpu_submissions": 15,
+                "seconds": 0.0317257
+              },
+              {
+                "operation": "flow",
+                "ok": true,
+                "dtype": "f32",
+                "shape": [
+                  1,
+                  357,
+                  80
+                ],
+                "gpu_submissions": 9,
+                "seconds": 0.86315
+              },
+              {
+                "operation": "vocode",
+                "ok": true,
+                "dtype": "f32",
+                "shape": [
+                  1,
+                  1,
+                  37632
+                ],
+                "gpu_submissions": 1,
+                "seconds": 0.477265
+              }
+            ],
+            "emotion_cache_hits": 0
+          },
+          {
+            "index": 1,
+            "cold": false,
+            "elapsed_seconds": 1.3968028750095982,
+            "audio_seconds": 1.7066666666666668,
+            "rtf": 0.8184391845759365,
+            "stages": {
+              "gpt": 0.416115,
+              "codec": 0.083739,
+              "regulate": 0.0305924,
+              "flow": 0.741278,
+              "vocode": 0.108661
+            },
+            "gpu_submissions": 163,
+            "wav_sha256": "f0bbfd7b402c27d83ad3ed4ace8343ef44389f805f45e2e60bb6948b55eb8d8f",
+            "rms": 0.08106638975516965,
+            "peak": 0.500762939453125,
+            "metrics": [
+              {
+                "operation": "gpt",
+                "ok": true,
+                "dtype": "u32",
+                "shape": [
+                  1,
+                  44
+                ],
+                "gpu_submissions": 54,
+                "seconds": 0.416115
+              },
+              {
+                "operation": "codec",
+                "ok": true,
+                "dtype": "f32",
+                "shape": [
+                  1,
+                  86,
+                  1024
+                ],
+                "gpu_submissions": 92,
+                "seconds": 0.083739
+              },
+              {
+                "operation": "regulate",
+                "ok": true,
+                "dtype": "f32",
+                "shape": [
+                  1,
+                  147,
+                  512
+                ],
+                "gpu_submissions": 15,
+                "seconds": 0.0305924
+              },
+              {
+                "operation": "flow",
+                "ok": true,
+                "dtype": "f32",
+                "shape": [
+                  1,
+                  357,
+                  80
+                ],
+                "gpu_submissions": 1,
+                "seconds": 0.741278
+              },
+              {
+                "operation": "vocode",
+                "ok": true,
+                "dtype": "f32",
+                "shape": [
+                  1,
+                  1,
+                  37632
+                ],
+                "gpu_submissions": 1,
+                "seconds": 0.108661
+              }
+            ],
+            "emotion_cache_hits": 1
+          },
+          {
+            "index": 2,
+            "cold": false,
+            "elapsed_seconds": 1.3703904589929152,
+            "audio_seconds": 1.7066666666666668,
+            "rtf": 0.8029631595661613,
+            "stages": {
+              "gpt": 0.397967,
+              "codec": 0.08322,
+              "regulate": 0.0300136,
+              "flow": 0.733677,
+              "vocode": 0.108642
+            },
+            "gpu_submissions": 163,
+            "wav_sha256": "f0bbfd7b402c27d83ad3ed4ace8343ef44389f805f45e2e60bb6948b55eb8d8f",
+            "rms": 0.08106638975516965,
+            "peak": 0.500762939453125,
+            "metrics": [
+              {
+                "operation": "gpt",
+                "ok": true,
+                "dtype": "u32",
+                "shape": [
+                  1,
+                  44
+                ],
+                "gpu_submissions": 54,
+                "seconds": 0.397967
+              },
+              {
+                "operation": "codec",
+                "ok": true,
+                "dtype": "f32",
+                "shape": [
+                  1,
+                  86,
+                  1024
+                ],
+                "gpu_submissions": 92,
+                "seconds": 0.08322
+              },
+              {
+                "operation": "regulate",
+                "ok": true,
+                "dtype": "f32",
+                "shape": [
+                  1,
+                  147,
+                  512
+                ],
+                "gpu_submissions": 15,
+                "seconds": 0.0300136
+              },
+              {
+                "operation": "flow",
+                "ok": true,
+                "dtype": "f32",
+                "shape": [
+                  1,
+                  357,
+                  80
+                ],
+                "gpu_submissions": 1,
+                "seconds": 0.733677
+              },
+              {
+                "operation": "vocode",
+                "ok": true,
+                "dtype": "f32",
+                "shape": [
+                  1,
+                  1,
+                  37632
+                ],
+                "gpu_submissions": 1,
+                "seconds": 0.108642
+              }
+            ],
+            "emotion_cache_hits": 1
+          }
+        ],
+        "load_seconds": 4.01879391699913,
+        "warm_median_seconds": 1.3835966670012567,
+        "warm_median_rtf": 0.8107011720710489,
+        "repeated_audio_exact": true
+      }
+    },
+    "qin": {
+      "baseline": {
+        "binary": "/Users/raoqu/research/itts25/backends/metal25/artifacts/performance/itts25-metal-baseline",
+        "text": "你好世界",
+        "voice": "/Users/raoqu/research/itts25/backends/metal25/voices/bundles/voice_92c85f8a49b34f1ca2e13a7c1028ee54.pt",
+        "voice_sha256": "77ed6356f627b167b567a56e0053b78890e498f1f633281093e29dc43463e81c",
+        "options": {
+          "lang": "ZH",
+          "seed": 424242,
+          "num_beams": 1,
+          "duration_factor": 1,
+          "verbose": false
+        },
+        "runs": [
+          {
+            "index": 0,
+            "cold": true,
+            "elapsed_seconds": 28.813804000004893,
+            "audio_seconds": 1.8692063492063493,
+            "rtf": 15.414993648100443,
+            "stages": {
+              "emotion": 0.989771,
+              "gpt": 5.59344,
+              "codec": 0.137205,
+              "regulate": 0.037828,
+              "flow": 13.7732,
+              "vocode": 8.23683
+            },
+            "gpu_submissions": 537,
+            "wav_sha256": "b0e8c0568af7d58fe08cba932698a4f0cefbb01e3a1b6422413c97a93c85404b",
+            "rms": 0.09945540307566515,
+            "peak": 0.555450439453125,
+            "metrics": [
+              {
+                "operation": "emotion",
+                "ok": true,
+                "dtype": "f32",
+                "shape": [
+                  1,
+                  1280
+                ],
+                "gpu_submissions": 121,
+                "seconds": 0.989771
+              },
+              {
+                "operation": "gpt",
+                "ok": true,
+                "dtype": "u32",
+                "shape": [
+                  1,
+                  48
+                ],
+                "gpu_submissions": 58,
+                "seconds": 5.59344
+              },
+              {
+                "operation": "codec",
+                "ok": true,
+                "dtype": "f32",
+                "shape": [
+                  1,
+                  94,
+                  1024
+                ],
+                "gpu_submissions": 92,
+                "seconds": 0.137205
+              },
+              {
+                "operation": "regulate",
+                "ok": true,
+                "dtype": "f32",
+                "shape": [
+                  1,
+                  161,
+                  512
+                ],
+                "gpu_submissions": 15,
+                "seconds": 0.037828
+              },
+              {
+                "operation": "flow",
+                "ok": true,
+                "dtype": "f32",
+                "shape": [
+                  1,
+                  790,
+                  80
+                ],
+                "gpu_submissions": 250,
+                "seconds": 13.7732
+              },
+              {
+                "operation": "vocode",
+                "ok": true,
+                "dtype": "f32",
+                "shape": [
+                  1,
+                  1,
+                  41216
+                ],
+                "gpu_submissions": 1,
+                "seconds": 8.23683
+              }
+            ]
+          },
+          {
+            "index": 1,
+            "cold": false,
+            "elapsed_seconds": 26.439938416995574,
+            "audio_seconds": 1.8692063492063493,
+            "rtf": 14.145007814798921,
+            "stages": {
+              "emotion": 0.742467,
+              "gpt": 3.90912,
+              "codec": 0.0889889,
+              "regulate": 0.032591,
+              "flow": 13.6601,
+              "vocode": 7.96916
+            },
+            "gpu_submissions": 537,
+            "wav_sha256": "b0e8c0568af7d58fe08cba932698a4f0cefbb01e3a1b6422413c97a93c85404b",
+            "rms": 0.09945540307566515,
+            "peak": 0.555450439453125,
+            "metrics": [
+              {
+                "operation": "emotion",
+                "ok": true,
+                "dtype": "f32",
+                "shape": [
+                  1,
+                  1280
+                ],
+                "gpu_submissions": 121,
+                "seconds": 0.742467
+              },
+              {
+                "operation": "gpt",
+                "ok": true,
+                "dtype": "u32",
+                "shape": [
+                  1,
+                  48
+                ],
+                "gpu_submissions": 58,
+                "seconds": 3.90912
+              },
+              {
+                "operation": "codec",
+                "ok": true,
+                "dtype": "f32",
+                "shape": [
+                  1,
+                  94,
+                  1024
+                ],
+                "gpu_submissions": 92,
+                "seconds": 0.0889889
+              },
+              {
+                "operation": "regulate",
+                "ok": true,
+                "dtype": "f32",
+                "shape": [
+                  1,
+                  161,
+                  512
+                ],
+                "gpu_submissions": 15,
+                "seconds": 0.032591
+              },
+              {
+                "operation": "flow",
+                "ok": true,
+                "dtype": "f32",
+                "shape": [
+                  1,
+                  790,
+                  80
+                ],
+                "gpu_submissions": 250,
+                "seconds": 13.6601
+              },
+              {
+                "operation": "vocode",
+                "ok": true,
+                "dtype": "f32",
+                "shape": [
+                  1,
+                  1,
+                  41216
+                ],
+                "gpu_submissions": 1,
+                "seconds": 7.96916
+              }
+            ]
+          },
+          {
+            "index": 2,
+            "cold": false,
+            "elapsed_seconds": 26.46519475002424,
+            "audio_seconds": 1.8692063492063493,
+            "rtf": 14.15851960981256,
+            "stages": {
+              "emotion": 0.649093,
+              "gpt": 4.00228,
+              "codec": 0.131043,
+              "regulate": 0.0329717,
+              "flow": 13.6699,
+              "vocode": 7.93536
+            },
+            "gpu_submissions": 537,
+            "wav_sha256": "b0e8c0568af7d58fe08cba932698a4f0cefbb01e3a1b6422413c97a93c85404b",
+            "rms": 0.09945540307566515,
+            "peak": 0.555450439453125,
+            "metrics": [
+              {
+                "operation": "emotion",
+                "ok": true,
+                "dtype": "f32",
+                "shape": [
+                  1,
+                  1280
+                ],
+                "gpu_submissions": 121,
+                "seconds": 0.649093
+              },
+              {
+                "operation": "gpt",
+                "ok": true,
+                "dtype": "u32",
+                "shape": [
+                  1,
+                  48
+                ],
+                "gpu_submissions": 58,
+                "seconds": 4.00228
+              },
+              {
+                "operation": "codec",
+                "ok": true,
+                "dtype": "f32",
+                "shape": [
+                  1,
+                  94,
+                  1024
+                ],
+                "gpu_submissions": 92,
+                "seconds": 0.131043
+              },
+              {
+                "operation": "regulate",
+                "ok": true,
+                "dtype": "f32",
+                "shape": [
+                  1,
+                  161,
+                  512
+                ],
+                "gpu_submissions": 15,
+                "seconds": 0.0329717
+              },
+              {
+                "operation": "flow",
+                "ok": true,
+                "dtype": "f32",
+                "shape": [
+                  1,
+                  790,
+                  80
+                ],
+                "gpu_submissions": 250,
+                "seconds": 13.6699
+              },
+              {
+                "operation": "vocode",
+                "ok": true,
+                "dtype": "f32",
+                "shape": [
+                  1,
+                  1,
+                  41216
+                ],
+                "gpu_submissions": 1,
+                "seconds": 7.93536
+              }
+            ]
+          }
+        ],
+        "load_seconds": 4.2684609169955365,
+        "warm_median_seconds": 26.452566583509906,
+        "warm_median_rtf": 14.15176371230574,
+        "repeated_audio_exact": true
+      },
+      "optimized": {
+        "binary": "/Users/raoqu/research/itts25/backends/metal25/build/itts25-metal",
+        "text": "你好世界",
+        "voice": "/Users/raoqu/research/itts25/backends/metal25/voices/bundles/voice_92c85f8a49b34f1ca2e13a7c1028ee54.pt",
+        "voice_sha256": "77ed6356f627b167b567a56e0053b78890e498f1f633281093e29dc43463e81c",
+        "options": {
+          "lang": "ZH",
+          "seed": 424242,
+          "num_beams": 1,
+          "duration_factor": 1,
+          "verbose": false
+        },
+        "runs": [
+          {
+            "index": 0,
+            "cold": true,
+            "elapsed_seconds": 5.43099337501917,
+            "audio_seconds": 1.8692063492063493,
+            "rtf": 2.9055076649643996,
+            "stages": {
+              "emotion": 0.675398,
+              "gpt": 2.03739,
+              "codec": 0.11224,
+              "regulate": 0.0338735,
+              "flow": 2.04561,
+              "vocode": 0.487439
+            },
+            "gpu_submissions": 296,
+            "wav_sha256": "df3aa5951b777dfc067c44df8574f0b0d2908d6fbbc6b64b69b497594f18a289",
+            "rms": 0.09945539611929408,
+            "peak": 0.555450439453125,
+            "metrics": [
+              {
+                "operation": "emotion",
+                "ok": true,
+                "dtype": "f32",
+                "shape": [
+                  1,
+                  1280
+                ],
+                "gpu_submissions": 121,
+                "seconds": 0.675398
+              },
+              {
+                "operation": "gpt",
+                "ok": true,
+                "dtype": "u32",
+                "shape": [
+                  1,
+                  48
+                ],
+                "gpu_submissions": 58,
+                "seconds": 2.03739
+              },
+              {
+                "operation": "codec",
+                "ok": true,
+                "dtype": "f32",
+                "shape": [
+                  1,
+                  94,
+                  1024
+                ],
+                "gpu_submissions": 92,
+                "seconds": 0.11224
+              },
+              {
+                "operation": "regulate",
+                "ok": true,
+                "dtype": "f32",
+                "shape": [
+                  1,
+                  161,
+                  512
+                ],
+                "gpu_submissions": 15,
+                "seconds": 0.0338735
+              },
+              {
+                "operation": "flow",
+                "ok": true,
+                "dtype": "f32",
+                "shape": [
+                  1,
+                  790,
+                  80
+                ],
+                "gpu_submissions": 9,
+                "seconds": 2.04561
+              },
+              {
+                "operation": "vocode",
+                "ok": true,
+                "dtype": "f32",
+                "shape": [
+                  1,
+                  1,
+                  41216
+                ],
+                "gpu_submissions": 1,
+                "seconds": 0.487439
+              }
+            ],
+            "emotion_cache_hits": 0
+          },
+          {
+            "index": 1,
+            "cold": false,
+            "elapsed_seconds": 2.6239038330095354,
+            "audio_seconds": 1.8692063492063493,
+            "rtf": 1.403752899792805,
+            "stages": {
+              "gpt": 0.454155,
+              "codec": 0.0858703,
+              "regulate": 0.0325817,
+              "flow": 1.91334,
+              "vocode": 0.116473
+            },
+            "gpu_submissions": 167,
+            "wav_sha256": "df3aa5951b777dfc067c44df8574f0b0d2908d6fbbc6b64b69b497594f18a289",
+            "rms": 0.09945539611929408,
+            "peak": 0.555450439453125,
+            "metrics": [
+              {
+                "operation": "gpt",
+                "ok": true,
+                "dtype": "u32",
+                "shape": [
+                  1,
+                  48
+                ],
+                "gpu_submissions": 58,
+                "seconds": 0.454155
+              },
+              {
+                "operation": "codec",
+                "ok": true,
+                "dtype": "f32",
+                "shape": [
+                  1,
+                  94,
+                  1024
+                ],
+                "gpu_submissions": 92,
+                "seconds": 0.0858703
+              },
+              {
+                "operation": "regulate",
+                "ok": true,
+                "dtype": "f32",
+                "shape": [
+                  1,
+                  161,
+                  512
+                ],
+                "gpu_submissions": 15,
+                "seconds": 0.0325817
+              },
+              {
+                "operation": "flow",
+                "ok": true,
+                "dtype": "f32",
+                "shape": [
+                  1,
+                  790,
+                  80
+                ],
+                "gpu_submissions": 1,
+                "seconds": 1.91334
+              },
+              {
+                "operation": "vocode",
+                "ok": true,
+                "dtype": "f32",
+                "shape": [
+                  1,
+                  1,
+                  41216
+                ],
+                "gpu_submissions": 1,
+                "seconds": 0.116473
+              }
+            ],
+            "emotion_cache_hits": 1
+          },
+          {
+            "index": 2,
+            "cold": false,
+            "elapsed_seconds": 2.621292791009182,
+            "audio_seconds": 1.8692063492063493,
+            "rtf": 1.4023560277987301,
+            "stages": {
+              "gpt": 0.450313,
+              "codec": 0.0854955,
+              "regulate": 0.032156,
+              "flow": 1.91508,
+              "vocode": 0.115878
+            },
+            "gpu_submissions": 167,
+            "wav_sha256": "df3aa5951b777dfc067c44df8574f0b0d2908d6fbbc6b64b69b497594f18a289",
+            "rms": 0.09945539611929408,
+            "peak": 0.555450439453125,
+            "metrics": [
+              {
+                "operation": "gpt",
+                "ok": true,
+                "dtype": "u32",
+                "shape": [
+                  1,
+                  48
+                ],
+                "gpu_submissions": 58,
+                "seconds": 0.450313
+              },
+              {
+                "operation": "codec",
+                "ok": true,
+                "dtype": "f32",
+                "shape": [
+                  1,
+                  94,
+                  1024
+                ],
+                "gpu_submissions": 92,
+                "seconds": 0.0854955
+              },
+              {
+                "operation": "regulate",
+                "ok": true,
+                "dtype": "f32",
+                "shape": [
+                  1,
+                  161,
+                  512
+                ],
+                "gpu_submissions": 15,
+                "seconds": 0.032156
+              },
+              {
+                "operation": "flow",
+                "ok": true,
+                "dtype": "f32",
+                "shape": [
+                  1,
+                  790,
+                  80
+                ],
+                "gpu_submissions": 1,
+                "seconds": 1.91508
+              },
+              {
+                "operation": "vocode",
+                "ok": true,
+                "dtype": "f32",
+                "shape": [
+                  1,
+                  1,
+                  41216
+                ],
+                "gpu_submissions": 1,
+                "seconds": 0.115878
+              }
+            ],
+            "emotion_cache_hits": 1
+          }
+        ],
+        "load_seconds": 3.9760584169998765,
+        "warm_median_seconds": 2.622598312009359,
+        "warm_median_rtf": 1.4030544637957676,
+        "repeated_audio_exact": true
+      }
+    }
+  }
+}

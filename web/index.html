@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>IndexTTS 2.5 · MTTS Admin</title>
+<style>
+:root{font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:#1c2430;background:#f7f8fa}
+body{margin:0}
+button,input,textarea,select{font:inherit}
+.top{height:56px;background:#111827;color:white;display:flex;align-items:center;justify-content:space-between;padding:0 20px}
+.brand{font-weight:700;letter-spacing:.02em}.wrap{max-width:1180px;margin:0 auto;padding:20px}
+.tabs{display:flex;gap:8px;margin-bottom:16px}.tabs button{border:1px solid #d6dbe3;background:white;padding:8px 12px;border-radius:6px;cursor:pointer}.tabs button.active{background:#0f766e;color:white;border-color:#0f766e}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}.voice-layout{display:grid;grid-template-columns:minmax(0,1fr);gap:16px}.voice-layout.testing{grid-template-columns:minmax(0,1fr) 380px}.panel{background:white;border:1px solid #dfe3ea;border-radius:8px;padding:16px}.panel h2{margin:0 0 12px;font-size:18px}.panel h3{margin:16px 0 8px;font-size:15px}
+.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.field{display:grid;gap:6px;margin-bottom:10px}.field label{font-size:12px;color:#5b6472}.field input,.field textarea{border:1px solid #cfd6e1;border-radius:6px;padding:8px;background:white}.field textarea{min-height:64px}
+	.primary{background:#0f766e;color:white;border:0;border-radius:6px;padding:8px 12px;cursor:pointer}.danger{background:#b42318;color:white;border:0;border-radius:6px;padding:7px 10px;cursor:pointer}.secondary{background:#eef2f7;color:#1c2430;border:0;border-radius:6px;padding:7px 10px;cursor:pointer}
+	table{width:100%;border-collapse:collapse}th,td{text-align:left;border-bottom:1px solid #e5e9f0;padding:8px;font-size:13px;vertical-align:top}th{color:#5b6472;font-weight:600}.muted{color:#667085;font-size:13px}.mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;word-break:break-all}
+		.icon-cell{width:104px}.select-cell{width:32px}.icon-cell-inner{display:flex;gap:6px;justify-content:flex-end;align-items:center}.hover-actions{display:flex;gap:6px;opacity:0;transition:opacity .12s}.voice-row:hover .hover-actions{opacity:1}.hover-btn{opacity:0;transition:opacity .12s}.voice-row:hover .hover-btn{opacity:1}.icon-btn{width:28px;height:28px;border:1px solid #d6dbe3;background:white;border-radius:6px;cursor:pointer;line-height:1}.icon-btn.active{background:#0f766e;color:white;border-color:#0f766e}.icon-btn.lock-btn.active{background:#b45309;border-color:#b45309;color:white;opacity:1}.icon-btn.danger-icon{background:#fff5f4;color:#b42318;border-color:#f5b5ae}.icon-btn[disabled]{opacity:.45;cursor:not-allowed}.voice-head{display:flex;align-items:center;justify-content:space-between;gap:12px}.voice-head h2{margin:0}.voice-tools{display:flex;gap:6px;margin-left:auto}.edit-cell{position:relative;min-height:28px}.edit-value{padding-right:32px;white-space:pre-wrap}.edit-btn,.copy-btn{opacity:0;transition:opacity .12s}.voice-row:hover .edit-btn,.path-row:hover .copy-btn{opacity:1}.edit-btn{position:absolute;right:0;top:0}.edit-input{width:100%;box-sizing:border-box;border:1px solid #cfd6e1;border-radius:6px;padding:6px;background:white}.bundle-path{display:flex;align-items:flex-start;gap:6px}.bundle-path .mono{flex:1}.copy-btn{flex:0 0 auto}.add-voice{margin-top:16px;border-top:1px solid #e5e9f0;padding-top:12px}.add-voice summary{cursor:pointer;font-weight:700}.add-voice-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:24px;align-items:start}.add-voice-grid h3{margin-top:16px}.file-row{display:flex;gap:8px;align-items:center}.file-row input[type=file]{flex:1;min-width:0}.local-preview{width:100%;margin-top:8px}.side-head{display:flex;align-items:center;justify-content:space-between;gap:8px}.side-head h2{margin:0}.duration{white-space:nowrap}.voice-meta{display:grid;grid-template-columns:max-content minmax(0,1fr);gap:6px 12px;margin:12px 0 14px}.voice-meta dt{color:#5b6472;font-size:12px}.voice-meta dd{margin:0;font-size:13px;word-break:break-word}.switch-row{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:2px 0 12px}.switch-label{font-size:13px;color:#1c2430}.android-switch{position:relative;display:inline-flex;align-items:center;width:46px;height:28px;cursor:pointer;flex:0 0 auto}.android-switch input{position:absolute;opacity:0;width:1px;height:1px}.switch-track{width:46px;height:28px;border-radius:999px;background:#cfd6e1;transition:background .16s,box-shadow .16s}.switch-track:after{content:"";position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:white;box-shadow:0 1px 3px rgba(16,24,40,.28);transition:transform .16s}.android-switch input:checked+.switch-track{background:#0f766e}.android-switch input:checked+.switch-track:after{transform:translateX(18px)}.android-switch input:focus-visible+.switch-track{box-shadow:0 0 0 3px rgba(15,118,110,.22)}.speech-metrics{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:12px}.speech-metric{background:#f4f6f8;border:1px solid #e2e6ed;border-radius:6px;padding:8px}.speech-metric span{display:block;color:#667085;font-size:12px}.speech-metric b{font-size:16px}button[disabled]{opacity:.65;cursor:not-allowed}.spinner{display:inline-block;width:12px;height:12px;border:2px solid rgba(255,255,255,.45);border-top-color:#fff;border-radius:50%;animation:spin .8s linear infinite;margin-right:6px;vertical-align:-1px}@keyframes spin{to{transform:rotate(360deg)}}
+.status{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px}.metric{border:1px solid #e2e6ed;border-radius:6px;padding:10px;background:#f4f6f8}.metric b{display:block;font-size:20px}.metric-waiting{background:#eef4ff;border-color:#b2ccff}.metric-running{background:#ecfdf3;border-color:#75e0a7}.metric-idle{background:#f4f6f8;border-color:#d0d5dd}.metric-submitted{background:#fef7c3;border-color:#fdb022}.metric-failed{background:#fef3f2;border-color:#fda29b}.badge{display:inline-flex;align-items:center;border-radius:999px;padding:3px 8px;font-size:12px;font-weight:700}.badge-tts{background:#e0f2fe;color:#075985}.badge-clone{background:#ecfdf3;color:#067647}.badge-running{background:#dcfce7;color:#166534}.badge-completed{background:#d1fae5;color:#065f46}.badge-failed,.badge-rejected{background:#fee2e2;color:#991b1b}.badge-time{background:#fef3c7;color:#92400e}.job-card{border:1px solid #d6dbe3;border-radius:8px;padding:12px;background:#fff}.job-top{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:8px}.job-label{font-size:14px;line-height:1.45;word-break:break-word}.hidden{display:none!important}.login{max-width:380px;margin:80px auto;background:white;border:1px solid #dfe3ea;border-radius:8px;padding:20px}
+.toast{position:fixed;right:16px;bottom:16px;background:#111827;color:white;padding:10px 12px;border-radius:6px;max-width:520px;box-shadow:0 8px 30px rgba(0,0,0,.18)}
+@media(max-width:850px){.grid,.voice-layout.testing,.add-voice-grid{grid-template-columns:1fr}.status{grid-template-columns:1fr 1fr}.top{padding:0 12px}.wrap{padding:12px}.hover-actions,.edit-btn,.copy-btn{opacity:1}}
+</style>
+</head>
+<body>
+<div class="top"><div class="brand">IndexTTS 2.5 · MTTS Admin</div><div id="serverLine" class="muted"></div></div>
+<div id="login" class="login hidden">
+  <h2>Admin Login</h2>
+  <p class="muted">Enter the web key configured with <span class="mono">--webkey</span>.</p>
+  <div class="field"><label>Web key</label><input id="loginKey" type="password" autocomplete="current-password"></div>
+  <button class="primary" onclick="login()">Login</button>
+</div>
+<div id="app" class="wrap hidden">
+  <div class="tabs">
+    <button id="tabStatus" class="active" onclick="showTab('status')">Status</button>
+    <button id="tabVoices" onclick="showTab('voices')">Voices</button>
+    <button class="secondary" onclick="logout()">Logout</button>
+  </div>
+  <section id="pageStatus">
+    <div class="panel">
+      <h2>Runtime Status</h2>
+      <div id="metrics" class="status"></div>
+      <div id="currentJobSection" class="hidden">
+        <h3>Current Job</h3>
+        <div id="currentJob"></div>
+      </div>
+      <h3>Recent Jobs</h3>
+      <div id="recentJobs"></div>
+    </div>
+  </section>
+  <section id="pageVoices" class="hidden">
+    <div id="voiceLayout" class="voice-layout">
+      <div class="panel">
+	        <div class="voice-head"><h2>Voices</h2><div class="voice-tools"><button class="icon-btn" title="Refresh voices" onclick="loadVoices()">&#8635;</button><button id="voiceManageToggle" class="icon-btn" title="Manage voices" onclick="toggleVoiceManage()">&#9745;</button><button id="voiceBatchDelete" class="icon-btn danger-icon hidden" title="Delete selected voices" onclick="deleteSelectedVoices()" disabled>&#128465;</button></div></div>
+        <div id="voicesTable" style="margin-top:12px"></div>
+        <audio id="previewAudio" controls class="hidden" style="width:100%;margin-top:12px"></audio>
+        <details class="add-voice">
+          <summary>Add Voice</summary>
+          <div class="add-voice-grid">
+            <div>
+              <h3>Create Voice</h3>
+              <div class="field"><label>Name</label><input id="cloneName" placeholder="demo voice"></div>
+              <div class="field"><label>Description</label><input id="cloneDescription" placeholder="created from audio"></div>
+	              <div class="field"><label>Audio sample</label><div class="file-row"><input id="cloneFile" type="file" accept="audio/*,.wav" onchange="onCloneFileChange()"><button id="clonePreviewBtn" class="icon-btn" title="Preview selected audio" onclick="previewCloneFile()" disabled>&#9658;</button></div><audio id="clonePreviewAudio" controls class="hidden local-preview"></audio></div>
+	              <button id="cloneSubmit" class="primary" onclick="cloneVoice()">Create Voice</button>
+            </div>
+            <div>
+              <h3>Import Existing Bundle</h3>
+              <div class="field"><label>Name</label><input id="importName" placeholder="qin"></div>
+              <div class="field"><label>Description</label><input id="importDescription" placeholder="local voice"></div>
+              <div class="field"><label>Bundle path</label><input id="importBundle" placeholder="sample/qin.pt"></div>
+	              <button id="importSubmit" class="primary" onclick="importVoice()">Import</button>
+            </div>
+          </div>
+        </details>
+      </div>
+      <aside id="speechPanel" class="panel hidden">
+      <div class="side-head"><h2>TTS Speech</h2><button class="secondary" onclick="closeSpeechPanel()">Close</button></div>
+      <dl class="voice-meta">
+        <dt>Voice ID</dt><dd id="speechVoiceId" class="mono">-</dd>
+        <dt>Name</dt><dd id="speechVoiceName">-</dd>
+        <dt>Description</dt><dd id="speechVoiceDescription">-</dd>
+        <dt>Bundle</dt><dd class="path-row"><div class="bundle-path"><span id="speechBundlePath" class="mono">-</span><button class="icon-btn copy-btn" title="Copy bundle path" onclick="copyBundlePath()">&#10697;</button></div></dd>
+      </dl>
+      <div class="field"><label>Text</label><textarea id="speechText">你好世界</textarea></div>
+      <div class="field"><label for="speechLanguage">Language</label><select id="speechLanguage"><option value="ZH">中文</option><option value="EN">English</option><option value="JA">日本語</option><option value="ES">Español</option><option value="AR">العربية</option></select></div>
+      <div class="field"><label for="speechDuration">Duration factor (lower = faster)</label><input id="speechDuration" type="number" min="0.25" max="4" step="0.05" value="1"></div>
+      <div class="field"><label for="speechEmotion">Emotion description (optional)</label><input id="speechEmotion" placeholder="开心而自然"></div>
+      <div class="switch-row">
+        <span class="switch-label">Auto play after generation</span>
+        <label class="android-switch" title="Auto play generated audio">
+          <input id="speechAutoPlay" type="checkbox" onchange="setSpeechAutoPlay(this.checked)">
+          <span class="switch-track"></span>
+        </label>
+      </div>
+      <button id="speechGenerate" class="primary" onclick="speak()">Generate WAV</button>
+      <p id="speechResult" class="muted"></p>
+      <div id="speechMetrics" class="speech-metrics hidden">
+        <div class="speech-metric"><span>Audio</span><b id="speechAudioSeconds">-</b></div>
+        <div class="speech-metric"><span>Elapsed</span><b id="speechElapsedSeconds">-</b></div>
+        <div class="speech-metric"><span>RTF</span><b id="speechRtf">-</b></div>
+      </div>
+      <audio id="audio" controls class="hidden" style="width:100%;margin-top:12px"></audio>
+      </aside>
+    </div>
+  </section>
+</div>
+<div id="toast" class="toast hidden"></div>
+<script>
+		let key=localStorage.getItem('mttsWebKey')||'';let poll=null;let selectedSpeechVoice='';let voiceById={};let authRequired=false;let clonePreviewUrl='';let speechAudioUrl='';let previewAudioUrl='';let voiceManageMode=false;let selectedVoiceIds=new Set();let speechAutoPlay=localStorage.getItem('mttsSpeechAutoPlay')!=='0';
+function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.remove('hidden');setTimeout(()=>t.classList.add('hidden'),4500)}
+async function api(path,opt={}){opt.headers=opt.headers||{};if(key)opt.headers['X-MTTS-Web-Key']=key;if(opt.json){opt.headers['Content-Type']='application/json';opt.body=JSON.stringify(opt.json);delete opt.json}const r=await fetch('/web/api'+path,opt);if(r.status===401){const e=new Error('unauthorized');e.status=401;showLogin();throw e}if(!r.ok){let m=await r.text();const e=new Error(m);e.status=r.status;throw e}const ct=r.headers.get('content-type')||'';return ct.includes('application/json')?r.json():r.blob()}
+function showLogin(){document.getElementById('login').classList.remove('hidden');document.getElementById('app').classList.add('hidden');if(poll)clearInterval(poll)}
+function showApp(){document.getElementById('login').classList.add('hidden');document.getElementById('app').classList.remove('hidden');initSpeechAutoPlay();loadStatus();loadVoices();if(poll)clearInterval(poll);poll=setInterval(loadStatus,1000)}
+async function login(){key=document.getElementById('loginKey').value;try{await api('/login',{method:'POST',json:{key}});localStorage.setItem('mttsWebKey',key);showApp()}catch(e){toast('Login failed')}}
+function logout(){localStorage.removeItem('mttsWebKey');key='';if(authRequired)showLogin();else showApp()}
+function showTab(n){['Status','Voices'].forEach(x=>{document.getElementById('tab'+x).classList.toggle('active',x.toLowerCase()===n);document.getElementById('page'+x).classList.toggle('hidden',x.toLowerCase()!==n)})}
+async function loadStatus(){try{const s=await api('/status');authRequired=!!s.web_auth_required;document.getElementById('serverLine').textContent=s.model_bundle+' | '+s.voice_store;document.getElementById('metrics').innerHTML=[
+metricHtml('Waiting',s.queue.waiting,'waiting'),metricHtml('Running',s.queue.running?'yes':'no',s.queue.running?'running':'idle'),metricHtml('Submitted',s.totals.submitted,'submitted'),metricHtml('Failed',s.totals.failed,'failed')
+].join('');const current=document.getElementById('currentJobSection');if(s.queue.current){current.classList.remove('hidden');document.getElementById('currentJob').innerHTML=currentJobHtml(s.queue.current)}else{current.classList.add('hidden');document.getElementById('currentJob').innerHTML=''}document.getElementById('recentJobs').innerHTML=recentJobsHtml(s.recent)}catch(e){if(e.status===401)return;document.getElementById('metrics').innerHTML='<div class="metric metric-failed"><span class="muted">Status</span><b>Error</b></div>';document.getElementById('recentJobs').innerHTML='<p class="muted">'+escapeHtml(e.message||'failed to load status')+'</p>'}}
+function metricHtml(label,value,tone){return `<div class="metric metric-${tone}"><span class="muted">${label}</span><b>${value}</b></div>`}
+function currentJobHtml(j){return `<div class="job-card"><div class="job-top"><span class="badge badge-${escapeAttr(j.kind)}">${escapeHtml(j.kind)}</span><span class="badge badge-running">running</span><span class="badge badge-time">${formatHms(j.elapsed_seconds)}</span><span class="muted">#${j.id}</span></div><div class="job-label">${escapeHtml(truncateText(j.label||'',120))}</div></div>`}
+function recentJobsHtml(jobs){if(!jobs.length)return '<p class="muted">No recent jobs</p>';return '<table><thead><tr><th>ID</th><th>Kind</th><th>Status</th><th>Elapsed</th><th>RTF</th><th>Label</th></tr></thead><tbody>'+jobs.map(j=>`<tr><td>${j.id}</td><td><span class="badge badge-${escapeAttr(j.kind)}">${escapeHtml(j.kind)}</span></td><td><span class="badge badge-${escapeAttr(j.status)}">${escapeHtml(j.status)}</span></td><td>${Number(j.elapsed_seconds).toFixed(2)}s</td><td>${j.rtf?Number(j.rtf).toFixed(2):'-'}</td><td>${escapeHtml(truncateText(j.error||j.label||'',90))}</td></tr>`).join('')+'</tbody></table>'}
+async function loadVoices(){try{const v=await api('/voices');voiceById=Object.fromEntries(v.data.map(x=>[x.id,x]));selectedVoiceIds=new Set([...selectedVoiceIds].filter(id=>voiceById[id]&&!voiceById[id].locked));const selectHead=voiceManageMode?'<th class="select-cell"><input type="checkbox" id="voiceSelectAll" aria-label="Select all unlocked voices" title="Select all unlocked voices" onchange="toggleSelectAllVoices(this.checked)"></th>':'';document.getElementById('voicesTable').innerHTML='<table><thead><tr>'+selectHead+'<th>Name</th><th>Description</th><th>Duration</th><th class="icon-cell"></th></tr></thead><tbody>'+v.data.map(voiceRowHtml).join('')+'</tbody></table>';updateVoiceManageUi()}catch(e){toast(e.message)}}
+function voiceRowHtml(x){const selectCell=voiceManageMode?`<td class="select-cell"><input type="checkbox" aria-label="Select ${escapeAttr(x.name||x.id)}" onchange="toggleVoiceSelected('${escapeJs(x.id)}',this.checked)" ${x.locked?'disabled title="Locked voice"':''} ${selectedVoiceIds.has(x.id)?'checked':''}></td>`:'';const lockBtn=x.locked?`<button class="icon-btn lock-btn active" title="Locked — click to unlock" onclick="toggleVoiceLock('${escapeJs(x.id)}',false)">&#128274;</button>`:`<button class="icon-btn lock-btn hover-btn" title="Lock voice" onclick="toggleVoiceLock('${escapeJs(x.id)}',true)">&#128275;</button>`;return `<tr class="voice-row">${selectCell}<td>${editableCell(x,'name')}</td><td>${editableCell(x,'description')}</td><td class="duration">${formatSeconds(x.source_audio_seconds)}</td><td class="icon-cell"><div class="icon-cell-inner"><div class="hover-actions"><button class="icon-btn" title="Preview source audio" onclick="previewSourceAudio('${escapeJs(x.id)}')">&#9658;</button><button class="icon-btn" title="Test TTS speech" onclick="openSpeechPanel('${escapeJs(x.id)}')">&#9835;</button></div>${lockBtn}</div></td></tr>`}
+function editableCell(x,field){const id=escapeJs(x.id);const value=escapeHtml(x[field]||'');const label=field==='name'?'name':'description';return `<div id="cell-${label}-${escapeAttr(x.id)}" class="edit-cell"><div class="edit-value">${value||'-'}</div><button class="icon-btn edit-btn" title="Edit ${label}" onclick="beginEdit('${id}','${label}')">&#9998;</button></div>`}
+	async function importVoice(){const btn=document.getElementById('importSubmit');try{setButtonBusy(btn,true,'Importing');await api('/voices',{method:'POST',json:{name:val('importName'),description:val('importDescription'),bundle_path:val('importBundle')}});toast('Voice imported');loadVoices()}catch(e){toast(e.message)}finally{setButtonBusy(btn,false)}}
+	async function cloneVoice(){const btn=document.getElementById('cloneSubmit');try{const f=document.getElementById('cloneFile').files[0];if(!f){toast('Choose an audio file');return}setButtonBusy(btn,true,'Creating');const fd=new FormData();fd.append('name',val('cloneName'));fd.append('description',val('cloneDescription'));fd.append('audio_sample',f);await api('/voices',{method:'POST',body:fd});toast('Clone queued/completed');loadVoices();loadStatus()}catch(e){toast(e.message)}finally{setButtonBusy(btn,false)}}
+	function setButtonBusy(btn,busy,label){if(!btn)return;if(!btn.dataset.idleHtml)btn.dataset.idleHtml=btn.innerHTML;btn.disabled=busy;btn.innerHTML=busy?`<span class="spinner"></span>${escapeHtml(label||'Working')}`:btn.dataset.idleHtml}
+	function onCloneFileChange(){const input=document.getElementById('cloneFile');const f=input.files&&input.files[0];const btn=document.getElementById('clonePreviewBtn');const audio=document.getElementById('clonePreviewAudio');if(clonePreviewUrl){URL.revokeObjectURL(clonePreviewUrl);clonePreviewUrl=''}audio.pause();audio.removeAttribute('src');audio.classList.add('hidden');if(!f){btn.disabled=true;return}document.getElementById('cloneName').value=fileStem(f.name);clonePreviewUrl=URL.createObjectURL(f);btn.disabled=false}
+	function previewCloneFile(){if(!clonePreviewUrl)return;const a=document.getElementById('clonePreviewAudio');a.src=clonePreviewUrl;a.classList.remove('hidden');a.play().catch(()=>{})}
+	function fileStem(name){const base=String(name||'').split(/[\\/]/).pop()||'';const dot=base.lastIndexOf('.');return dot>0?base.slice(0,dot):base}
+async function saveVoiceField(id,field,value){try{const patch={};patch[field]=value;const updated=await api('/voices/'+id,{method:'PATCH',json:patch});voiceById[id]=updated;toast('Saved');loadVoices();if(selectedSpeechVoice===id)openSpeechPanel(id)}catch(e){toast(e.message)}}
+function beginEdit(id,field){const voice=voiceById[id];if(!voice)return;const cell=document.getElementById(`cell-${field}-${id}`);if(!cell)return;const current=voice[field]||'';cell.innerHTML=`<input class="edit-input" id="edit-${field}-${id}" value="${escapeAttr(current)}" onkeydown="editKey(event,'${escapeJs(id)}','${field}')">`;const input=document.getElementById(`edit-${field}-${id}`);input.focus();input.select()}
+function editKey(event,id,field){if(event.key==='Enter'){event.preventDefault();saveVoiceField(id,field,event.target.value)}else if(event.key==='Escape'){event.preventDefault();loadVoices()}}
+async function deleteVoice(id){if(!confirm('Delete '+id+'?'))return;try{await api('/voices/'+id,{method:'DELETE'});toast('Deleted');loadVoices()}catch(e){toast(e.message)}}
+function toggleVoiceManage(){voiceManageMode=!voiceManageMode;if(!voiceManageMode)selectedVoiceIds.clear();loadVoices()}
+function toggleVoiceSelected(id,checked){const voice=voiceById[id];if(voice&&voice.locked)return;if(checked)selectedVoiceIds.add(id);else selectedVoiceIds.delete(id);updateVoiceManageUi()}
+function toggleSelectAllVoices(checked){const unlocked=Object.values(voiceById).filter(x=>!x.locked).map(x=>x.id);if(checked)unlocked.forEach(id=>selectedVoiceIds.add(id));else unlocked.forEach(id=>selectedVoiceIds.delete(id));loadVoices()}
+async function toggleVoiceLock(id,locked){try{await api('/voices/'+id+'/lock',{method:'POST',json:{locked:!!locked}});toast(locked?'Locked':'Unlocked');loadVoices()}catch(e){toast(e.message)}}
+function updateVoiceManageUi(){const manage=document.getElementById('voiceManageToggle');const del=document.getElementById('voiceBatchDelete');if(manage)manage.classList.toggle('active',voiceManageMode);const all=document.getElementById('voiceSelectAll');if(all){const unlocked=Object.values(voiceById).filter(x=>!x.locked);const sel=unlocked.filter(x=>selectedVoiceIds.has(x.id)).length;all.checked=unlocked.length>0&&sel===unlocked.length;all.indeterminate=sel>0&&sel<unlocked.length}if(del){del.classList.toggle('hidden',!voiceManageMode);del.disabled=selectedVoiceIds.size===0;del.title=selectedVoiceIds.size?`Delete ${selectedVoiceIds.size} selected voice${selectedVoiceIds.size>1?'s':''}`:'Delete selected voices'}}
+async function deleteSelectedVoices(){const ids=[...selectedVoiceIds];if(!ids.length)return;if(!confirm('Delete '+ids.length+' selected voice'+(ids.length>1?'s':'')+'?'))return;const btn=document.getElementById('voiceBatchDelete');try{btn.disabled=true;for(const id of ids){await api('/voices/'+id,{method:'DELETE'})}selectedVoiceIds.clear();toast('Deleted '+ids.length+' voice'+(ids.length>1?'s':''));loadVoices()}catch(e){toast(e.message);updateVoiceManageUi()}}
+async function previewSourceAudio(id){try{const blob=await api('/voices/'+id+'/source-audio');if(previewAudioUrl){URL.revokeObjectURL(previewAudioUrl);previewAudioUrl=''}previewAudioUrl=URL.createObjectURL(blob);const a=document.getElementById('previewAudio');a.src=previewAudioUrl;a.classList.remove('hidden');await a.play().catch(()=>{})}catch(e){toast(e.message)}}
+function openSpeechPanel(id){const voice=voiceById[id]||{id,name:'-',description:'-',bundle_path:'-'};selectedSpeechVoice=id;document.getElementById('speechVoiceId').textContent=id;document.getElementById('speechVoiceName').textContent=voice.name||'-';document.getElementById('speechVoiceDescription').textContent=voice.description||'-';document.getElementById('speechBundlePath').textContent=voice.bundle_path||'-';document.getElementById('voiceLayout').classList.add('testing');document.getElementById('speechPanel').classList.remove('hidden');document.getElementById('speechResult').textContent='';document.getElementById('speechMetrics').classList.add('hidden')}
+function closeSpeechPanel(){selectedSpeechVoice='';document.getElementById('speechPanel').classList.add('hidden');document.getElementById('voiceLayout').classList.remove('testing')}
+async function copyBundlePath(){const text=document.getElementById('speechBundlePath').textContent;if(!text||text==='-')return;try{await navigator.clipboard.writeText(text);toast('Bundle path copied')}catch(e){toast(text)}}
+function initSpeechAutoPlay(){const input=document.getElementById('speechAutoPlay');if(input)input.checked=speechAutoPlay}
+function setSpeechAutoPlay(enabled){speechAutoPlay=!!enabled;localStorage.setItem('mttsSpeechAutoPlay',speechAutoPlay?'1':'0')}
+async function speak(){
+const btn=document.getElementById('speechGenerate');const old=btn.innerHTML;
+try{
+if(!selectedSpeechVoice){toast('Select a voice');return}
+btn.disabled=true;
+btn.innerHTML='<span class="spinner"></span>Generating';
+document.getElementById('speechResult').textContent='Synthesizing audio...';
+document.getElementById('speechMetrics').classList.add('hidden');
+const start=performance.now();
+const body={model:'index-tts2.5',input:val('speechText'),voice:selectedSpeechVoice,response_format:'wav',lang:val('speechLanguage'),duration_factor:Number(val('speechDuration'))};
+if(val('speechEmotion').trim())body.emo_text=val('speechEmotion');
+const blob=await api('/speech',{method:'POST',json:body});
+const elapsed=(performance.now()-start)/1000;
+const audioSeconds=await wavDurationSeconds(blob);
+const rtf=audioSeconds>0?elapsed/audioSeconds:0;
+if(speechAudioUrl){URL.revokeObjectURL(speechAudioUrl);speechAudioUrl=''}
+speechAudioUrl=URL.createObjectURL(blob);
+const a=document.getElementById('audio');
+a.src=speechAudioUrl;
+a.classList.remove('hidden');
+document.getElementById('speechResult').textContent='Generated '+Math.round(blob.size/1024)+' KB';
+document.getElementById('speechAudioSeconds').textContent=formatSeconds(audioSeconds);
+document.getElementById('speechElapsedSeconds').textContent=elapsed.toFixed(2)+'s';
+document.getElementById('speechRtf').textContent=rtf>0?rtf.toFixed(2):'-';
+document.getElementById('speechMetrics').classList.remove('hidden');
+if(speechAutoPlay)a.play().catch(()=>{});
+}catch(e){toast(e.message);document.getElementById('speechResult').textContent='Generation failed'}
+finally{btn.disabled=false;btn.innerHTML=old}
+}
+function val(id){return document.getElementById(id).value}
+function formatSeconds(v){const n=Number(v||0);if(!Number.isFinite(n)||n<=0)return '-';return n<60?n.toFixed(1)+'s':Math.floor(n/60)+'m '+Math.round(n%60)+'s'}
+function formatHms(v){const n=Math.max(0,Math.floor(Number(v||0)));const h=String(Math.floor(n/3600)).padStart(2,'0');const m=String(Math.floor((n%3600)/60)).padStart(2,'0');const s=String(n%60).padStart(2,'0');return h+':'+m+':'+s}
+function truncateText(s,max){const chars=Array.from(String(s||''));return chars.length>max?chars.slice(0,max).join('')+'...':chars.join('')}
+async function wavDurationSeconds(blob){const buf=await blob.arrayBuffer();const view=new DataView(buf);if(buf.byteLength<44||text4(view,0)!=='RIFF'||text4(view,8)!=='WAVE')return 0;let pos=12;let channels=0,sampleRate=0,bits=0,dataBytes=0;while(pos+8<=buf.byteLength){const id=text4(view,pos);const size=view.getUint32(pos+4,true);const data=pos+8;if(data+size>buf.byteLength)break;if(id==='fmt '&&size>=16){channels=view.getUint16(data+2,true);sampleRate=view.getUint32(data+4,true);bits=view.getUint16(data+14,true)}else if(id==='data'){dataBytes=size}pos=data+size+(size&1)}const bytesPerSecond=sampleRate*channels*bits/8;return bytesPerSecond>0?dataBytes/bytesPerSecond:0}
+function text4(view,pos){return String.fromCharCode(view.getUint8(pos),view.getUint8(pos+1),view.getUint8(pos+2),view.getUint8(pos+3))}
+function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function escapeAttr(s){return escapeHtml(s).replace(/`/g,'&#96;')}
+function escapeJs(s){return String(s).replace(/\\/g,'\\\\').replace(/'/g,"\\'")}
+(async()=>{try{const s=await api('/status');authRequired=!!s.web_auth_required;showApp()}catch(e){if(e.status===401)showLogin();else{showApp();toast(e.message||'Status unavailable')}}})();
+</script>
+</body>
+</html>

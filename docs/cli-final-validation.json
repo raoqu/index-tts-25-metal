@@ -1,0 +1,16 @@
+{
+  "status": "pass",
+  "backend": "C++ Metal FP32 with Python UI/DSP",
+  "text": "你好，这是本地语音合成测试。",
+  "seed": 42,
+  "num_beams": 1,
+  "sample_rate": 22050,
+  "channels": 1,
+  "duration_seconds": 3.0650340136054424,
+  "rms": 0.09085967434515702,
+  "peak": 0.493377685546875,
+  "finite": true,
+  "sha256": "a36d07f02b861d9ca645c8153845465ecdb200b4f286027cf0d2ff5cf6b82c22",
+  "inference_seconds": 28.26,
+  "total_seconds": 29.1
+}
