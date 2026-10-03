@@ -2,6 +2,7 @@
 
 #include <cstddef>
 #include <cstdint>
+#include <memory>
 #include <string>
 #include <vector>
 
@@ -52,6 +53,9 @@ struct MetalResourceStats {
     double gpu_elapsed_seconds = 0.0;
 };
 
+struct GpuKvSnapshot {
+    virtual ~GpuKvSnapshot() = default;
+};
 class MetalContext {
 public:
     MetalContext();
@@ -200,6 +204,9 @@ public:
     // once after prefill; the resident attention op appends each new token's
     // K/V on-GPU (no per-token CPU uploads/readbacks).
     void gptKvCacheCreate(uint32_t layers, uint32_t max_tokens, uint32_t width);
+    std::shared_ptr<GpuKvSnapshot> gptKvSnapshot(uint32_t tokens);
+    void gptKvRestore(const std::shared_ptr<GpuKvSnapshot>& snapshot,uint32_t tokens);
+    void gptKvSnapshotsClear();
     std::vector<float> gptKvCacheRead(uint32_t tokens) const;
     void gptKvCacheWrite(const std::vector<float>& values,uint32_t tokens);
     void gptKvCacheUpload(uint32_t layer, const std::vector<float>& k, const std::vector<float>& v, uint32_t tokens);

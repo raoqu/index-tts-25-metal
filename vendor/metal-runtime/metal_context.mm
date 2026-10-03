@@ -16,6 +16,14 @@
 #include <unordered_map>
 
 namespace mit2 {
+namespace {
+struct MetalKvSnapshot final : GpuKvSnapshot {
+    id<MTLBuffer> buffer;
+    uint32_t tokens,layers,width;
+    MetalKvSnapshot(id<MTLBuffer> b,uint32_t t,uint32_t l,uint32_t w):buffer(b),tokens(t),layers(l),width(w) {}
+};
+}
+
 
 // Push/pop a real NSAutoreleasePool via the objc runtime. Using the runtime
 // entry points (rather than @autoreleasepool) lets this be a normal C++ RAII
@@ -226,6 +234,7 @@ struct MetalContext::Impl {
     uint32_t gpt_kv_layers = 0;
     uint32_t gpt_kv_max_tokens = 0;
     uint32_t gpt_kv_width = 0;
+    std::vector<std::shared_ptr<MetalKvSnapshot>> kv_snapshot_pool;
 
     NSUInteger gpt_kv_k_offset(uint32_t layer) const {
         return static_cast<NSUInteger>(layer) * 2 * gpt_kv_max_tokens * gpt_kv_width * sizeof(float);
@@ -5675,6 +5684,44 @@ void MetalContext::gptKvCacheCreate(uint32_t layers, uint32_t max_tokens, uint32
     impl_->gpt_icb_ready = false;
 }
 
+std::shared_ptr<GpuKvSnapshot> MetalContext::gptKvSnapshot(uint32_t tokens) {
+    if(impl_->pass_mode||!impl_->gpt_kv_buffer||!tokens||tokens>impl_->gpt_kv_max_tokens)throw std::invalid_argument("Invalid KV snapshot");
+    const NSUInteger bytes=static_cast<NSUInteger>(tokens)*impl_->gpt_kv_width*4;
+    const NSUInteger required=bytes*2*impl_->gpt_kv_layers;
+    std::shared_ptr<MetalKvSnapshot> snap;
+    for(auto& entry:impl_->kv_snapshot_pool)if(entry.use_count()==1 && entry->buffer.length>=required){snap=entry;break;}
+    if(!snap) {
+        uint32_t capacity=32;while(capacity<tokens)capacity*=2;
+        auto buffer=new_counted_buffer_with_length(impl_->device,impl_->buffer_allocations,impl_->buffer_bytes_allocated,
+            static_cast<NSUInteger>(capacity)*impl_->gpt_kv_width*4*2*impl_->gpt_kv_layers);
+        snap=std::make_shared<MetalKvSnapshot>(buffer,tokens,impl_->gpt_kv_layers,impl_->gpt_kv_width);
+        bool pooled=false;for(auto& entry:impl_->kv_snapshot_pool)if(entry.use_count()==1){entry=snap;pooled=true;break;}
+        if(!pooled && impl_->kv_snapshot_pool.size()<24)impl_->kv_snapshot_pool.push_back(snap);
+    }
+    snap->tokens=tokens;snap->layers=impl_->gpt_kv_layers;snap->width=impl_->gpt_kv_width;
+    auto buffer=snap->buffer;
+    auto cb=[impl_->queue commandBuffer];auto enc=[cb blitCommandEncoder];
+    for(uint32_t layer=0;layer<impl_->gpt_kv_layers;layer++) {
+        [enc copyFromBuffer:impl_->gpt_kv_buffer sourceOffset:impl_->gpt_kv_k_offset(layer) toBuffer:buffer destinationOffset:2*layer*bytes size:bytes];
+        [enc copyFromBuffer:impl_->gpt_kv_buffer sourceOffset:impl_->gpt_kv_v_offset(layer) toBuffer:buffer destinationOffset:(2*layer+1)*bytes size:bytes];
+    }
+    [enc endEncoding];commit_and_count(impl_->command_buffers_submitted,cb);wait_and_record(impl_->gpu_elapsed_seconds,cb);
+    if(cb.status!=MTLCommandBufferStatusCompleted)throw std::runtime_error("KV snapshot copy failed");
+    return snap;
+}
+void MetalContext::gptKvRestore(const std::shared_ptr<GpuKvSnapshot>& snapshot,uint32_t tokens) {
+    auto p=std::dynamic_pointer_cast<MetalKvSnapshot>(snapshot);
+    if(impl_->pass_mode||!p||p->tokens!=tokens||p->layers!=impl_->gpt_kv_layers||p->width!=impl_->gpt_kv_width||tokens>impl_->gpt_kv_max_tokens)throw std::invalid_argument("Invalid KV restore");
+    const NSUInteger bytes=static_cast<NSUInteger>(tokens)*impl_->gpt_kv_width*4;
+    auto cb=[impl_->queue commandBuffer];auto enc=[cb blitCommandEncoder];
+    for(uint32_t layer=0;layer<impl_->gpt_kv_layers;layer++) {
+        [enc copyFromBuffer:p->buffer sourceOffset:2*layer*bytes toBuffer:impl_->gpt_kv_buffer destinationOffset:impl_->gpt_kv_k_offset(layer) size:bytes];
+        [enc copyFromBuffer:p->buffer sourceOffset:(2*layer+1)*bytes toBuffer:impl_->gpt_kv_buffer destinationOffset:impl_->gpt_kv_v_offset(layer) size:bytes];
+    }
+    [enc endEncoding];commit_and_count(impl_->command_buffers_submitted,cb);wait_and_record(impl_->gpu_elapsed_seconds,cb);
+    if(cb.status!=MTLCommandBufferStatusCompleted)throw std::runtime_error("KV restore copy failed");
+}
+
 std::vector<float> MetalContext::gptKvCacheRead(uint32_t tokens) const {
     if(impl_->pass_mode || !impl_->gpt_kv_buffer || !tokens || tokens>impl_->gpt_kv_max_tokens)throw std::invalid_argument("Invalid GPT cache snapshot");
     const size_t count=static_cast<size_t>(tokens)*impl_->gpt_kv_width;
@@ -6161,3 +6208,5 @@ PassSlot MetalContext::nearest_interpolate_pass(PassSlot x,uint32_t in_tokens,ui
 }
 
 }
+
+namespace mit2 { void MetalContext::gptKvSnapshotsClear() { impl_->kv_snapshot_pool.clear(); } }
