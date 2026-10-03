@@ -8,7 +8,6 @@ public:
     explicit Weights(const std::string& path, bool require_model = true);
     const std::vector<float>& get(const std::string& name);
     const mit2::TensorInfo& info(const std::string& name) const;
-    void release(const std::string& name) { cache_.erase(name); }
     std::vector<uint32_t> ids(const std::string& name) const;
     const mit2::Bundle& bundle() const { return bundle_; }
 private:
