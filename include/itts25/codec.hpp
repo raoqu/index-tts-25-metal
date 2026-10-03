@@ -18,6 +18,7 @@ private:
     Weights& weights_;
     mit2::MetalContext& metal_;
     CodecOps ops_;
+    mit2::PassSlot vocos_pass(mit2::PassSlot x,uint32_t tokens,const std::string& prefix,mit2::PassSlot a,mit2::PassSlot b);
     std::vector<float> vocos(std::vector<float> x, uint32_t tokens, const std::string& prefix);
     std::vector<float> linear(const std::vector<float>& x, uint32_t tokens, const std::string& prefix);
     std::vector<float> norm(const std::vector<float>& x, uint32_t tokens, const std::string& prefix);

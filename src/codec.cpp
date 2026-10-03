@@ -34,15 +34,25 @@ std::vector<float> EnhancedCodec::conv(const std::vector<float>& x,uint32_t t,co
     if(depthwise) return metal_.depthwise_conv1d_same_f32_resident(p+".weight",weights_.get(p+".weight"),p+".bias",weights_.get(p+".bias"),x,t,s[0],s[2]);
     return metal_.conv1d_same_f32_resident(p+".weight",weights_.get(p+".weight"),p+".bias",weights_.get(p+".bias"),x,t,s[1],s[0],s[2]);
 }
-std::vector<float> EnhancedCodec::vocos(std::vector<float> x,uint32_t t,const std::string& p) {
-    x=norm(conv(x,t,p+".0.embed"),t,p+".0.norm");
+mit2::PassSlot EnhancedCodec::vocos_pass(mit2::PassSlot x,uint32_t t,const std::string& p,mit2::PassSlot a,mit2::PassSlot b) {
+    const auto norm_pass=[&](mit2::PassSlot v,const std::string& k){const auto& g=weights_.get(k+".weight");return metal_.layernorm_rows_f32_pass(k+".weight",g,k+".bias",weights_.get(k+".bias"),v,t,g.size(),1e-6f);};
+    const auto linear_pass=[&](mit2::PassSlot v,const std::string& k){const auto& sh=weights_.info(k+".weight").shape;return metal_.linear_rows_f32_pass(k+".weight",weights_.get(k+".weight"),k+".bias",weights_.get(k+".bias"),v,t,sh[0],sh[1]);};
+    const auto conv_pass=[&](mit2::PassSlot v,const std::string& k,bool dw){const auto& sh=weights_.info(k+".weight").shape;const auto& w=weights_.get(k+".weight");const auto& bias=weights_.get(k+".bias");return dw?metal_.depthwise_conv1d_same_pass(k+".weight",w,k+".bias",bias,v,t,sh[0],sh[2]):metal_.conv1d_same_f32_pass(k+".weight",w,k+".bias",bias,v,t,sh[1],sh[0],sh[2]);};
+    auto initial=norm_pass(conv_pass(x,p+".0.embed",false),p+".0.norm");
+    metal_.copy_f32_pass_into(initial,a,t*384);x=a;metal_.passResetScratch();
     for(uint32_t i=0;i<12;i++) {
-        const auto layer=p+".0.convnext."+std::to_string(i);
-        auto hidden=norm(conv(x,t,layer+".dwconv",true),t,layer+".norm");
-        hidden=linear(ops_.gelu(linear(hidden,t,layer+".pwconv1")),t,layer+".pwconv2");
-        x=metal_.add_f32(x,ops_.scale(hidden,weights_.get(layer+".gamma")));
+        auto layer=p+".0.convnext."+std::to_string(i);
+        auto h=norm_pass(conv_pass(x,layer+".dwconv",true),layer+".norm");
+        h=linear_pass(metal_.codec_gelu_pass(linear_pass(h,layer+".pwconv1")),layer+".pwconv2");
+        auto out=i%2?a:b;metal_.add_f32_pass_into(x,metal_.codec_scale_pass(h,layer+".gamma",weights_.get(layer+".gamma")),out);
+        x=out;metal_.passResetScratch();
     }
-    return linear(norm(x,t,p+".0.final_layer_norm"),t,p+".1");
+    return linear_pass(norm_pass(x,p+".0.final_layer_norm"),p+".1");
+}
+std::vector<float> EnhancedCodec::vocos(std::vector<float> x,uint32_t t,const std::string& p) {
+    metal_.beginPass(static_cast<size_t>(t)*12000*4+65536);
+    auto input=metal_.passUploadAlloc(x),a=metal_.passAlloc(t*384),b=metal_.passAlloc(t*384);metal_.passSetScratchBase();
+    auto out=vocos_pass(input,t,p,a,b);metal_.endPass();return metal_.passRead(out);
 }
 std::vector<float> EnhancedCodec::lookup(const std::vector<uint32_t>& codes) {
     if(codes.empty() || codes.size()>5000 || *std::max_element(codes.begin(),codes.end())>=8192)
@@ -52,9 +62,13 @@ std::vector<float> EnhancedCodec::lookup(const std::vector<uint32_t>& codes) {
     return linear(embeddings,codes.size(),p+".out_project");
 }
 std::vector<float> EnhancedCodec::decode(const std::vector<uint32_t>& codes) {
-    auto x=vocos(lookup(codes),codes.size(),"codec.decoder");
-    x=metal_.nearest_interpolate_f32(x,codes.size(),codes.size()*2,1024);
-    return conv(x,codes.size()*2,"codec.up");
+    auto x=lookup(codes);const uint32_t t=codes.size();
+    metal_.beginPass(static_cast<size_t>(t)*12000*4+65536);
+    auto input=metal_.passUploadAlloc(x),a=metal_.passAlloc(t*384),b=metal_.passAlloc(t*384);metal_.passSetScratchBase();
+    auto hidden=vocos_pass(input,t,"codec.decoder",a,b);
+    hidden=metal_.nearest_interpolate_pass(hidden,t,t*2,1024);
+    auto out=metal_.conv1d_same_f32_pass("codec.up.weight",weights_.get("codec.up.weight"),"codec.up.bias",weights_.get("codec.up.bias"),hidden,t*2,1024,1024,3);
+    metal_.endPass();return metal_.passRead(out);
 }
 EncodedSemantic EnhancedCodec::encode(const std::vector<float>& features,uint32_t t) {
     if(!t || t>10000 || features.size()!=static_cast<size_t>(t)*1024) throw std::invalid_argument("Codec features must have shape [1,T,1024]");
