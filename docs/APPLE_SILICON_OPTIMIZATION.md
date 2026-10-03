@@ -55,3 +55,7 @@
 ## 08：Beam KV快照（保留）
 
 实验 `e50779e` 的全GPU版本短句退化2.89%、长句改善19.86%；调整 `e178423` 为128个cached tokens以下沿用CPU拷贝，以上GPU blit。混合版本三用例整体改善8.89%，长句11秒左右降到9.38秒（13.51%），短句+0.44%/+0.47%基本持平。GPT golden通过，beam语义codes与PCM字节完全相同。长句footprint约14.19GB→12.73GB；快照池最多24项，按容量替换闲置小buffer，每次生成退出时清空（含异常退出）。新增分配9次/长句是请求内池化的代价，避免保留最大请求的快照内存。见 `apple-silicon/08-beam-kv.json`。
+
+## 09：Qwen GPU embedding / argmax（保留）
+
+实现 `52be7e8`。embedding不再单独提交/读回/重新上传；生成模式把151936 logits的greedy argmax放在同一pass，prefill/step golden接口仍返回完整logits。保持FP32与最小ID平局规则。文字情绪两场景ABBA整体改善1.45%，两轮1.75%/0.85%，语义codes和PCM字节一致，Qwen logits/EOS golden通过。主Metal分配计数不覆盖Qwen自身context，整进程footprint仍记录在结果内。见 `apple-silicon/09-qwen-gpu.json`。

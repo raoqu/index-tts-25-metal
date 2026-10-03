@@ -1,0 +1,341 @@
+{
+  "quality_pass": true,
+  "aggregate_improvement_percent": 1.452326852617884,
+  "cases": {
+    "emo_calm": {
+      "baseline_seconds": 2.04483375,
+      "candidate_seconds": 1.992307437,
+      "improvement_percent": 2.5687326903715273,
+      "codes_exact": true,
+      "pcm_max_abs": 0.0,
+      "pcm_rmse": 0.0,
+      "quality_pass": true,
+      "baseline_stages": {
+        "acoustic": 0.7342173750000001,
+        "codec": 0.040200146,
+        "emotion": 0.930719,
+        "features": 0.931055,
+        "flow": 0.6708912295,
+        "gpt": 0.291778875,
+        "regulate": 0.020842978999999998,
+        "text": 0.00033189600000000004,
+        "vocoder": 0.08173325000000001
+      },
+      "candidate_stages": {
+        "acoustic": 0.729634146,
+        "codec": 0.040178521,
+        "emotion": 0.8932752705,
+        "features": 0.893571958,
+        "flow": 0.669433875,
+        "gpt": 0.2866918335,
+        "regulate": 0.019551,
+        "text": 0.00023989550000000001,
+        "vocoder": 0.07973714600000001
+      },
+      "baseline_memory_first": {
+        "footprint_bytes": 16188833200,
+        "rss_bytes": 20396212224
+      },
+      "baseline_memory_last": {
+        "footprint_bytes": 16184130656,
+        "rss_bytes": 20393033728
+      },
+      "candidate_memory_first": {
+        "footprint_bytes": 16179625056,
+        "rss_bytes": 20389347328
+      },
+      "candidate_memory_last": {
+        "footprint_bytes": 16178723912,
+        "rss_bytes": 20387741696
+      },
+      "candidate_metal_allocations": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "emo_happy": {
+      "baseline_seconds": 2.2888182710000002,
+      "candidate_seconds": 2.278405792,
+      "improvement_percent": 0.45492816672819175,
+      "codes_exact": true,
+      "pcm_max_abs": 0.0,
+      "pcm_rmse": 0.0,
+      "quality_pass": true,
+      "baseline_stages": {
+        "acoustic": 0.8350946459999999,
+        "codec": 0.058628125,
+        "emotion": 0.9075928959999999,
+        "features": 0.9077169375,
+        "flow": 0.7456756040000001,
+        "gpt": 0.43390610399999996,
+        "regulate": 0.0299965215,
+        "text": 0.0001285625,
+        "vocoder": 0.1113775835
+      },
+      "candidate_stages": {
+        "acoustic": 0.846706979,
+        "codec": 0.059812708500000006,
+        "emotion": 0.868788333,
+        "features": 0.8689132295,
+        "flow": 0.7532207295,
+        "gpt": 0.438495042,
+        "regulate": 0.033819520500000005,
+        "text": 0.00012633350000000002,
+        "vocoder": 0.11215349999999999
+      },
+      "baseline_memory_first": {
+        "footprint_bytes": 16186031536,
+        "rss_bytes": 20393410560
+      },
+      "baseline_memory_last": {
+        "footprint_bytes": 16180051040,
+        "rss_bytes": 20388954112
+      },
+      "candidate_memory_first": {
+        "footprint_bytes": 16179559520,
+        "rss_bytes": 20389281792
+      },
+      "candidate_memory_last": {
+        "footprint_bytes": 16178805832,
+        "rss_bytes": 20387725312
+      },
+      "candidate_metal_allocations": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    }
+  },
+  "rounds": [
+    {
+      "quality_pass": true,
+      "aggregate_improvement_percent": 1.7497224354923193,
+      "cases": {
+        "emo_calm": {
+          "baseline_seconds": 2.040384875,
+          "candidate_seconds": 1.973090916,
+          "improvement_percent": 3.2981012467071884,
+          "codes_exact": true,
+          "pcm_max_abs": 0.0,
+          "pcm_rmse": 0.0,
+          "quality_pass": true,
+          "baseline_stages": {
+            "acoustic": 0.728485167,
+            "codec": 0.040266834,
+            "emotion": 0.9304855,
+            "features": 0.930797125,
+            "flow": 0.668806083,
+            "gpt": 0.293921917,
+            "regulate": 0.019384417,
+            "text": 0.000311542,
+            "vocoder": 0.085853917
+          },
+          "candidate_stages": {
+            "acoustic": 0.732752375,
+            "codec": 0.04036475,
+            "emotion": 0.872389208,
+            "features": 0.872512458,
+            "flow": 0.67162025,
+            "gpt": 0.28518325,
+            "regulate": 0.019054417,
+            "text": 0.000128791,
+            "vocoder": 0.080822208
+          },
+          "baseline_memory_first": {
+            "footprint_bytes": 16188833200,
+            "rss_bytes": 20396212224
+          },
+          "baseline_memory_last": {
+            "footprint_bytes": 16189046216,
+            "rss_bytes": 20396310528
+          },
+          "candidate_memory_first": {
+            "footprint_bytes": 16179625056,
+            "rss_bytes": 20389347328
+          },
+          "candidate_memory_last": {
+            "footprint_bytes": 16179854432,
+            "rss_bytes": 20389576704
+          },
+          "candidate_metal_allocations": [
+            0,
+            0,
+            0
+          ]
+        },
+        "emo_happy": {
+          "baseline_seconds": 2.294407459,
+          "candidate_seconds": 2.285854584,
+          "improvement_percent": 0.3727705367436179,
+          "codes_exact": true,
+          "pcm_max_abs": 0.0,
+          "pcm_rmse": 0.0,
+          "quality_pass": true,
+          "baseline_stages": {
+            "acoustic": 0.836758416,
+            "codec": 0.058656125,
+            "emotion": 0.908266292,
+            "features": 0.908392375,
+            "flow": 0.746888792,
+            "gpt": 0.436129792,
+            "regulate": 0.031212291,
+            "text": 0.000126042,
+            "vocoder": 0.11135125
+          },
+          "candidate_stages": {
+            "acoustic": 0.844470542,
+            "codec": 0.058513833,
+            "emotion": 0.914415125,
+            "features": 0.914542834,
+            "flow": 0.755523459,
+            "gpt": 0.430916084,
+            "regulate": 0.030432666,
+            "text": 0.000148125,
+            "vocoder": 0.112175
+          },
+          "baseline_memory_first": {
+            "footprint_bytes": 16186031536,
+            "rss_bytes": 20393410560
+          },
+          "baseline_memory_last": {
+            "footprint_bytes": 16188931528,
+            "rss_bytes": 20396294144
+          },
+          "candidate_memory_first": {
+            "footprint_bytes": 16179559520,
+            "rss_bytes": 20389281792
+          },
+          "candidate_memory_last": {
+            "footprint_bytes": 16179854432,
+            "rss_bytes": 20389576704
+          },
+          "candidate_metal_allocations": [
+            0,
+            0,
+            0
+          ]
+        }
+      }
+    },
+    {
+      "quality_pass": true,
+      "aggregate_improvement_percent": 0.8465894523322637,
+      "cases": {
+        "emo_calm": {
+          "baseline_seconds": 2.049282625,
+          "candidate_seconds": 2.011523958,
+          "improvement_percent": 1.842530968611509,
+          "codes_exact": true,
+          "pcm_max_abs": 0.0,
+          "pcm_rmse": 0.0,
+          "quality_pass": true,
+          "baseline_stages": {
+            "acoustic": 0.734401917,
+            "codec": 0.039419459,
+            "emotion": 0.9309525,
+            "features": 0.931312875,
+            "flow": 0.674190667,
+            "gpt": 0.289157792,
+            "regulate": 0.020965041,
+            "text": 0.00036025,
+            "vocoder": 0.077554167
+          },
+          "candidate_stages": {
+            "acoustic": 0.728230167,
+            "codec": 0.040173209,
+            "emotion": 0.914161333,
+            "features": 0.914631458,
+            "flow": 0.667996333,
+            "gpt": 0.288200417,
+            "regulate": 0.0196935,
+            "text": 0.000351,
+            "vocoder": 0.078264459
+          },
+          "baseline_memory_first": {
+            "footprint_bytes": 16180051040,
+            "rss_bytes": 20388954112
+          },
+          "baseline_memory_last": {
+            "footprint_bytes": 16184130656,
+            "rss_bytes": 20393033728
+          },
+          "candidate_memory_first": {
+            "footprint_bytes": 16178822216,
+            "rss_bytes": 20387741696
+          },
+          "candidate_memory_last": {
+            "footprint_bytes": 16178723912,
+            "rss_bytes": 20387741696
+          },
+          "candidate_metal_allocations": [
+            0,
+            0,
+            0
+          ]
+        },
+        "emo_happy": {
+          "baseline_seconds": 2.269762917,
+          "candidate_seconds": 2.270957,
+          "improvement_percent": -0.05260826983544042,
+          "codes_exact": true,
+          "pcm_max_abs": 0.0,
+          "pcm_rmse": 0.0,
+          "quality_pass": true,
+          "baseline_stages": {
+            "acoustic": 0.833859083,
+            "codec": 0.058315666,
+            "emotion": 0.897527417,
+            "features": 0.89765775,
+            "flow": 0.74441425,
+            "gpt": 0.429839167,
+            "regulate": 0.029949584,
+            "text": 0.00013025,
+            "vocoder": 0.111403917
+          },
+          "candidate_stages": {
+            "acoustic": 0.847351708,
+            "codec": 0.060839708,
+            "emotion": 0.865540916,
+            "features": 0.865666,
+            "flow": 0.750918,
+            "gpt": 0.446074,
+            "regulate": 0.037648709,
+            "text": 0.000124667,
+            "vocoder": 0.112132
+          },
+          "baseline_memory_first": {
+            "footprint_bytes": 16180018272,
+            "rss_bytes": 20388921344
+          },
+          "baseline_memory_last": {
+            "footprint_bytes": 16180051040,
+            "rss_bytes": 20388954112
+          },
+          "candidate_memory_first": {
+            "footprint_bytes": 16178707528,
+            "rss_bytes": 20387725312
+          },
+          "candidate_memory_last": {
+            "footprint_bytes": 16178805832,
+            "rss_bytes": 20387725312
+          },
+          "candidate_metal_allocations": [
+            0,
+            0,
+            0
+          ]
+        }
+      }
+    }
+  ],
+  "baseline_binary": "outputs/perf/qwen-base",
+  "candidate_binary": "outputs/perf/qwen-gpu",
+  "cycles_per_round": 3
+}
