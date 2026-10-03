@@ -1,0 +1,29 @@
+[
+  {
+    "id": "demo_beam",
+    "voice": "voices/bundles/voice_demo.pt",
+    "text": "你好世界",
+    "options": {
+      "seed": 424242,
+      "num_beams": 3
+    }
+  },
+  {
+    "id": "qin_beam",
+    "voice": "voices/bundles/voice_92c85f8a49b34f1ca2e13a7c1028ee54.pt",
+    "text": "你好世界",
+    "options": {
+      "seed": 424242,
+      "num_beams": 3
+    }
+  },
+  {
+    "id": "demo_beam_long",
+    "voice": "voices/bundles/voice_demo.pt",
+    "text": "你好，今天我们一起测试本地语音合成的性能，并检查较长文本的输出是否稳定。",
+    "options": {
+      "seed": 424242,
+      "num_beams": 3
+    }
+  }
+]

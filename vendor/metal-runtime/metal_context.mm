@@ -17,6 +17,11 @@
 
 namespace mit2 {
 namespace {
+struct CpuKvSnapshot final : GpuKvSnapshot {
+    std::vector<float> values;
+    uint32_t tokens,layers,width;
+    CpuKvSnapshot(std::vector<float> v,uint32_t t,uint32_t l,uint32_t w):values(std::move(v)),tokens(t),layers(l),width(w) {}
+};
 struct MetalKvSnapshot final : GpuKvSnapshot {
     id<MTLBuffer> buffer;
     uint32_t tokens,layers,width;
@@ -5686,6 +5691,9 @@ void MetalContext::gptKvCacheCreate(uint32_t layers, uint32_t max_tokens, uint32
 
 std::shared_ptr<GpuKvSnapshot> MetalContext::gptKvSnapshot(uint32_t tokens) {
     if(impl_->pass_mode||!impl_->gpt_kv_buffer||!tokens||tokens>impl_->gpt_kv_max_tokens)throw std::invalid_argument("Invalid KV snapshot");
+    // M1 Max measurements: blit submission overhead loses on short contexts.
+    // Use the original CPU copy below 128 tokens; GPU pooling wins on long beams.
+    if(tokens<128)return std::make_shared<CpuKvSnapshot>(gptKvCacheRead(tokens),tokens,impl_->gpt_kv_layers,impl_->gpt_kv_width);
     const NSUInteger bytes=static_cast<NSUInteger>(tokens)*impl_->gpt_kv_width*4;
     const NSUInteger required=bytes*2*impl_->gpt_kv_layers;
     std::shared_ptr<MetalKvSnapshot> snap;
@@ -5710,6 +5718,10 @@ std::shared_ptr<GpuKvSnapshot> MetalContext::gptKvSnapshot(uint32_t tokens) {
     return snap;
 }
 void MetalContext::gptKvRestore(const std::shared_ptr<GpuKvSnapshot>& snapshot,uint32_t tokens) {
+    if(auto cpu=std::dynamic_pointer_cast<CpuKvSnapshot>(snapshot)) {
+        if(cpu->tokens!=tokens||cpu->layers!=impl_->gpt_kv_layers||cpu->width!=impl_->gpt_kv_width)throw std::invalid_argument("Invalid CPU KV restore");
+        gptKvCacheWrite(cpu->values,tokens);return;
+    }
     auto p=std::dynamic_pointer_cast<MetalKvSnapshot>(snapshot);
     if(impl_->pass_mode||!p||p->tokens!=tokens||p->layers!=impl_->gpt_kv_layers||p->width!=impl_->gpt_kv_width||tokens>impl_->gpt_kv_max_tokens)throw std::invalid_argument("Invalid KV restore");
     const NSUInteger bytes=static_cast<NSUInteger>(tokens)*impl_->gpt_kv_width*4;
