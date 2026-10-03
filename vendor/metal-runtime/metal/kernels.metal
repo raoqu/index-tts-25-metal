@@ -2843,7 +2843,8 @@ kernel void mit2_dit_attention_sgq_batched_f32(
     }
 }
 
-// FP32 variant: 16 keys keep threadgroup storage below 32 KiB.
+// FP32: reuse staged Q storage for the output epilogue to fit 32 keys
+// below 32 KiB. Softmax stages remain 16 keys, preserving reduction order.
 kernel void mit2_dit_attention_sgq_fp32_batched_f32(
     device const float* qkv [[buffer(0)]],
     device const uint* key_mask [[buffer(1)]],
@@ -2873,7 +2874,7 @@ kernel void mit2_dit_attention_sgq_fp32_batched_f32(
     const uint mask_base = b * tokens;
     const float scale = rsqrt(float(head_dim));
 
-    constexpr uint TK = 16;                  // staged keys per tile
+    constexpr uint TK = 32;                  // staged keys per tile
     threadgroup float Qs[32 * 64];            // staged (pre-scaled) Q for the TG
     threadgroup float Ks[TK * 64];
     threadgroup float Vs[TK * 64];
@@ -2882,7 +2883,7 @@ kernel void mit2_dit_attention_sgq_fp32_batched_f32(
     threadgroup float Pspill[4][8 * 16];      // per-SG probability tiles
     threadgroup float Dspill[4][8 * 8];       // per-SG diag(corr) tile
     threadgroup float MLrow[4][8][2];        // per-SG running (m, l) per row
-    threadgroup float Ospill[4][8 * 64];     // final O spill for epilogue
+    // Qf retains Q in registers after staging. Qs is reused for the epilogue.
 
     // Stage Q (32 queries x 64 dims), pre-multiplied by scale; zero-pad tail.
     for (uint idx = tid; idx < 32 * 64; idx += 128) {
@@ -3012,7 +3013,7 @@ kernel void mit2_dit_attention_sgq_fp32_batched_f32(
 
     // Epilogue: O rows / l, bounds-checked writes.
     for (uint d = 0; d < 8; ++d) {
-        simdgroup_store(Of[d], Ospill[sg] + d * 8, 64);
+        simdgroup_store(Of[d], Qs + sg * 8 * 64 + d * 8, 64);
     }
     simdgroup_barrier(mem_flags::mem_threadgroup);
     for (uint idx = lane; idx < 8 * 64; idx += 32) {
@@ -3024,7 +3025,7 @@ kernel void mit2_dit_attention_sgq_fp32_batched_f32(
         }
         const float lr = MLrow[sg][r][1];
         const float inv = lr > 0.0f ? 1.0f / lr : 0.0f;
-        out[b * tokens * dim + q * dim + h * head_dim + d] = Ospill[sg][r * 64 + d] * inv;
+        out[b * tokens * dim + q * dim + h * head_dim + d] = Qs[sg * 8 * 64 + r * 64 + d] * inv;
     }
 }
 
