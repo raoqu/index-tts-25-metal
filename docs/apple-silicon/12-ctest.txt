@@ -1,0 +1,10 @@
+Internal ctest changing into directory: /Users/raoqu/mylab/index-tts-25-metal/build
+Test project /Users/raoqu/mylab/index-tts-25-metal/build
+    Start 2: mps_zero_bias_reuse
+1/2 Test #2: mps_zero_bias_reuse ..............   Passed    1.46 sec
+    Start 4: acoustic_parity
+2/2 Test #4: acoustic_parity ..................   Passed    4.27 sec
+
+100% tests passed, 0 tests failed out of 2
+
+Total Test time (real) =   5.73 sec

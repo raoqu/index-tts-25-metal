@@ -67,3 +67,7 @@
 ## 11：Accelerate双精度FFT（保留）
 
 实现 `2e5bde1`。固定512/1024点double FFT与setup复用，thread_local工作区最多1024个double的real/imag两组，setup析构释放。完整音频情绪TTS的ABBA改善1.07%，两轮0.90%/1.80%，PCM字节一致。示例参考音频的speech/CAMP/mel特征均逐元素完全一致；没有改resample、窗函数、归一化、裁剪和参考长度。缓存声音的普通请求不走此FFT，因此不宣称有收益。见 `apple-silicon/11-accelerate-fft.json` 和 `11-frontend-parity.json`。
+
+## 12：M1 Max FP32合并卷积GEMM（回退）
+
+实验 `e0ba728`。真实357/790帧交错flow与已有acoustic、MPS bias复用测试通过；flow最大误差4.77e-6，最终PCM在原门槛内。ABBA整体 -0.105%（+0.502%/-0.248%），没有达到0.5%，按门槛回退，不启用这个按设备/形状选择的路径。见 `apple-silicon/12-merged-convolution.json`、`12-real-components.json`。
