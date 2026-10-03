@@ -46,7 +46,7 @@
 
 实现 `7d5deef`。7次暖请求整体改善0.99%；Codec阶段约从80–90ms降为48–62ms，提交次数从92降为3（lookup两次、主体一次）。保持原erf GELU多项式和各算子计算顺序，不用GPT tanh GELU替换。复用主体工作区、gamma常驻，避免每个小算子重新分配上传/读回。9组Codec及W2V语义token golden均通过，整句PCM字节完全相同。见 `apple-silicon/06-codec-pass.json`。
 
-## 07：GPT FP32 ICB 重放
+## 07：GPT FP32 ICB 重放（回退）
 
 实验 `80414df`。每token重放同一组FP32 GEMV、LayerNorm、GELU、残差和KV attention；保持原CPU采样/RNG与显式mel position。ICB使用独立固定8MiB工作区，KV布局变更自动失效，采样路径不读取未写入的history。结果见 `apple-silicon/07-gpt-icb.json`，GPT golden日志见 `07-ctest-gpt.txt`。
 
@@ -109,3 +109,26 @@
 ## 21：Beam拷贝独立队列（保留）
 
 实验 `c8aceee`。相同共享KV布局与同步等待，把GPU snapshot/restore blit从推理主队列移到按需创建的独立queue。混合ABBA整体+4.373%，长beam两轮+0.596%/+6.954%，质量逐字节一致。两个候选进程的qin flow稳定约1.92s，反向顺序的旧队列进程出现2.4–2.6s；这是观察结果，不据此断言驱动调度的具体原因。队列与MetalContext同寿命，无新增常驻快照；每次生成结束仍清空池。见 `apple-silicon/21-kv-copy-queue.json`。
+
+## 22：最终验证与结果
+
+最终源码 `5ffd379`（实现提交 `c8aceee`），分支 `codex/apple-silicon-performance`。相同固定种子、FP32权重/KV、完整参考、25步CFM/CFG0.7；每轮暖机2次，以ABBA顺序运行独立进程，最终每轮2次采样，表中为合并暖请求中位数。排除模型构造/加载；包含完整synthesize及WAV写入。最终混合整体改善 **15.97%**，普通三个用例合并 **1.20%**。这里混合权重是固定六用例中位数之和，不是生产流量权重。
+
+| 用例 | 基线TTS秒 | 最终TTS秒 | 改善 | PCM |
+|---|---:|---:|---:|---|
+| audio_emo_demo | 1.6320 | 1.5871 | 2.75% | 字节一致 |
+| demo_beam_long | 11.1225 | 8.7595 | 21.25% | 字节一致 |
+| demo_en | 2.2533 | 2.2294 | 1.06% | 字节一致 |
+| demo_zh | 1.3811 | 1.3497 | 2.27% | 字节一致 |
+| emo_happy | 2.3071 | 1.3889 | 39.80% | 字节一致 |
+| qin_zh | 2.6027 | 2.5828 | 0.76% | 字节一致 |
+
+保留的具体贡献：Codec单项最终复核1.95%；长beam混合GPU/CPU快照原单项13.51%，独立拷贝队列另测混合4.37%（长beam两轮0.60%/6.95%）；未命中缓存的文字情绪Qwen GPU传递1.45%；重复情绪文本缓存命中41.39%。各项百分比不能相加。所有低于门槛或无法确认稳定收益的实现均以独立提交回退，包括CFM调制缓存、attention、RMSNorm、剩余时间投影、权重CPU副本、ICB、编译库共享、private权重、FFT。
+
+最终10项CTest全部通过。日语、西班牙语、阿拉伯语、分段、固定种子随机情绪与alpha、多声音、长beam均与原始基线token/帧数/PCM完全一致。组件真实序列交错复用、9种CFM步数淘汰和非法请求恢复通过。19个情绪文本超过16缓存槽的重放，以及两次runtime销毁重建的4类音频哈希均一致。数值测试覆盖本轮用例，不代替人工听感。
+
+内存：压力进程连续60次TTS（含12次暖机），最后5个周期的RSS/physical footprint峰值相同；主MetalContext普通暖请求buffer分配0次，长beam每次9次快照池分配，池在生成退出时清空，上限24。主Metal计数不覆盖Qwen/CodecOps/CAMP的额外context，整进程内存记录覆盖全部。独立队列最终版再次通过生命周期测试，系统leaks报告 **0 leaks / 0 leaked bytes**。开启MallocStackLogging的结果用于释放检查，不混入性能数据；其页计入footprint。退出后仍有可达映射/框架缓存，因此不以RSS归零作为成功条件。
+
+最初顺序A/B及短ABBA出现普通用例波动，全部原始结果归档为22-early-mixed、22-intermediate-abba、22-before-queue-abba；没有把这些普通用例的退化删去。独立拷贝队列后的最终结果见22-final-mixed，复现信息和二进制SHA见22-provenance。不能据此承诺所有Apple Silicon型号/所有请求的同等收益；本轮实测设备为M1 Max。
+
+计时层级：features包含emotion/text，acoustic包含codec/regulate/flow，audio_encoder/DSP属于emotion内部，不能将这些字段全部直接相加。基准中的cached voice读取在synthesize前，语音克隆不计入本轮TTS耗时；没有以克隆或首次Metal编译收益通过门槛。

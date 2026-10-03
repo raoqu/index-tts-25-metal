@@ -1,0 +1,225 @@
+{
+  "passed": true,
+  "results": [
+    {
+      "case": "stereo-8000",
+      "result": {
+        "passed": true,
+        "results": [
+          {
+            "name": "speech.input",
+            "max_abs": 2.9802322387695312e-08,
+            "rmse": 2.712901587541229e-10,
+            "passed": true
+          },
+          {
+            "name": "speech.mask",
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "passed": true
+          },
+          {
+            "name": "camp.input",
+            "max_abs": 1.862645149230957e-09,
+            "rmse": 1.1641532182693482e-11,
+            "passed": true
+          },
+          {
+            "name": "prompt.mel",
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "passed": true
+          },
+          {
+            "name": "text.ids",
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "passed": true
+          },
+          {
+            "name": "text.language",
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "passed": true
+          }
+        ]
+      }
+    },
+    {
+      "case": "stereo-32000",
+      "result": {
+        "passed": true,
+        "results": [
+          {
+            "name": "speech.input",
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "passed": true
+          },
+          {
+            "name": "speech.mask",
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "passed": true
+          },
+          {
+            "name": "camp.input",
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "passed": true
+          },
+          {
+            "name": "prompt.mel",
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "passed": true
+          },
+          {
+            "name": "text.ids",
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "passed": true
+          },
+          {
+            "name": "text.language",
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "passed": true
+          }
+        ]
+      }
+    },
+    {
+      "case": "stereo-44100",
+      "result": {
+        "passed": true,
+        "results": [
+          {
+            "name": "speech.input",
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "passed": true
+          },
+          {
+            "name": "speech.mask",
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "passed": true
+          },
+          {
+            "name": "camp.input",
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "passed": true
+          },
+          {
+            "name": "prompt.mel",
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "passed": true
+          },
+          {
+            "name": "text.ids",
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "passed": true
+          },
+          {
+            "name": "text.language",
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "passed": true
+          }
+        ]
+      }
+    },
+    {
+      "case": "silence",
+      "result": {
+        "passed": true,
+        "results": [
+          {
+            "name": "speech.input",
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "passed": true
+          },
+          {
+            "name": "speech.mask",
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "passed": true
+          },
+          {
+            "name": "camp.input",
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "passed": true
+          },
+          {
+            "name": "prompt.mel",
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "passed": true
+          },
+          {
+            "name": "text.ids",
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "passed": true
+          },
+          {
+            "name": "text.language",
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "passed": true
+          }
+        ]
+      }
+    },
+    {
+      "case": "noise",
+      "result": {
+        "passed": true,
+        "results": [
+          {
+            "name": "speech.input",
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "passed": true
+          },
+          {
+            "name": "speech.mask",
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "passed": true
+          },
+          {
+            "name": "camp.input",
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "passed": true
+          },
+          {
+            "name": "prompt.mel",
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "passed": true
+          },
+          {
+            "name": "text.ids",
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "passed": true
+          },
+          {
+            "name": "text.language",
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "passed": true
+          }
+        ]
+      }
+    }
+  ]
+}

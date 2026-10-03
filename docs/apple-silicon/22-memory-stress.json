@@ -1,0 +1,53 @@
+{
+  "version": "before separate copy queue; same snapshot allocation and cleanup policy",
+  "cycles": [
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9
+  ],
+  "footprint_peak_bytes": [
+    22430864816,
+    21712868136,
+    21732545344,
+    21732561728,
+    21732561728,
+    21732561728,
+    21732561728,
+    21732561728
+  ],
+  "rss_peak_bytes": [
+    27724939264,
+    27007434752,
+    27027111936,
+    27027144704,
+    27027144704,
+    27027144704,
+    27027144704,
+    27027144704
+  ],
+  "metal_allocations": {
+    "audio_emo_demo": [
+      0
+    ],
+    "demo_beam_long": [
+      9
+    ],
+    "demo_en": [
+      0
+    ],
+    "demo_zh": [
+      0
+    ],
+    "emo_happy": [
+      0
+    ],
+    "qin_zh": [
+      0
+    ]
+  }
+}
