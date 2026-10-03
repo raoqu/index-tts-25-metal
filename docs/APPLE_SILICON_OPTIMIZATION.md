@@ -63,3 +63,7 @@
 ## 10：文字情绪分类缓存（保留）
 
 实现 `ee84f8a`。以完整原始情绪文本为key，仅缓存成功分类的JSON；长度校验在查缓存前，最多16项并随runtime销毁。缓存不包含声音、alpha或随机采样结果。重复文字情绪请求ABBA整体改善41.39%（41.66%/41.09%），PCM字节一致，未缓存的新文本仍走同一Qwen。该收益仅适用于缓存命中的重复情绪文本。见 `apple-silicon/10-emotion-cache.json`；最终验证包含容量淘汰、错误输入及runtime销毁重建。
+
+## 11：Accelerate双精度FFT（保留）
+
+实现 `2e5bde1`。固定512/1024点double FFT与setup复用，thread_local工作区最多1024个double的real/imag两组，setup析构释放。完整音频情绪TTS的ABBA改善1.07%，两轮0.90%/1.80%，PCM字节一致。示例参考音频的speech/CAMP/mel特征均逐元素完全一致；没有改resample、窗函数、归一化、裁剪和参考长度。缓存声音的普通请求不走此FFT，因此不宣称有收益。见 `apple-silicon/11-accelerate-fft.json` 和 `11-frontend-parity.json`。
