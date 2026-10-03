@@ -32,6 +32,7 @@ NativeVoice NativeRuntime::clone(const std::string& path) {
 }
 Json NativeRuntime::emotion_text(const std::string& text) {
     if(text.empty()||text.size()>16000||std::count_if(text.begin(),text.end(),[](unsigned char c){return (c&0xc0)!=0x80;})>4000)throw std::invalid_argument("Invalid emotion text length");
+    auto cached=emotion_text_cache_.find(text);if(cached!=emotion_text_cache_.end())return cached->second;
     if(!qwen_tokenizer_)qwen_tokenizer_=std::make_unique<ByteTokenizer>(resources_,true);if(!qwen_)qwen_=std::make_unique<QwenDecoder>(weights_);
     // Exact chat template from the bundled 2.5 Qwen tokenizer (not Qwen3 defaults).
     const auto input="System: 文本情感分类<|endoftext|>\nHuman: "+text+"<|endoftext|>\nAssistant:";
@@ -50,7 +51,9 @@ Json NativeRuntime::emotion_text(const std::string& text) {
     }if(detected>=0)values[detected]=1;
     auto lower=unicode_transform(text,1);for(const auto& word:{"低落","melancholy","melancholic","depression","depressed","gloomy"})if(lower.find(word)!=std::string::npos){std::swap(values[2],values[5]);break;}
     if(std::all_of(values.begin(),values.end(),[](float v){return v<=0;}))values[7]=1;
-    Json result=Json::object();for(size_t i=0;i<8;i++)result[en[i]]=values[i];return Json{{"content",decoded},{"vector",values},{"emotions",result}};
+    Json result=Json::object();for(size_t i=0;i<8;i++)result[en[i]]=values[i];Json classified{{"content",decoded},{"vector",values},{"emotions",result}};
+    if(emotion_text_cache_.size()>=16)emotion_text_cache_.erase(emotion_text_cache_.begin());
+    emotion_text_cache_.emplace(text,classified);return classified;
 }
 Json NativeRuntime::synthesize(const NativeVoice& voice,const std::string& raw,const std::string& output,const Json& options) {
     if(!options.is_object()||raw.empty()||raw.size()>40000||std::count_if(raw.begin(),raw.end(),[](unsigned char c){return (c&0xc0)!=0x80;})>10000)throw std::invalid_argument("Invalid speech input/options");

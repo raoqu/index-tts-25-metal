@@ -24,6 +24,7 @@ private:
     AudioFrontend audio_;ByteTokenizer tokenizer_;TextProcessor text_;std::string resources_;
     std::unique_ptr<ByteTokenizer> qwen_tokenizer_;std::unique_ptr<QwenDecoder> qwen_;
     std::unordered_map<std::string,std::vector<float>> emotion_cache_;
+    std::unordered_map<std::string,Json> emotion_text_cache_;
     std::vector<uint32_t> emotion_sizes_;
     uint64_t emotion_cache_hits_=0;
     std::vector<float> encode_emotion(const std::vector<float>& features,uint32_t frames);
