@@ -1,0 +1,38 @@
+[
+  {
+    "id": "ja",
+    "voice": "voices/bundles/voice_demo.pt",
+    "text": "こんにちは。今日は音声合成をテストします。",
+    "options": {
+      "lang": "JA",
+      "seed": 42
+    }
+  },
+  {
+    "id": "es",
+    "voice": "voices/bundles/voice_demo.pt",
+    "text": "Hola, hoy probamos la síntesis de voz.",
+    "options": {
+      "lang": "ES",
+      "seed": 42
+    }
+  },
+  {
+    "id": "ar",
+    "voice": "voices/bundles/voice_demo.pt",
+    "text": "مرحبا، هذا اختبار للصوت.",
+    "options": {
+      "lang": "AR",
+      "seed": 42
+    }
+  },
+  {
+    "id": "segmented",
+    "voice": "voices/bundles/voice_demo.pt",
+    "text": "你好世界。今天我们测试分段语音合成。希望每个请求的结果都稳定。",
+    "options": {
+      "seed": 424242,
+      "max_text_tokens_per_segment": 16
+    }
+  }
+]

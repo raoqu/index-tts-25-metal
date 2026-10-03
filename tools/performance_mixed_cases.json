@@ -1,0 +1,58 @@
+[
+  {
+    "id": "demo_zh",
+    "voice": "voices/bundles/voice_demo.pt",
+    "text": "你好世界",
+    "options": {
+      "seed": 424242,
+      "num_beams": 1
+    }
+  },
+  {
+    "id": "qin_zh",
+    "voice": "voices/bundles/voice_92c85f8a49b34f1ca2e13a7c1028ee54.pt",
+    "text": "你好世界",
+    "options": {
+      "seed": 424242,
+      "num_beams": 1
+    }
+  },
+  {
+    "id": "demo_en",
+    "voice": "voices/bundles/voice_demo.pt",
+    "text": "Hello, this is a native speech synthesis test.",
+    "options": {
+      "seed": 42,
+      "lang": "EN",
+      "num_beams": 1
+    }
+  },
+  {
+    "id": "demo_beam_long",
+    "voice": "voices/bundles/voice_demo.pt",
+    "text": "你好，今天我们一起测试本地语音合成的性能，并检查较长文本的输出是否稳定。",
+    "options": {
+      "seed": 424242,
+      "num_beams": 3
+    }
+  },
+  {
+    "id": "emo_happy",
+    "voice": "voices/bundles/voice_demo.pt",
+    "text": "你好世界",
+    "options": {
+      "seed": 424242,
+      "emo_text": "我今天非常高兴！"
+    }
+  },
+  {
+    "id": "audio_emo_demo",
+    "voice": "voices/bundles/voice_demo.pt",
+    "text": "你好世界",
+    "options": {
+      "seed": 424242,
+      "emo_audio_prompt": "examples/voice_01.wav",
+      "emo_alpha": 0.5
+    }
+  }
+]
