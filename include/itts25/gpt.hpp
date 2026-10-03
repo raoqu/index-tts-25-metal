@@ -38,6 +38,7 @@ private:
     mit2::PassSlot linear(mit2::PassSlot x, uint32_t tokens, const std::string& name, bool transpose);
     mit2::PassSlot norm(mit2::PassSlot x, uint32_t tokens, const std::string& name);
     std::vector<float> run(const std::vector<float>& x, bool initial, uint32_t code, uint32_t position);
+    std::vector<float> run_icb(uint32_t code,uint32_t position);
     GenerationResult generate_beams(const std::vector<float>& prefix,const GenerationOptions& options,uint32_t maximum);
 };
 }

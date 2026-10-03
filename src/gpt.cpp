@@ -90,6 +90,7 @@ std::vector<float> GptDecoder::run(const std::vector<float>& input,bool initial,
     // CPU conversion and allocation stalls while a GPU pass is being encoded.
     for(uint32_t i=0;i<layers;i++) for(const auto* name:{"attn.c_attn","attn.c_proj","mlp.c_fc","mlp.c_proj"})
         conv_weight("gpt.gpt.h."+std::to_string(i)+"."+name+".weight");
+    if (!initial) return run_icb(code,position);
     const uint32_t t=initial?static_cast<uint32_t>(input.size()/width):1;
     metal_.beginPass((static_cast<size_t>(t)*24*width+16384)*4);
     mit2::PassSlot hidden;
@@ -123,4 +124,34 @@ std::vector<float> GptDecoder::run(const std::vector<float>& input,bool initial,
     metal_.endPass();
     return metal_.passRead(logits);
 }
+std::vector<float> GptDecoder::run_icb(uint32_t code,uint32_t position) {
+    if(!metal_.gptIcbAvailable()) {
+        metal_.gptIcbBeginRecord(512,8*1024*1024,4096);
+        auto token=metal_.gptIcbAlloc(1);
+        auto hidden=metal_.gptIcb_build_current(token,"gpt.mel_embedding.weight",weights_.get("gpt.mel_embedding.weight"),
+            "gpt.mel_pos_embedding.emb.weight",weights_.get("gpt.mel_pos_embedding.emb.weight"),width);
+        auto norm_icb=[&](mit2::PassSlot x,const std::string& p) {
+            return metal_.gptIcb_layernorm(p+".weight",weights_.get(p+".weight"),p+".bias",weights_.get(p+".bias"),x,width,1e-5f);
+        };
+        auto linear_icb=[&](mit2::PassSlot x,const std::string& p,bool transpose) {
+            const auto& shape=weights_.info(p+".weight").shape;
+            return metal_.gptIcb_linear_f32(p+".weight.rows",transpose?conv_weight(p+".weight"):weights_.get(p+".weight"),
+                p+".bias",weights_.get(p+".bias"),x,transpose?shape[1]:shape[0],transpose?shape[0]:shape[1]);
+        };
+        for(uint32_t layer=0;layer<layers;layer++) {
+            auto p="gpt.gpt.h."+std::to_string(layer);
+            auto qkv=linear_icb(norm_icb(hidden,p+".ln_1"),p+".attn.c_attn",true);
+            auto attention=metal_.gptIcb_attention_resident(layer,qkv,heads,head_dim);
+            auto residual=metal_.gptIcb_add(hidden,linear_icb(attention,p+".attn.c_proj",true));
+            auto ff=metal_.gptIcb_gelu(linear_icb(norm_icb(residual,p+".ln_2"),p+".mlp.c_fc",true));
+            hidden=metal_.gptIcb_add(residual,linear_icb(ff,p+".mlp.c_proj",true));
+        }
+        auto logits=linear_icb(norm_icb(norm_icb(hidden,"gpt.gpt.ln_f"),"gpt.final_norm"),"gpt.mel_head",false);
+        metal_.gptIcbEndRecord(token,logits);
+    }
+    // Sampling stays on CPU with the existing RNG and filtering. Each replay
+    // runs exactly one token, with the same FP32 kernels as the original pass.
+    return metal_.gptIcbExecute(1,code,cached_tokens_,0,8194,position).last_logits;
+}
+
 }
