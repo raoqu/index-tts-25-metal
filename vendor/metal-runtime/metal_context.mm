@@ -240,6 +240,7 @@ struct MetalContext::Impl {
     uint32_t gpt_kv_max_tokens = 0;
     uint32_t gpt_kv_width = 0;
     std::vector<std::shared_ptr<MetalKvSnapshot>> kv_snapshot_pool;
+    id<MTLCommandQueue> kv_copy_queue = nil;
 
     NSUInteger gpt_kv_k_offset(uint32_t layer) const {
         return static_cast<NSUInteger>(layer) * 2 * gpt_kv_max_tokens * gpt_kv_width * sizeof(float);
@@ -5717,7 +5718,9 @@ std::shared_ptr<GpuKvSnapshot> MetalContext::gptKvSnapshot(uint32_t tokens) {
     }
     snap->tokens=tokens;snap->layers=impl_->gpt_kv_layers;snap->width=impl_->gpt_kv_width;
     auto buffer=snap->buffer;
-    auto cb=[impl_->queue commandBuffer];auto enc=[cb blitCommandEncoder];
+    if(!impl_->kv_copy_queue)impl_->kv_copy_queue=[impl_->device newCommandQueue];
+    if(!impl_->kv_copy_queue)throw std::runtime_error("KV copy queue allocation failed");
+    auto cb=[impl_->kv_copy_queue commandBuffer];auto enc=[cb blitCommandEncoder];
     for(uint32_t layer=0;layer<impl_->gpt_kv_layers;layer++) {
         [enc copyFromBuffer:impl_->gpt_kv_buffer sourceOffset:impl_->gpt_kv_k_offset(layer) toBuffer:buffer destinationOffset:2*layer*bytes size:bytes];
         [enc copyFromBuffer:impl_->gpt_kv_buffer sourceOffset:impl_->gpt_kv_v_offset(layer) toBuffer:buffer destinationOffset:(2*layer+1)*bytes size:bytes];
@@ -5734,7 +5737,9 @@ void MetalContext::gptKvRestore(const std::shared_ptr<GpuKvSnapshot>& snapshot,u
     auto p=std::dynamic_pointer_cast<MetalKvSnapshot>(snapshot);
     if(impl_->pass_mode||!p||p->tokens!=tokens||p->layers!=impl_->gpt_kv_layers||p->width!=impl_->gpt_kv_width||tokens>impl_->gpt_kv_max_tokens)throw std::invalid_argument("Invalid KV restore");
     const NSUInteger bytes=static_cast<NSUInteger>(tokens)*impl_->gpt_kv_width*4;
-    auto cb=[impl_->queue commandBuffer];auto enc=[cb blitCommandEncoder];
+    if(!impl_->kv_copy_queue)impl_->kv_copy_queue=[impl_->device newCommandQueue];
+    if(!impl_->kv_copy_queue)throw std::runtime_error("KV copy queue allocation failed");
+    auto cb=[impl_->kv_copy_queue commandBuffer];auto enc=[cb blitCommandEncoder];
     for(uint32_t layer=0;layer<impl_->gpt_kv_layers;layer++) {
         [enc copyFromBuffer:p->buffer sourceOffset:2*layer*bytes toBuffer:impl_->gpt_kv_buffer destinationOffset:impl_->gpt_kv_k_offset(layer) size:bytes];
         [enc copyFromBuffer:p->buffer sourceOffset:(2*layer+1)*bytes toBuffer:impl_->gpt_kv_buffer destinationOffset:impl_->gpt_kv_v_offset(layer) size:bytes];
