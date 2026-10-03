@@ -37,3 +37,7 @@
 ## 04：512通道 RMSNorm 线程数（待最终复核）
 
 实现 `a9ad3c0`。原1024线程上半部分只加零，改512线程保持同一有效加法树。ABBA两组整体改善0.508%/0.608%，处于门槛边缘，最终再复测才决定是否保留。三个场景 PCM 字节一致，acoustic golden通过。见 `apple-silicon/04-rms-threads.json`。
+
+## 05：释放GPT权重CPU副本（回退）
+
+实验 `018ad5b`，GPT golden通过、PCM字节相同。physical footprint明显下降，但ABBA整体改善 -0.53%，单组 -0.60% / +0.75%，未满足整体TTS至少0.5%的保留门槛。按用户要求回退，即使内存下降也不单独例外保留。见 `apple-silicon/05-weight-copies.json`。
