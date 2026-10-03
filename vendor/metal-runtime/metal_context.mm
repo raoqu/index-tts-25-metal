@@ -690,7 +690,20 @@ id<MTLBuffer> MetalContext::Impl::resident_buffer_with_bytes(const std::string& 
     if (length == 0) {
         throw std::invalid_argument("resident buffer missing for key with empty data: " + key);
     }
-    id<MTLBuffer> buffer = new_counted_buffer_with_bytes(device, buffer_allocations, buffer_bytes_allocated, data, length);
+    // BigVGAN base weights are read on CPU when creating tap residents.
+    const bool cpu_tap_source=key.rfind("bigvgan.",0)==0 && key.find(".tap")==std::string::npos;
+    id<MTLBuffer> buffer;
+    if(cpu_tap_source) {buffer=new_counted_buffer_with_bytes(device,buffer_allocations,buffer_bytes_allocated,data,length);} else {
+    // One upload per resident. CPU-visible staging is released after completion.
+    auto staging=new_counted_buffer_with_bytes(device,buffer_allocations,buffer_bytes_allocated,data,length);
+    ++buffer_allocations;buffer_bytes_allocated+=length;
+    buffer=[device newBufferWithLength:length options:MTLResourceStorageModePrivate];
+    if(!buffer)throw std::runtime_error("Private resident allocation failed");
+    auto cb=[queue commandBuffer];auto enc=[cb blitCommandEncoder];
+    [enc copyFromBuffer:staging sourceOffset:0 toBuffer:buffer destinationOffset:0 size:length];
+    [enc endEncoding];commit_and_count(command_buffers_submitted,cb);wait_and_record(gpu_elapsed_seconds,cb);
+    if(cb.status!=MTLCommandBufferStatusCompleted)throw std::runtime_error("Private resident upload failed");
+    }
     resident_buffers.emplace(key, buffer);
     resident_buffer_lengths.emplace(key, length);
     return buffer;
