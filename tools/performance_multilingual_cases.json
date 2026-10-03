@@ -34,5 +34,16 @@
       "seed": 424242,
       "max_text_tokens_per_segment": 16
     }
+  },
+  {
+    "id": "emotion_seeded",
+    "voice": "voices/bundles/voice_demo.pt",
+    "text": "你好世界",
+    "options": {
+      "seed": 424242,
+      "emo_text": "我今天非常高兴！",
+      "emo_alpha": 0.5,
+      "use_random": true
+    }
   }
 ]
