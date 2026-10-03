@@ -49,3 +49,5 @@
 ## 07：GPT FP32 ICB 重放
 
 实验 `80414df`。每token重放同一组FP32 GEMV、LayerNorm、GELU、残差和KV attention；保持原CPU采样/RNG与显式mel position。ICB使用独立固定8MiB工作区，KV布局变更自动失效，采样路径不读取未写入的history。结果见 `apple-silicon/07-gpt-icb.json`，GPT golden日志见 `07-ctest-gpt.txt`。
+
+07结论：初版ICB整体 -1.04%；去重并批量声明GPU资源（`ea7dae1`）后整体仅 +0.188%，三个场景均未达到0.5%。质量全通过，但按门槛将两次实验实现均回退。未采用改FP16或更改采样作为补救。

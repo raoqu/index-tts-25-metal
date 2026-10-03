@@ -1,0 +1,174 @@
+{
+  "quality_pass": true,
+  "aggregate_improvement_percent": 0.1881438808225781,
+  "cases": {
+    "demo_en": {
+      "baseline_seconds": 2.231793625,
+      "candidate_seconds": 2.223288291,
+      "improvement_percent": 0.38109858836074445,
+      "codes_exact": true,
+      "pcm_max_abs": 0.0,
+      "pcm_rmse": 0.0,
+      "quality_pass": true,
+      "baseline_stages": {
+        "acoustic": 1.188579041,
+        "codec": 0.048509208,
+        "emotion": 0.000237,
+        "features": 0.00042525,
+        "flow": 1.081096292,
+        "gpt": 0.835607792,
+        "regulate": 0.05762025,
+        "text": 0.000186292,
+        "vocoder": 0.201881709
+      },
+      "candidate_stages": {
+        "acoustic": 1.193105459,
+        "codec": 0.047315333,
+        "emotion": 0.000253,
+        "features": 0.000436125,
+        "flow": 1.083436208,
+        "gpt": 0.818709625,
+        "regulate": 0.061629666,
+        "text": 0.000183083,
+        "vocoder": 0.20179675
+      },
+      "baseline_memory_first": {
+        "footprint_bytes": 11494681616,
+        "rss_bytes": 14095532032
+      },
+      "baseline_memory_last": {
+        "footprint_bytes": 11497237520,
+        "rss_bytes": 14098087936
+      },
+      "candidate_memory_first": {
+        "footprint_bytes": 11500858432,
+        "rss_bytes": 14093926400
+      },
+      "candidate_memory_last": {
+        "footprint_bytes": 11505888320,
+        "rss_bytes": 14098956288
+      },
+      "candidate_metal_allocations": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "demo_zh": {
+      "baseline_seconds": 1.380407292,
+      "candidate_seconds": 1.382728917,
+      "improvement_percent": -0.1681840579555555,
+      "codes_exact": true,
+      "pcm_max_abs": 0.0,
+      "pcm_rmse": 0.0,
+      "quality_pass": true,
+      "baseline_stages": {
+        "acoustic": 0.834087916,
+        "codec": 0.058738208,
+        "emotion": 0.000245875,
+        "features": 0.000406917,
+        "flow": 0.744658875,
+        "gpt": 0.434430166,
+        "regulate": 0.030767958,
+        "text": 0.000144916,
+        "vocoder": 0.113245042
+      },
+      "candidate_stages": {
+        "acoustic": 0.838857167,
+        "codec": 0.058884542,
+        "emotion": 0.000235375,
+        "features": 0.000368917,
+        "flow": 0.744930625,
+        "gpt": 0.437171791,
+        "regulate": 0.02963025,
+        "text": 0.000137584,
+        "vocoder": 0.112595125
+      },
+      "baseline_memory_first": {
+        "footprint_bytes": 11494550544,
+        "rss_bytes": 14095400960
+      },
+      "baseline_memory_last": {
+        "footprint_bytes": 11496975376,
+        "rss_bytes": 14097825792
+      },
+      "candidate_memory_first": {
+        "footprint_bytes": 11500825664,
+        "rss_bytes": 14093893632
+      },
+      "candidate_memory_last": {
+        "footprint_bytes": 11505871936,
+        "rss_bytes": 14098939904
+      },
+      "candidate_metal_allocations": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "qin_zh": {
+      "baseline_seconds": 2.607064333,
+      "candidate_seconds": 2.601546875,
+      "improvement_percent": 0.21163490022706394,
+      "codes_exact": true,
+      "pcm_max_abs": 0.0,
+      "pcm_rmse": 0.0,
+      "quality_pass": true,
+      "baseline_stages": {
+        "acoustic": 2.042568917,
+        "codec": 0.062726875,
+        "emotion": 0.000679584,
+        "features": 0.000814,
+        "flow": 1.935708666,
+        "gpt": 0.438393583,
+        "regulate": 0.032904875,
+        "text": 0.000135209,
+        "vocoder": 0.119536459
+      },
+      "candidate_stages": {
+        "acoustic": 2.031324708,
+        "codec": 0.062103541,
+        "emotion": 0.000628583,
+        "features": 0.000778125,
+        "flow": 1.935315375,
+        "gpt": 0.437427916,
+        "regulate": 0.033787,
+        "text": 0.000138125,
+        "vocoder": 0.121367083
+      },
+      "baseline_memory_first": {
+        "footprint_bytes": 11494665232,
+        "rss_bytes": 14095515648
+      },
+      "baseline_memory_last": {
+        "footprint_bytes": 11496975376,
+        "rss_bytes": 14097825792
+      },
+      "candidate_memory_first": {
+        "footprint_bytes": 11500842048,
+        "rss_bytes": 14093910016
+      },
+      "candidate_memory_last": {
+        "footprint_bytes": 11505871936,
+        "rss_bytes": 14098939904
+      },
+      "candidate_metal_allocations": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    }
+  }
+}
