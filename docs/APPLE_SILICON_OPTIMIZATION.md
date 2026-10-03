@@ -30,7 +30,7 @@
 
 实现 `d58cc9e`。先验 A/B 整体改善 1.17%；独立 ABBA 两组均超过门槛（15.92% / 2.21%，合并 9.65%），波动较大，不把 9.65% 解释为纯缓存算子的稳定加速比。所有语义 codes 和 PCM 字节一致；acoustic golden 通过。暖请求主 Metal 分配次数为零。缓存与模型实例同寿命，最多8组；默认25步每组约2.64MiB，新增轨迹上传同等大小。阶段与内存详情见 `apple-silicon/02-cfm-modulation.json`。
 
-## 03：FP32 attention 32-key staging（保留，最终复核）
+## 03：FP32 attention 32-key staging（最终回退）
 
 实现 `d8b241f`。复用已经加载到寄存器的 Q 共享存储作为 O epilogue，保持低于32KiB和原16-key softmax计算顺序。ABBA整体改善2.21%（单组0.24%/5.42%，仍有系统波动），三个场景全部改善且 PCM 字节一致，acoustic golden通过。最终基准复核仍包含此项。见 `apple-silicon/03-attention-tiles.json`。
 
@@ -91,3 +91,7 @@
 ## 17：CFM调制缓存最终组合复核（回退）
 
 7次暖请求/每轮ABBA，整体改善仅0.117%（+2.008%/-1.807%）。初测收益未在当前组合中重复，按门槛保留回退 `0992405`。语义token和PCM字节仍相同，同时移除新增调制缓存及上传分配。初测与最终结果均归档；最终取 `apple-silicon/17-cfm-final.json`。
+
+## 18：Attention分块最终组合复核（回退）
+
+7次暖请求/每轮ABBA，整体改善0.281%（+0.582%/-0.042%），输出逐字节一致。初测2.21%未重复，按门槛保留回退 `b381d1e`，恢复原FP32 attention分块和共享存储。见 `apple-silicon/18-attention-final.json`。
