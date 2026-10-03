@@ -24,7 +24,11 @@ int main(int argc,char** argv) {
             {
                 mit2::AutoreleasePool pool;itts25::NativeRuntime runtime(argv[1],argv[2]);auto voice=itts25::read_native_voice(argv[3]);
                 const std::string emotional="我今天非常高兴！";auto expected=runtime.emotion_text(emotional);
-                for(unsigned i=0;i<18;i++)runtime.emotion_text("这是第"+std::to_string(i)+"次平静自然的测试。");
+                std::vector<std::pair<std::string,Json>> classifications{{emotional,expected}};
+                for(unsigned i=0;i<18;i++){auto text="这是第"+std::to_string(i)+"次平静自然的测试。";classifications.emplace_back(text,runtime.emotion_text(text));}
+                // There are 19 distinct keys and only 16 cache slots, so replay
+                // every key to include classifications that were evicted.
+                for(const auto& entry:classifications)if(runtime.emotion_text(entry.first)!=entry.second)throw std::runtime_error("Classification changed on eviction replay");
                 if(runtime.emotion_text(emotional)!=expected)throw std::runtime_error("Classification changed after cache eviction");
                 bool rejected=false;try{runtime.emotion_text("");}catch(const std::invalid_argument&){rejected=true;}
                 if(!rejected)throw std::runtime_error("Empty emotion text accepted");
