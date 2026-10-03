@@ -5512,50 +5512,6 @@ PassSlot MetalContext::gptIcb_fused_gemv_f16w(const std::string& wk, const std::
     return out;
 }
 
-PassSlot MetalContext::gptIcb_linear_f32(const std::string& wk, const std::vector<float>& w,
-                                       const std::string& bk, const std::vector<float>& b,
-                                       PassSlot x, uint32_t rows, uint32_t cols) {
-    auto* im = impl_;
-    bool f16 = false;
-    auto wb = im->weight_buffer_pref_f16(wk,w,fp16_weights_enabled(),f16);
-    auto bb = im->resident_buffer_with_bytes(bk,b.data(),b.size()*4);
-    im->icb_track_read(wb); im->icb_track_read(bb);
-    auto out = im->icb_alloc_raw(rows);
-    auto cmd = im->icb_next_command();
-    [cmd setComputePipelineState:f16 ? im->linear_gemv_f16w_pipeline : im->linear_gemv_pipeline];
-    [cmd setKernelBuffer:wb offset:0 atIndex:0];
-    [cmd setKernelBuffer:bb offset:0 atIndex:1];
-    [cmd setKernelBuffer:im->gpt_icb_ws offset:x.byte_offset atIndex:2];
-    [cmd setKernelBuffer:im->gpt_icb_ws offset:out.byte_offset atIndex:3];
-    [cmd setKernelBuffer:im->icb_const_u32(rows) offset:0 atIndex:4];
-    [cmd setKernelBuffer:im->icb_const_u32(cols) offset:0 atIndex:5];
-    [cmd setBarrier];
-    [cmd concurrentDispatchThreadgroups:MTLSizeMake((rows+7)/8,1,1) threadsPerThreadgroup:MTLSizeMake(256,1,1)];
-    return out;
-}
-PassSlot MetalContext::gptIcb_gelu(PassSlot x) {
-    auto* im=impl_;auto out=im->icb_alloc_raw(x.element_count);auto cmd=im->icb_next_command();
-    [cmd setComputePipelineState:im->gelu_pipeline];
-    [cmd setKernelBuffer:im->gpt_icb_ws offset:x.byte_offset atIndex:0];
-    [cmd setKernelBuffer:im->gpt_icb_ws offset:out.byte_offset atIndex:1];
-    [cmd setKernelBuffer:im->icb_const_u32(x.element_count) offset:0 atIndex:2];
-    [cmd setBarrier];
-    [cmd concurrentDispatchThreadgroups:MTLSizeMake((x.element_count+31)/32,1,1) threadsPerThreadgroup:MTLSizeMake(32,1,1)];
-    return out;
-}
-PassSlot MetalContext::gptIcb_add(PassSlot x, PassSlot y) {
-    if(x.element_count!=y.element_count)throw std::invalid_argument("ICB add shape mismatch");
-    auto* im=impl_;auto out=im->icb_alloc_raw(x.element_count);auto cmd=im->icb_next_command();
-    [cmd setComputePipelineState:im->add_pipeline];
-    [cmd setKernelBuffer:im->gpt_icb_ws offset:x.byte_offset atIndex:0];
-    [cmd setKernelBuffer:im->gpt_icb_ws offset:y.byte_offset atIndex:1];
-    [cmd setKernelBuffer:im->gpt_icb_ws offset:out.byte_offset atIndex:2];
-    [cmd setKernelBuffer:im->icb_const_u32(x.element_count) offset:0 atIndex:3];
-    [cmd setBarrier];
-    [cmd concurrentDispatchThreadgroups:MTLSizeMake((x.element_count+31)/32,1,1) threadsPerThreadgroup:MTLSizeMake(32,1,1)];
-    return out;
-}
-
 PassSlot MetalContext::gptIcb_attention_resident(uint32_t layer, PassSlot qkv, uint32_t heads, uint32_t head_dim) {
     Impl* im = impl_;
     if (!im->gpt_kv_buffer || layer >= im->gpt_kv_layers) {
@@ -5645,7 +5601,7 @@ void MetalContext::gptIcbEndRecord(PassSlot token_slot, PassSlot logits_slot) {
 
 MetalContext::GptIcbResult MetalContext::gptIcbExecute(uint32_t n_tokens, uint32_t seed_token,
                                                        uint32_t kv_tokens_start, uint32_t step_start,
-                                                       uint32_t vocab, uint32_t position_override) {
+                                                       uint32_t vocab) {
     Impl* im = impl_;
     if (!im->gpt_icb_ready) {
         throw std::logic_error("gptIcbExecute: ICB not recorded");
@@ -5657,7 +5613,7 @@ MetalContext::GptIcbResult MetalContext::gptIcbExecute(uint32_t n_tokens, uint32
         uint32_t* st = static_cast<uint32_t*>([im->gpt_icb_state contents]);
         st[0] = kv_tokens_start;
         st[2] = step_start;
-        st[1] = position_override == UINT32_MAX ? ((step_start == 0) ? 0 : step_start + 1) : position_override;
+        st[1] = (step_start == 0) ? 0 : step_start + 1;
         uint32_t* tok = reinterpret_cast<uint32_t*>(
             static_cast<uint8_t*>([im->gpt_icb_ws contents]) + im->gpt_icb_token_off);
         tok[0] = seed_token;
@@ -5684,7 +5640,7 @@ MetalContext::GptIcbResult MetalContext::gptIcbExecute(uint32_t n_tokens, uint32
 
         GptIcbResult result;
         const uint32_t* hist = static_cast<const uint32_t*>([im->gpt_icb_history contents]);
-        if(position_override==UINT32_MAX)result.tokens.assign(hist + step_start, hist + step_start + n_tokens);
+        result.tokens.assign(hist + step_start, hist + step_start + n_tokens);
         const float* logits = reinterpret_cast<const float*>(
             static_cast<const uint8_t*>([im->gpt_icb_ws contents]) + im->gpt_icb_logits_off);
         result.last_logits.assign(logits, logits + vocab);

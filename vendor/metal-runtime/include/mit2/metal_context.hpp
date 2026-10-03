@@ -265,11 +265,6 @@ public:
                                     bool has_ln, const std::string& gk, const std::vector<float>& g,
                                     const std::string& bek, const std::vector<float>& be,
                                     bool fuse_gelu, bool has_residual, PassSlot residual, float eps);
-    PassSlot gptIcb_linear_f32(const std::string& wk, const std::vector<float>& w,
-                              const std::string& bk, const std::vector<float>& b,
-                              PassSlot x, uint32_t rows, uint32_t cols);
-    PassSlot gptIcb_gelu(PassSlot x);
-    PassSlot gptIcb_add(PassSlot x, PassSlot y);
     PassSlot gptIcb_attention_resident(uint32_t layer, PassSlot qkv, uint32_t heads, uint32_t head_dim);
     PassSlot gptIcb_layernorm(const std::string& gamma_key, const std::vector<float>& gamma,
                               const std::string& beta_key, const std::vector<float>& beta,
@@ -283,7 +278,7 @@ public:
         std::vector<float> last_logits;
     };
     GptIcbResult gptIcbExecute(uint32_t n_tokens, uint32_t seed_token,
-                               uint32_t kv_tokens_start, uint32_t step_start, uint32_t vocab, uint32_t position_override=UINT32_MAX);
+                               uint32_t kv_tokens_start, uint32_t step_start, uint32_t vocab);
 
     // GPT decode pass ops (single-row layernorm, GELU, KV-cache attention).
     PassSlot layernorm_f32_pass(const std::string& gamma_key, const std::vector<float>& gamma,
