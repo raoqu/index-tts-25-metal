@@ -14,7 +14,6 @@
 #include <stdexcept>
 #include <string>
 #include <unordered_map>
-#include <unordered_set>
 
 namespace mit2 {
 
@@ -5642,10 +5641,6 @@ void MetalContext::gptIcbEndRecord(PassSlot token_slot, PassSlot logits_slot) {
     im->gpt_icb_logits_off = logits_slot.byte_offset;
     im->gpt_icb_recording = false;
     im->gpt_icb_ready = true;
-    std::unordered_set<void*> seen;
-    std::vector<id<MTLResource>> unique;
-    for(auto resource:im->gpt_icb_read_resources)if(seen.insert((__bridge void*)resource).second)unique.push_back(resource);
-    im->gpt_icb_read_resources.swap(unique);
 }
 
 MetalContext::GptIcbResult MetalContext::gptIcbExecute(uint32_t n_tokens, uint32_t seed_token,
@@ -5669,7 +5664,9 @@ MetalContext::GptIcbResult MetalContext::gptIcbExecute(uint32_t n_tokens, uint32
 
         id<MTLCommandBuffer> cb = [im->queue commandBuffer];
         id<MTLComputeCommandEncoder> enc = [cb computeCommandEncoder];
-        [enc useResources:im->gpt_icb_read_resources.data() count:im->gpt_icb_read_resources.size() usage:MTLResourceUsageRead];
+        for (id<MTLResource> r : im->gpt_icb_read_resources) {
+            [enc useResource:r usage:MTLResourceUsageRead];
+        }
         [enc useResource:im->gpt_icb_ws usage:(MTLResourceUsageRead | MTLResourceUsageWrite)];
         [enc useResource:im->gpt_icb_state usage:(MTLResourceUsageRead | MTLResourceUsageWrite)];
         [enc useResource:im->gpt_icb_history usage:(MTLResourceUsageRead | MTLResourceUsageWrite)];
