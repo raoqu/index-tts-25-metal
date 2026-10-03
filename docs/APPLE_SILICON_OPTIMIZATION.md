@@ -105,3 +105,7 @@
 混合ABBA中音频情绪整体-0.916%，因此再次做12次暖请求/轮的FFT单项ABBA，并拆出DSP与语音编码计时。整体点估计+0.972%，两轮-0.715%/+3.339%，无法确认稳定超过0.5%的收益；直接DSP仅6.386ms→4.721ms，节省1.665ms（占整句1.579s的0.105%），其他GPU阶段的波动贡献了表面整体收益。按严格门槛保守保留回退 `0481674`，撤去新增FFT setup/工作区与Accelerate链接。质量仍逐字节一致。见 `apple-silicon/20-fft-final.json`。
 
 最终实现仅保留：Codec GPU pass、混合beam KV快照、Qwen GPU embedding/argmax、有界文字情绪分类缓存。计时和验证工具保留作为基础设施。
+
+## 21：Beam拷贝独立队列（保留）
+
+实验 `c8aceee`。相同共享KV布局与同步等待，把GPU snapshot/restore blit从推理主队列移到按需创建的独立queue。混合ABBA整体+4.373%，长beam两轮+0.596%/+6.954%，质量逐字节一致。两个候选进程的qin flow稳定约1.92s，反向顺序的旧队列进程出现2.4–2.6s；这是观察结果，不据此断言驱动调度的具体原因。队列与MetalContext同寿命，无新增常驻快照；每次生成结束仍清空池。见 `apple-silicon/21-kv-copy-queue.json`。
