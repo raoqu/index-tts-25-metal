@@ -5091,9 +5091,8 @@ PassSlot MetalContext::conv1d_reflect_same_batched_f32_pass(const std::string& w
     if ((kernel % 2) == 1 && linear_rows_use_mps(tokens, out_ch, in_ch)) {
         // Per-tap dense weight matrices Wk[out_ch, in_ch], cached as residents.
         const bool taps_fp16 = fp16_weights_enabled();
-        const bool merged_fp32 = !taps_fp16 && device_name_contains("M1 Max");
         std::vector<id<MTLBuffer>> tap_bufs(kernel);
-        for (uint32_t k = 0; !merged_fp32 && k < kernel; ++k) {
+        for (uint32_t k = 0; k < kernel; ++k) {
             const std::string tap_key = wk + ".tap" + std::to_string(k) + (taps_fp16 ? ".f16" : "");
             if (impl_->has_resident(tap_key)) {
                 tap_bufs[k] = taps_fp16
@@ -5118,7 +5117,7 @@ PassSlot MetalContext::conv1d_reflect_same_batched_f32_pass(const std::string& w
         const uint32_t pad = kernel / 2;
         auto x_pad = impl_->pass_alloc_raw(batch * (tokens + 2 * pad) * in_ch);
         auto out_mps = impl_->pass_alloc_raw(batch * tokens * out_ch);
-        if (merged_fp32 || (taps_fp16 && !custom_gemm_enabled())) {
+        if (taps_fp16 && !custom_gemm_enabled()) {
             // Default fast path: reflect-pad -> overlapping-row expansion (im2col)
             // -> ONE MPS GEMM (K = kernel*in_ch) per batch element, replacing
             // `kernel` serialized accumulate-GEMMs per batch.
@@ -5136,10 +5135,10 @@ PassSlot MetalContext::conv1d_reflect_same_batched_f32_pass(const std::string& w
                 threadsPerThreadgroup:MTLSizeMake(std::min<uint32_t>(in_ch, impl_->reflect_pad_rows_batched_pipeline.threadExecutionWidth), 1, 1)];
             [impl_->pass_enc memoryBarrierWithScope:MTLBarrierScopeBuffers];
             // Tap-permuted merged weight resident (fp16), W'[oc][k*in_ch+ic].
-            const std::string wconv_key = wk + (taps_fp16 ? ".wconv.f16" : ".wconv.f32");
+            const std::string wconv_key = wk + ".wconv.f16";
             id<MTLBuffer> wconv;
             if (impl_->has_resident(wconv_key)) {
-                wconv = taps_fp16 ? impl_->resident_buffer_f16_from_f32(wconv_key,nullptr,0) : impl_->resident_buffer_with_bytes(wconv_key,nullptr,0);
+                wconv = impl_->resident_buffer_f16_from_f32(wconv_key, nullptr, 0);
             } else {
                 if (w.size() < static_cast<size_t>(out_ch) * in_ch * kernel) {
                     throw std::invalid_argument("conv wconv resident missing and weight data not provided: " + wconv_key);
@@ -5153,7 +5152,7 @@ PassSlot MetalContext::conv1d_reflect_same_batched_f32_pass(const std::string& w
                         }
                     }
                 }
-                wconv = taps_fp16 ? impl_->resident_buffer_f16_from_f32(wconv_key,wperm.data(),wperm.size()) : impl_->resident_buffer_with_bytes(wconv_key,wperm.data(),wperm.size()*4);
+                wconv = impl_->resident_buffer_f16_from_f32(wconv_key, wperm.data(), wperm.size());
             }
             auto a_big = impl_->pass_alloc_raw(batch * tokens * big_k);
             uint32_t rl = big_k;
@@ -5172,7 +5171,7 @@ PassSlot MetalContext::conv1d_reflect_same_batched_f32_pass(const std::string& w
             for (uint32_t bb = 0; bb < batch; ++bb) {
                 const NSUInteger a_off = a_big.byte_offset + static_cast<NSUInteger>(bb) * tokens * big_k * sizeof(float);
                 const NSUInteger c_off = out_mps.byte_offset + static_cast<NSUInteger>(bb) * tokens * out_ch * sizeof(float);
-                impl_->pass_linear_rows_mps(wconv, taps_fp16, bbuf_mps, a_off, c_off, tokens, out_ch, big_k);
+                impl_->pass_linear_rows_mps(wconv, true, bbuf_mps, a_off, c_off, tokens, out_ch, big_k);
             }
             return out_mps;
         }

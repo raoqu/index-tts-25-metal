@@ -535,7 +535,7 @@ static std::pair<std::vector<float>, std::vector<float>> run_cfg_pass(
             // weight-norm compute once the taps exist. (Base resident alone is not
             // enough — the MPS branch would have no data to build taps from.)
             const std::string in_res = in_pfx + ".weight_norm.resident";
-            auto in_w  = (metal.residentExists(in_res + ".tap0") || metal.residentExists(in_res + ".tap0.f16") || metal.residentExists(in_res + ".wconv.f32"))
+            auto in_w  = (metal.residentExists(in_res + ".tap0") || metal.residentExists(in_res + ".tap0.f16"))
                              ? std::vector<float>{}
                              : weight_norm_conv_weight(bundle, in_pfx, 1024, 512, 5);
             auto in_b  = tensor_for_resident(metal, bundle, in_pfx + ".bias");
