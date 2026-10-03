@@ -30,6 +30,16 @@ brew install cmake pcre2 libsndfile libsoxr
 模型、前端和网页；指定 `--voice`/`--text` 或 `--cli` 可使用CLI模式。
 `./build.sh --help`、`./dev.sh --help` 和 `build/itts25-native --help` 显示选项。
 
+HTTP 和 CLI 每次合成成功后会向 stderr 输出一行 TTS 摘要日志：
+
+```text
+[TTS] text="你好，这是原生语音合成测试。" audio=3.200s elapsed=1.600s RTF=0.500
+```
+
+`text` 保留原文前 50 个 Unicode 字符，超长时追加 `…`，换行等控制字符转义显示。
+`audio` 为生成音频时长，`elapsed` 为合成耗时（含文本处理、情感推理和 WAV 写入，
+不含模型加载、音色加载或克隆、HTTP 排队），`RTF = elapsed / audio`，越小越快。
+
 可通过 `--model_bundle`、`--frontend`、`--voice_store`、`--web_file` 覆盖路径；
 支持 `MODEL_BUNDLE`、`ITTS25_FRONTEND`、`MIT2_VOICE_STORE`、`HOST`、`PORT`、
 `MIT2_WEBKEY`、`JOBS`、`BUILD_DIR` 环境变量。脚本中的相对路径以项目根目录为基准。

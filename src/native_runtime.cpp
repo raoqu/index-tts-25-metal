@@ -2,6 +2,7 @@
 #include <algorithm>
 #include <chrono>
 #include <cmath>
+#include <cstdio>
 #include <fstream>
 #include <numeric>
 #include <random>
@@ -11,6 +12,19 @@ namespace itts25 {
 namespace {
 using Clock=std::chrono::steady_clock;
 double elapsed(Clock::time_point t){return std::chrono::duration<double>(Clock::now()-t).count();}
+void log_synthesis(const std::string& raw,double audio_seconds,double seconds,double rtf) {
+    size_t end=0,characters=0;
+    while(end<raw.size()) {
+        if((static_cast<unsigned char>(raw[end])&0xc0)!=0x80) {
+            if(characters==50)break;
+            ++characters;
+        }
+        ++end;
+    }
+    auto preview=raw.substr(0,end);if(end<raw.size())preview+="…";
+    const auto quoted=Json(preview).dump();
+    std::fprintf(stderr,"[TTS] text=%s audio=%.3fs elapsed=%.3fs RTF=%.3f\n",quoted.c_str(),audio_seconds,seconds,rtf);
+}
 double number(const Json& o,const char* name,double def,double lo,double hi,bool integer=false){if(!o.contains(name))return def;const auto& x=o.at(name);if(!x.is_number()||x.is_boolean())throw std::invalid_argument(std::string("Invalid generation field: ")+name);double v=x.get<double>();if(!std::isfinite(v)||v<lo||v>hi||(integer&&std::trunc(v)!=v))throw std::invalid_argument(std::string("Invalid generation field: ")+name);return v;}
 bool boolean(const Json& o,const char* name,bool def){if(!o.contains(name))return def;auto x=o.at(name);if(x.is_boolean())return x.get<bool>();if(x.is_string()){auto s=unicode_transform(x.get<std::string>(),1);if(s=="true"||s=="1"||s=="yes"||s=="on")return true;if(s=="false"||s=="0"||s=="no"||s=="off"||s.empty())return false;}throw std::invalid_argument(std::string("Invalid boolean: ")+name);}
 }
@@ -88,7 +102,8 @@ Json NativeRuntime::synthesize(const NativeVoice& voice,const std::string& raw,c
         if(index)wave.insert(wave.end(),static_cast<size_t>(22050*silence/1000),0);for(auto x:w)wave.push_back(std::clamp(x,-1.f,1.f));segment_results.push_back(Json{{"text",segments[index]},{"text_ids",ids},{"codes",generated.codes},{"stopped",generated.stopped},{"mel_frames",target}});
     }
     size_t fade=std::min(size_t(441),wave.size());if(fade>1)for(size_t i=0;i<fade;i++)wave[wave.size()-fade+i]*=.5*(1+std::cos(3.14159265358979323846*i/(fade-1)));
-    save_wave(output,wave);double seconds=elapsed(start),audio_seconds=wave.size()/22050.0;
-    return Json{{"status","ok"},{"backend","native-metal"},{"model","2.5"},{"output",output},{"audio_seconds",audio_seconds},{"total_seconds",seconds},{"rtf",seconds/audio_seconds},{"gpu_submissions",submissions()-before},{"emotion_cache_hits",emotion_cache_hits_-hits_before},{"segments",segment_results},{"stage_seconds",{{"features",features_time},{"gpt",gpt_time},{"acoustic",acoustic_time},{"vocoder",vocoder_time},{"emotion",emotion_time},{"audio_dsp",audio_dsp_time},{"audio_encoder",audio_encoder_time},{"text",text_time},{"codec",codec_time},{"regulate",regulate_time},{"flow",flow_time}}},{"seed",generation.seed}};
+    save_wave(output,wave);double seconds=elapsed(start),audio_seconds=wave.size()/22050.0,rtf=seconds/audio_seconds;
+    log_synthesis(raw,audio_seconds,seconds,rtf);
+    return Json{{"status","ok"},{"backend","native-metal"},{"model","2.5"},{"output",output},{"audio_seconds",audio_seconds},{"total_seconds",seconds},{"rtf",rtf},{"gpu_submissions",submissions()-before},{"emotion_cache_hits",emotion_cache_hits_-hits_before},{"segments",segment_results},{"stage_seconds",{{"features",features_time},{"gpt",gpt_time},{"acoustic",acoustic_time},{"vocoder",vocoder_time},{"emotion",emotion_time},{"audio_dsp",audio_dsp_time},{"audio_encoder",audio_encoder_time},{"text",text_time},{"codec",codec_time},{"regulate",regulate_time},{"flow",flow_time}}},{"seed",generation.seed}};
 }
 }
