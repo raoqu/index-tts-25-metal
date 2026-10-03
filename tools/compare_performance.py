@@ -30,6 +30,7 @@ def compare(a,b):
         result[name]={'baseline_seconds':x,'candidate_seconds':y,'improvement_percent':100*(x-y)/x,'codes_exact':exact,'pcm_max_abs':peak,'pcm_rmse':rmse,'quality_pass':ok,
             'baseline_stages':{k:statistics.median(r['stage_seconds'][k] for r in aa) for k in aa[0]['stage_seconds']},
             'candidate_stages':{k:statistics.median(r['stage_seconds'][k] for r in bb) for k in bb[0]['stage_seconds']},
+            'baseline_memory_first':aa[0]['memory'],'baseline_memory_last':aa[-1]['memory'],
             'candidate_memory_first':bb[0]['memory'],'candidate_memory_last':bb[-1]['memory'],
             'candidate_metal_allocations': [r['metal']['allocations'] for r in bb]}
     total_a=sum(v['baseline_seconds'] for v in result.values());total_b=sum(v['candidate_seconds'] for v in result.values())
