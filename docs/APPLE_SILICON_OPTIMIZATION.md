@@ -42,7 +42,7 @@
 
 实验 `018ad5b`，GPT golden通过、PCM字节相同。physical footprint明显下降，但ABBA整体改善 -0.53%，单组 -0.60% / +0.75%，未满足整体TTS至少0.5%的保留门槛。按用户要求回退，即使内存下降也不单独例外保留。见 `apple-silicon/05-weight-copies.json`。
 
-## 06：Codec GPU pass（保留，最终复核）
+## 06：Codec GPU pass（最终保留）
 
 实现 `7d5deef`。7次暖请求整体改善0.99%；Codec阶段约从80–90ms降为48–62ms，提交次数从92降为3（lookup两次、主体一次）。保持原erf GELU多项式和各算子计算顺序，不用GPT tanh GELU替换。复用主体工作区、gamma常驻，避免每个小算子重新分配上传/读回。9组Codec及W2V语义token golden均通过，整句PCM字节完全相同。见 `apple-silicon/06-codec-pass.json`。
 
@@ -95,3 +95,7 @@
 ## 18：Attention分块最终组合复核（回退）
 
 7次暖请求/每轮ABBA，整体改善0.281%（+0.582%/-0.042%），输出逐字节一致。初测2.21%未重复，按门槛保留回退 `b381d1e`，恢复原FP32 attention分块和共享存储。见 `apple-silicon/18-attention-final.json`。
+
+## 19：Codec最终组合复核（保留）
+
+撤下Codec pass后，以7次暖请求/轮ABBA复核其实际贡献。整体改善1.948%（2.543%/1.390%），每个场景均改善、语义token和PCM字节完全相同。恢复 `7d5deef` 的实现，保留连续GPU pass与复用工作区。见 `apple-silicon/19-codec-final.json`。
