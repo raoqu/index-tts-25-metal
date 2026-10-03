@@ -12,14 +12,14 @@ cd ~/mylab/index-tts-25-metal
 ./dev.sh
 ```
 
-默认打开 `http://127.0.0.1:7860/web`。`dev.sh` 会自动增量构建，资源根据
+默认打开 `http://127.0.0.1:3456/web`。`dev.sh` 会自动增量构建，资源根据
 脚本位置定位，与调用时的工作目录无关。Ctrl+C停止服务。
 依赖：Xcode命令行工具、CMake、PCRE2、libsndfile、libsoxr。
 
 ```sh
 brew install cmake pcre2 libsndfile libsoxr
 ./dev.sh --prepare-only
-./dev.sh --port 7861
+./dev.sh --port 3457
 ./dev.sh --no-build
 ./dev.sh --server                     # 仅HTTP API
 ./dev.sh --cli --voice examples/voice_01.wav \

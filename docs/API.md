@@ -14,8 +14,8 @@ cd ~/mylab/index-tts-25-metal
 ./dev.sh
 ```
 
-默认地址 `http://127.0.0.1:7860/web`，`/` 重定向到 `/web`。
-`./dev.sh --port 3456` 可用参考项目端口。
+默认地址 `http://127.0.0.1:3456/web`，`/` 重定向到 `/web`。
+可通过 `./dev.sh --port 3457` 或 `PORT=3457 ./dev.sh` 指定其他端口。
 `--server` 关闭网页，`--web` 显式启用网页，`--prepare-only` 只构建并检查离线资源。
 `build.sh` 独立编译，`dev.sh` 自动构建并启动Web服务；二者从脚本位置定位项目。
 
@@ -54,15 +54,15 @@ source_audio_seconds, source, locked, created_at, updated_at`。
 列表返回 `{"object":"list","data":[...]}`。
 
 ```sh
-curl http://127.0.0.1:7860/api/voices
-curl http://127.0.0.1:7860/api/voices \
+curl http://127.0.0.1:3456/api/voices
+curl http://127.0.0.1:3456/api/voices \
   -F audio_sample=@examples/voice_01.wav -F name=我的音色 -F description=测试
-curl http://127.0.0.1:7860/api/voices \
+curl http://127.0.0.1:3456/api/voices \
   -H 'Content-Type: application/json' \
   -d '{"bundle_path":"/绝对路径/voice.pt","name":"已保存的音色"}'
-curl -X POST http://127.0.0.1:7860/api/voices/voice_demo/lock \
+curl -X POST http://127.0.0.1:3456/api/voices/voice_demo/lock \
   -H 'Content-Type: application/json' -d '{"locked":true}'
-curl http://127.0.0.1:7860/api/voices/voice_demo/source-audio --output /tmp/preview.wav
+curl http://127.0.0.1:3456/api/voices/voice_demo/source-audio --output /tmp/preview.wav
 ```
 
 multipart 上传也接受 `recording/file/audio`。参考音频保留最多15秒，
@@ -72,10 +72,10 @@ multipart 上传也接受 `recording/file/audio`。参考音频保留最多15秒
 ## 4. 可下载的客户端音色
 
 ```sh
-curl http://127.0.0.1:7860/v1/audio/client_voices \
+curl http://127.0.0.1:3456/v1/audio/client_voices \
   -F audio_sample=@examples/voice_01.wav -F voice_id=client_demo \
   -F consent=demo -F persist=false --output /tmp/voice25.pt
-curl http://127.0.0.1:7860/v1/audio/client_voices \
+curl http://127.0.0.1:3456/v1/audio/client_voices \
   -F pt=@/tmp/voice25.pt -F voice_id=client_demo -F persist=false
 ```
 
@@ -92,7 +92,7 @@ curl http://127.0.0.1:7860/v1/audio/client_voices \
 ## 5. 合成
 
 ```sh
-curl http://127.0.0.1:7860/v1/audio/speech \
+curl http://127.0.0.1:3456/v1/audio/speech \
   -H 'Content-Type: application/json' \
   -d '{"model":"index-tts2.5","input":"你好，这是本地测试。","voice":"voice_demo","response_format":"wav","lang":"ZH","seed":42,"duration_factor":1}' \
   --output /tmp/test25.wav
@@ -142,8 +142,8 @@ Ctrl+C等待在途请求结束并关闭服务。
 
 ```sh
 ctest --test-dir build --output-on-failure
-curl -fsS http://127.0.0.1:7860/health
-curl -fsS http://127.0.0.1:7860/api/status
+curl -fsS http://127.0.0.1:3456/health
+curl -fsS http://127.0.0.1:3456/api/status
 shasum -a 256 -c docs/model-packages.sha256
 ```
 

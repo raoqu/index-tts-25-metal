@@ -19,7 +19,7 @@ while (($#)); do
   case "$1" in
     --help|-h)
       cat <<'HELP'
-Run standalone native IndexTTS 2.5. Default: http://127.0.0.1:7860/web
+Run standalone native IndexTTS 2.5. Default: http://127.0.0.1:3456/web
 Usage: ./dev.sh [native options]
   --prepare-only       Build and check resources, then exit.
   --no-build           Run the existing native binary.
@@ -69,7 +69,7 @@ if ((task_cli)); then
 fi
 exec "$task_build/itts25-native" --http --web --model_bundle "$task_model" --frontend "$task_frontend" \
   --voice_store "$task_store" --web_file "$task_web" --example_audio "$task_example" --seed_example \
-  --host "${HOST:-127.0.0.1}" --port "${PORT:-7860}" --webkey "${MIT2_WEBKEY:-}" \
+  --host "${HOST:-127.0.0.1}" --port "${PORT:-3456}" --webkey "${MIT2_WEBKEY:-}" \
   --queue_size "${MIT2_QUEUE_SIZE:-16}" --voice_cache_size "${MIT2_VOICE_CACHE_SIZE:-20}" \
   --tts_concurrency "${MIT2_TTS_CONCURRENCY:-1}" --clone_concurrency "${MIT2_CLONE_CONCURRENCY:-1}" \
   ${task_args[@]+"${task_args[@]}"}
