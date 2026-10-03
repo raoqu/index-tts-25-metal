@@ -1,0 +1,8 @@
+Internal ctest changing into directory: /Users/raoqu/mylab/index-tts-25-metal/build
+Test project /Users/raoqu/mylab/index-tts-25-metal/build
+    Start 4: acoustic_parity
+1/1 Test #4: acoustic_parity ..................   Passed    5.63 sec
+
+100% tests passed, 0 tests failed out of 1
+
+Total Test time (real) =   5.63 sec

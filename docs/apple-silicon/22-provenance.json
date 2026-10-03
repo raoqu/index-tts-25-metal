@@ -1,0 +1,9 @@
+{
+  "source_commit": "5ffd379a3c6a388f8afb26a5622642db171d634e",
+  "branch": "codex/apple-silicon-performance",
+  "baseline_source": "2c7a9a6 plus benchmark instrumentation at 3cbde07",
+  "baseline_binary_sha256": "cec3a0df4ba8c765c7516582e205fb2c3237f9ee86bea32444abc5204985b680",
+  "candidate_binary_sha256": "82d5552f7eab8fb38eaaae9ea7ee6b0815793720d0c89d3149393312806a4bf2",
+  "regular_aggregate_improvement_percent": 1.2047923860600607,
+  "mixed_aggregate_improvement_percent": 15.969124998588912
+}

@@ -83,8 +83,8 @@ std::vector<float> GptDecoder::step(uint32_t code,uint32_t position) {
     cached_tokens_++;
     return result;
 }
-GptState GptDecoder::checkpoint() const {return {cached_tokens_,metal_.gptKvCacheRead(cached_tokens_)};}
-void GptDecoder::restore(const GptState& state) {metal_.gptKvCacheWrite(state.kv,state.tokens);cached_tokens_=state.tokens;}
+GptState GptDecoder::checkpoint() const {return {cached_tokens_,metal_.gptKvSnapshot(cached_tokens_)};}
+void GptDecoder::restore(const GptState& state) {metal_.gptKvRestore(state.kv,state.tokens);cached_tokens_=state.tokens;}
 std::vector<float> GptDecoder::run(const std::vector<float>& input,bool initial,uint32_t code,uint32_t position) {
     // Resolve/transpose weights before beginning the command buffer. This avoids
     // CPU conversion and allocation stalls while a GPU pass is being encoded.

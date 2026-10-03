@@ -1,0 +1,41 @@
+{
+  "passed": true,
+  "results": [
+    {
+      "name": "speech.input",
+      "max_abs": 0.0,
+      "rmse": 0.0,
+      "passed": true
+    },
+    {
+      "name": "speech.mask",
+      "max_abs": 0.0,
+      "rmse": 0.0,
+      "passed": true
+    },
+    {
+      "name": "camp.input",
+      "max_abs": 0.0,
+      "rmse": 0.0,
+      "passed": true
+    },
+    {
+      "name": "prompt.mel",
+      "max_abs": 0.0,
+      "rmse": 0.0,
+      "passed": true
+    },
+    {
+      "name": "text.ids",
+      "max_abs": 0.0,
+      "rmse": 0.0,
+      "passed": true
+    },
+    {
+      "name": "text.language",
+      "max_abs": 0.0,
+      "rmse": 0.0,
+      "passed": true
+    }
+  ]
+}

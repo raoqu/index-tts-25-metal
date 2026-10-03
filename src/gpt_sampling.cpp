@@ -188,6 +188,7 @@ GenerationResult GptDecoder::generate(const std::vector<float>& prefix,const Gen
     return result;
 }
 GenerationResult GptDecoder::generate_beams(const std::vector<float>& prefix,const GenerationOptions& config,uint32_t maximum) {
+    struct SnapshotScope { mit2::MetalContext& metal; ~SnapshotScope(){metal.gptKvSnapshotsClear();} } snapshots{metal_};
     struct Beam {std::vector<uint32_t> codes;float score=0;std::vector<float> logits;std::shared_ptr<GptState> state;};
     struct Finished {std::vector<uint32_t> codes;double score;bool eos;};
     struct Candidate {uint32_t parent,token;float score;};

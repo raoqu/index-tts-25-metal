@@ -1,5 +1,6 @@
 #pragma once
 #include "itts25/weights.hpp"
+#include <memory>
 #include "mit2/metal_context.hpp"
 
 namespace itts25 {
@@ -14,7 +15,7 @@ struct GenerationOptions {
     float length_penalty=0;
 };
 struct GenerationResult {std::vector<uint32_t> codes;bool stopped=false;};
-struct GptState {uint32_t tokens=0;std::vector<float> kv;};
+struct GptState {uint32_t tokens=0;std::shared_ptr<mit2::GpuKvSnapshot> kv;};
 std::vector<float> apply_gpt_sampling_processors(const std::vector<float>& logits,const std::vector<uint32_t>& history,const GenerationOptions& options);
 // Batch-one GPT2 decoder with an entirely GPU-resident 24-layer KV cache.
 // Speaker/emotion feature extraction is handled by separate native components.

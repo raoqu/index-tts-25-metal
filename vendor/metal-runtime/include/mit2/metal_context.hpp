@@ -2,6 +2,7 @@
 
 #include <cstddef>
 #include <cstdint>
+#include <memory>
 #include <string>
 #include <vector>
 
@@ -52,6 +53,9 @@ struct MetalResourceStats {
     double gpu_elapsed_seconds = 0.0;
 };
 
+struct GpuKvSnapshot {
+    virtual ~GpuKvSnapshot() = default;
+};
 class MetalContext {
 public:
     MetalContext();
@@ -183,6 +187,7 @@ public:
     PassSlot linear_f32_pass(const std::string& wk, const std::vector<float>& w, const std::string& bk, const std::vector<float>& b, PassSlot x, uint32_t rows, uint32_t cols);
     PassSlot linear_rows_f32_pass(const std::string& wk, const std::vector<float>& w, const std::string& bk, const std::vector<float>& b, PassSlot x, uint32_t tokens, uint32_t rows, uint32_t cols);
     PassSlot rmsnorm_rows_eps_f32_pass(const std::string& gk,const std::vector<float>& g,PassSlot x,uint32_t tokens,uint32_t width,float eps);
+    PassSlot embedding_f32_pass(const std::string& key,const std::vector<float>& table,PassSlot ids,uint32_t tokens,uint32_t width);
     PassSlot qwen_rope_f32_pass(PassSlot x,uint32_t tokens,uint32_t heads,uint32_t offset);
     PassSlot qwen_attention_f32_pass(uint32_t layer,PassSlot q,PassSlot k,PassSlot v,uint32_t tokens,uint32_t offset);
     PassSlot rmsnorm_rows_f32_pass(const std::string& gk, const std::vector<float>& g, PassSlot x, uint32_t tokens, uint32_t width);
@@ -200,6 +205,9 @@ public:
     // once after prefill; the resident attention op appends each new token's
     // K/V on-GPU (no per-token CPU uploads/readbacks).
     void gptKvCacheCreate(uint32_t layers, uint32_t max_tokens, uint32_t width);
+    std::shared_ptr<GpuKvSnapshot> gptKvSnapshot(uint32_t tokens);
+    void gptKvRestore(const std::shared_ptr<GpuKvSnapshot>& snapshot,uint32_t tokens);
+    void gptKvSnapshotsClear();
     std::vector<float> gptKvCacheRead(uint32_t tokens) const;
     void gptKvCacheWrite(const std::vector<float>& values,uint32_t tokens);
     void gptKvCacheUpload(uint32_t layer, const std::vector<float>& k, const std::vector<float>& v, uint32_t tokens);
@@ -285,6 +293,11 @@ public:
                                 const std::string& beta_key, const std::vector<float>& beta,
                                 PassSlot x, uint32_t count, float eps);
     PassSlot gelu_f32_pass(PassSlot x, uint32_t count);
+    PassSlot codec_gelu_pass(PassSlot x);
+    PassSlot codec_scale_pass(PassSlot x,const std::string& key,const std::vector<float>& gamma);
+    PassSlot depthwise_conv1d_same_pass(const std::string& wk,const std::vector<float>& w,
+        const std::string& bk,const std::vector<float>& b,PassSlot x,uint32_t tokens,uint32_t channels,uint32_t kernel);
+    PassSlot nearest_interpolate_pass(PassSlot x,uint32_t in_tokens,uint32_t out_tokens,uint32_t width);
     PassSlot gpt_cached_attention_f32_pass(const std::vector<float>& cache_k,
                                            const std::vector<float>& cache_v,
                                            PassSlot current_qkv,

@@ -1,0 +1,47 @@
+{
+  "passed": true,
+  "results": [
+    {
+      "case": "demo-gpt-0",
+      "max_abs": 0,
+      "rmse": 0,
+      "passed": true
+    },
+    {
+      "case": "demo-flow-1",
+      "max_abs": 4.76837158203125e-06,
+      "rmse": 5.27601142191838e-07,
+      "passed": true
+    },
+    {
+      "case": "qin-gpt-2",
+      "max_abs": 0,
+      "rmse": 0,
+      "passed": true
+    },
+    {
+      "case": "qin-flow-3",
+      "max_abs": 3.814697265625e-06,
+      "rmse": 3.177423213421247e-07,
+      "passed": true
+    },
+    {
+      "case": "demo-flow-4",
+      "max_abs": 4.76837158203125e-06,
+      "rmse": 5.27601142191838e-07,
+      "passed": true
+    },
+    {
+      "case": "qin-vocode-5",
+      "max_abs": 0.0,
+      "rmse": 0.0,
+      "passed": true
+    },
+    {
+      "case": "demo-vocode-6",
+      "max_abs": 0.0,
+      "rmse": 0.0,
+      "passed": true
+    }
+  ]
+}

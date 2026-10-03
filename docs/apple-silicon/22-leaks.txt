@@ -1,0 +1,98 @@
+leaks(74861) MallocStackLogging: could not tag MSL-related memory as no_footprint, so those pages will be included in process footprint - No such file or directory (2)
+leaks(74861) MallocStackLogging: recording malloc (and VM allocation) stacks using lite mode
+{
+  "epochs": [
+    {
+      "active": {
+        "footprint_bytes": 21205751144,
+        "rss_bytes": 26479263744
+      },
+      "before": {
+        "footprint_bytes": 4096432,
+        "rss_bytes": 9256960
+      },
+      "destroyed": {
+        "footprint_bytes": 1450779504,
+        "rss_bytes": 9508241408
+      },
+      "outputs": {
+        "audio": {
+          "sha256": "ec6e7f5a5259749aab3c6a5fbac23a811a806c7ab0bccd93d77e1a2babd99f52",
+          "total_seconds": 3.2086265
+        },
+        "beam": {
+          "sha256": "6f07e95748a7aca43e1f479a9ddb0bd3256b1be5e8583b0eaeb6cc488b3d2830",
+          "total_seconds": 9.104407042
+        },
+        "emotion": {
+          "sha256": "f880c392cac2bb2d339a1887b2f6d11b5fc7f7bb705537a1b69b32116b95e3a1",
+          "total_seconds": 1.398408542
+        },
+        "recovery": {
+          "sha256": "13ecc4e2fdf9fd95c605c6871ffa33ed583e40d872b540d6d347a96c7ff7fa1f",
+          "total_seconds": 1.914075042
+        }
+      }
+    },
+    {
+      "active": {
+        "footprint_bytes": 21226771864,
+        "rss_bytes": 26560561152
+      },
+      "before": {
+        "footprint_bytes": 1450779504,
+        "rss_bytes": 9508241408
+      },
+      "destroyed": {
+        "footprint_bytes": 1482580872,
+        "rss_bytes": 9540698112
+      },
+      "outputs": {
+        "audio": {
+          "sha256": "ec6e7f5a5259749aab3c6a5fbac23a811a806c7ab0bccd93d77e1a2babd99f52",
+          "total_seconds": 3.040142333
+        },
+        "beam": {
+          "sha256": "6f07e95748a7aca43e1f479a9ddb0bd3256b1be5e8583b0eaeb6cc488b3d2830",
+          "total_seconds": 9.088596667
+        },
+        "emotion": {
+          "sha256": "f880c392cac2bb2d339a1887b2f6d11b5fc7f7bb705537a1b69b32116b95e3a1",
+          "total_seconds": 1.410345708
+        },
+        "recovery": {
+          "sha256": "13ecc4e2fdf9fd95c605c6871ffa33ed583e40d872b540d6d347a96c7ff7fa1f",
+          "total_seconds": 1.883774959
+        }
+      }
+    }
+  ],
+  "passed": true
+}
+Process 74862 is not debuggable. Due to security restrictions, leaks can only show or save contents of readonly memory of restricted processes.
+
+Process:         itts25-runtime-check [74862]
+Path:            /Users/USER/*/itts25-runtime-check
+Load Address:    0x1046ec000
+Identifier:      itts25-runtime-check
+Version:         0
+Code Type:       ARM64
+Platform:        macOS
+Parent Process:  leaks [74861]
+Target Type:     live task
+
+Date/Time:       2026-10-03 13:03:45.822 +0800
+Launch Time:     2026-10-03 13:02:15.581 +0800
+OS Version:      macOS 26.6.2 (25G83)
+Report Version:  7
+Analysis Tool:   /usr/bin/leaks
+
+Physical footprint:         1.4G
+Physical footprint (peak):  19.8G
+Idle exit:                  untracked
+----
+
+leaks Report Version: 4.0, multi-line stacks
+Process 74862: 22974 nodes malloced for 2781 KB
+Process 74862: 0 leaks for 0 total leaked bytes.
+

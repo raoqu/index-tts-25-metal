@@ -1,0 +1,512 @@
+{
+  "quality_pass": true,
+  "aggregate_improvement_percent": -0.23341246956503897,
+  "cases": {
+    "demo_en": {
+      "baseline_seconds": 2.2438924165,
+      "candidate_seconds": 2.2429783125,
+      "improvement_percent": 0.04073742543440815,
+      "codes_exact": true,
+      "pcm_max_abs": 0.0,
+      "pcm_rmse": 0.0,
+      "quality_pass": true,
+      "baseline_stages": {
+        "acoustic": 1.1909931875000002,
+        "codec": 0.0491365205,
+        "emotion": 0.0002524375,
+        "features": 0.0004514995,
+        "flow": 1.0800446875,
+        "gpt": 0.8470953754999999,
+        "regulate": 0.0606743125,
+        "text": 0.00019627099999999998,
+        "vocoder": 0.201453416
+      },
+      "candidate_stages": {
+        "acoustic": 1.1903875625,
+        "codec": 0.048975271,
+        "emotion": 0.0002559375,
+        "features": 0.0005051665,
+        "flow": 1.0823594165000001,
+        "gpt": 0.837870042,
+        "regulate": 0.0580457915,
+        "text": 0.00024841649999999996,
+        "vocoder": 0.20474827099999998
+      },
+      "baseline_memory_first": {
+        "footprint_bytes": 11493125208,
+        "rss_bytes": 14092959744
+      },
+      "baseline_memory_last": {
+        "footprint_bytes": 11495549968,
+        "rss_bytes": 14093942784
+      },
+      "candidate_memory_first": {
+        "footprint_bytes": 11492122952,
+        "rss_bytes": 10216030208
+      },
+      "candidate_memory_last": {
+        "footprint_bytes": 11496972640,
+        "rss_bytes": 10219880448
+      },
+      "candidate_metal_allocations": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "demo_zh": {
+      "baseline_seconds": 1.390727396,
+      "candidate_seconds": 1.3861762085,
+      "improvement_percent": 0.32725230789945137,
+      "codes_exact": true,
+      "pcm_max_abs": 0.0,
+      "pcm_rmse": 0.0,
+      "quality_pass": true,
+      "baseline_stages": {
+        "acoustic": 0.8342836455,
+        "codec": 0.059137292,
+        "emotion": 0.0002369375,
+        "features": 0.000372688,
+        "flow": 0.744378396,
+        "gpt": 0.4423691045,
+        "regulate": 0.030129708499999998,
+        "text": 0.000136375,
+        "vocoder": 0.1131606875
+      },
+      "candidate_stages": {
+        "acoustic": 0.8346505835,
+        "codec": 0.058614917,
+        "emotion": 0.0002368955,
+        "features": 0.0003779375,
+        "flow": 0.7446929585,
+        "gpt": 0.4362069375,
+        "regulate": 0.0307563545,
+        "text": 0.000140979,
+        "vocoder": 0.1127536035
+      },
+      "baseline_memory_first": {
+        "footprint_bytes": 11492944984,
+        "rss_bytes": 14092779520
+      },
+      "baseline_memory_last": {
+        "footprint_bytes": 11495468048,
+        "rss_bytes": 14093860864
+      },
+      "candidate_memory_first": {
+        "footprint_bytes": 11491483976,
+        "rss_bytes": 10215292928
+      },
+      "candidate_memory_last": {
+        "footprint_bytes": 11496972640,
+        "rss_bytes": 10219880448
+      },
+      "candidate_metal_allocations": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "qin_zh": {
+      "baseline_seconds": 2.633745167,
+      "candidate_seconds": 2.653841604,
+      "improvement_percent": -0.7630365022327272,
+      "codes_exact": true,
+      "pcm_max_abs": 0.0,
+      "pcm_rmse": 0.0,
+      "quality_pass": true,
+      "baseline_stages": {
+        "acoustic": 2.0399263125,
+        "codec": 0.062435020499999994,
+        "emotion": 0.0006800625,
+        "features": 0.000818771,
+        "flow": 1.938579292,
+        "gpt": 0.462799167,
+        "regulate": 0.040671958,
+        "text": 0.00014027050000000002,
+        "vocoder": 0.12316427099999999
+      },
+      "candidate_stages": {
+        "acoustic": 2.0355332290000003,
+        "codec": 0.061738958499999996,
+        "emotion": 0.000700042,
+        "features": 0.000848396,
+        "flow": 1.9362365000000001,
+        "gpt": 0.483759979,
+        "regulate": 0.0359847915,
+        "text": 0.00015375,
+        "vocoder": 0.122478458
+      },
+      "baseline_memory_first": {
+        "footprint_bytes": 11492944984,
+        "rss_bytes": 14092779520
+      },
+      "baseline_memory_last": {
+        "footprint_bytes": 11495533584,
+        "rss_bytes": 14093926400
+      },
+      "candidate_memory_first": {
+        "footprint_bytes": 11492122952,
+        "rss_bytes": 10216030208
+      },
+      "candidate_memory_last": {
+        "footprint_bytes": 11496972640,
+        "rss_bytes": 10219880448
+      },
+      "candidate_metal_allocations": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    }
+  },
+  "rounds": [
+    {
+      "quality_pass": true,
+      "aggregate_improvement_percent": -1.1413815634688869,
+      "cases": {
+        "demo_en": {
+          "baseline_seconds": 2.240783083,
+          "candidate_seconds": 2.2429783125,
+          "improvement_percent": -0.09796706859553883,
+          "codes_exact": true,
+          "pcm_max_abs": 0.0,
+          "pcm_rmse": 0.0,
+          "quality_pass": true,
+          "baseline_stages": {
+            "acoustic": 1.1923589374999999,
+            "codec": 0.048839979,
+            "emotion": 0.00025552050000000003,
+            "features": 0.0004514995,
+            "flow": 1.084240833,
+            "gpt": 0.843506479,
+            "regulate": 0.060556374999999996,
+            "text": 0.00019916649999999998,
+            "vocoder": 0.2007461665
+          },
+          "candidate_stages": {
+            "acoustic": 1.1887682085,
+            "codec": 0.048571333499999994,
+            "emotion": 0.00024675,
+            "features": 0.000520208,
+            "flow": 1.080712354,
+            "gpt": 0.8437989375,
+            "regulate": 0.056639292,
+            "text": 0.00027797900000000003,
+            "vocoder": 0.20482916699999998
+          },
+          "baseline_memory_first": {
+            "footprint_bytes": 11493125208,
+            "rss_bytes": 14092959744
+          },
+          "baseline_memory_last": {
+            "footprint_bytes": 11496959064,
+            "rss_bytes": 14096793600
+          },
+          "candidate_memory_first": {
+            "footprint_bytes": 11492122952,
+            "rss_bytes": 10216030208
+          },
+          "candidate_memory_last": {
+            "footprint_bytes": 11492483400,
+            "rss_bytes": 10216390656
+          },
+          "candidate_metal_allocations": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        "demo_zh": {
+          "baseline_seconds": 1.3788785,
+          "candidate_seconds": 1.410230396,
+          "improvement_percent": -2.2737243346676377,
+          "codes_exact": true,
+          "pcm_max_abs": 0.0,
+          "pcm_rmse": 0.0,
+          "quality_pass": true,
+          "baseline_stages": {
+            "acoustic": 0.8311504999999999,
+            "codec": 0.058110563000000004,
+            "emotion": 0.0002353125,
+            "features": 0.0003687295,
+            "flow": 0.741896,
+            "gpt": 0.4358086875,
+            "regulate": 0.0300476665,
+            "text": 0.0001333335,
+            "vocoder": 0.11287562500000001
+          },
+          "candidate_stages": {
+            "acoustic": 0.837400542,
+            "codec": 0.0600507505,
+            "emotion": 0.0002391665,
+            "features": 0.0003838955,
+            "flow": 0.7447625415,
+            "gpt": 0.455961042,
+            "regulate": 0.0331588545,
+            "text": 0.0001446665,
+            "vocoder": 0.11310866650000001
+          },
+          "baseline_memory_first": {
+            "footprint_bytes": 11492944984,
+            "rss_bytes": 14092779520
+          },
+          "baseline_memory_last": {
+            "footprint_bytes": 11493583960,
+            "rss_bytes": 14093418496
+          },
+          "candidate_memory_first": {
+            "footprint_bytes": 11491483976,
+            "rss_bytes": 10215292928
+          },
+          "candidate_memory_last": {
+            "footprint_bytes": 11492303176,
+            "rss_bytes": 10216210432
+          },
+          "candidate_metal_allocations": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        "qin_zh": {
+          "baseline_seconds": 2.6252866255,
+          "candidate_seconds": 2.6630181875,
+          "improvement_percent": -1.4372359053485864,
+          "codes_exact": true,
+          "pcm_max_abs": 0.0,
+          "pcm_rmse": 0.0,
+          "quality_pass": true,
+          "baseline_stages": {
+            "acoustic": 2.0353259374999997,
+            "codec": 0.0628807705,
+            "emotion": 0.000627438,
+            "features": 0.000770271,
+            "flow": 1.9365392505,
+            "gpt": 0.459162292,
+            "regulate": 0.0357295205,
+            "text": 0.000137563,
+            "vocoder": 0.122209
+          },
+          "candidate_stages": {
+            "acoustic": 2.0379476455,
+            "codec": 0.062532833,
+            "emotion": 0.000698167,
+            "features": 0.000850125,
+            "flow": 1.9362365000000001,
+            "gpt": 0.491409604,
+            "regulate": 0.037832354,
+            "text": 0.0001522295,
+            "vocoder": 0.122478458
+          },
+          "baseline_memory_first": {
+            "footprint_bytes": 11492944984,
+            "rss_bytes": 14092779520
+          },
+          "baseline_memory_last": {
+            "footprint_bytes": 11493846104,
+            "rss_bytes": 14093680640
+          },
+          "candidate_memory_first": {
+            "footprint_bytes": 11492122952,
+            "rss_bytes": 10216030208
+          },
+          "candidate_memory_last": {
+            "footprint_bytes": 11492319560,
+            "rss_bytes": 10216226816
+          },
+          "candidate_metal_allocations": [
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      }
+    },
+    {
+      "quality_pass": true,
+      "aggregate_improvement_percent": 0.7350683427595992,
+      "cases": {
+        "demo_en": {
+          "baseline_seconds": 2.2459674375,
+          "candidate_seconds": 2.242861854,
+          "improvement_percent": 0.13827375446978218,
+          "codes_exact": true,
+          "pcm_max_abs": 0.0,
+          "pcm_rmse": 0.0,
+          "quality_pass": true,
+          "baseline_stages": {
+            "acoustic": 1.1909931875000002,
+            "codec": 0.0495687505,
+            "emotion": 0.0002481875,
+            "features": 0.0004440005,
+            "flow": 1.0789663125,
+            "gpt": 0.8470953754999999,
+            "regulate": 0.061660771,
+            "text": 0.000194604,
+            "vocoder": 0.201453416
+          },
+          "candidate_stages": {
+            "acoustic": 1.1936452295,
+            "codec": 0.0492998125,
+            "emotion": 0.000257125,
+            "features": 0.0005051665,
+            "flow": 1.084117375,
+            "gpt": 0.8336173335,
+            "regulate": 0.061241124999999993,
+            "text": 0.00023916649999999997,
+            "vocoder": 0.2038118955
+          },
+          "baseline_memory_first": {
+            "footprint_bytes": 11495222288,
+            "rss_bytes": 14093615104
+          },
+          "baseline_memory_last": {
+            "footprint_bytes": 11495549968,
+            "rss_bytes": 14093942784
+          },
+          "candidate_memory_first": {
+            "footprint_bytes": 11494547808,
+            "rss_bytes": 10217455616
+          },
+          "candidate_memory_last": {
+            "footprint_bytes": 11496972640,
+            "rss_bytes": 10219880448
+          },
+          "candidate_metal_allocations": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        "demo_zh": {
+          "baseline_seconds": 1.4089698335,
+          "candidate_seconds": 1.385915125,
+          "improvement_percent": 1.6362812000545313,
+          "codes_exact": true,
+          "pcm_max_abs": 0.0,
+          "pcm_rmse": 0.0,
+          "quality_pass": true,
+          "baseline_stages": {
+            "acoustic": 0.839759583,
+            "codec": 0.0605197085,
+            "emotion": 0.0002459375,
+            "features": 0.0003957295,
+            "flow": 0.7469033335,
+            "gpt": 0.454112417,
+            "regulate": 0.031776021,
+            "text": 0.000139958,
+            "vocoder": 0.114670646
+          },
+          "candidate_stages": {
+            "acoustic": 0.8346505835,
+            "codec": 0.058614917,
+            "emotion": 0.00023022899999999998,
+            "features": 0.0003653545,
+            "flow": 0.744197438,
+            "gpt": 0.43599439549999996,
+            "regulate": 0.030459479,
+            "text": 0.0001350835,
+            "vocoder": 0.1127536035
+          },
+          "baseline_memory_first": {
+            "footprint_bytes": 11492092920,
+            "rss_bytes": 14090502144
+          },
+          "baseline_memory_last": {
+            "footprint_bytes": 11495468048,
+            "rss_bytes": 14093860864
+          },
+          "candidate_memory_first": {
+            "footprint_bytes": 11490664776,
+            "rss_bytes": 10213588992
+          },
+          "candidate_memory_last": {
+            "footprint_bytes": 11496972640,
+            "rss_bytes": 10219880448
+          },
+          "candidate_metal_allocations": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        "qin_zh": {
+          "baseline_seconds": 2.6558336875,
+          "candidate_seconds": 2.6356055,
+          "improvement_percent": 0.7616511378406817,
+          "codes_exact": true,
+          "pcm_max_abs": 0.0,
+          "pcm_rmse": 0.0,
+          "quality_pass": true,
+          "baseline_stages": {
+            "acoustic": 2.0425083539999997,
+            "codec": 0.0620488535,
+            "emotion": 0.0006894375,
+            "features": 0.000829771,
+            "flow": 1.9397029584999999,
+            "gpt": 0.47493097900000003,
+            "regulate": 0.0438241875,
+            "text": 0.00014027050000000002,
+            "vocoder": 0.1233554585
+          },
+          "candidate_stages": {
+            "acoustic": 2.033574625,
+            "codec": 0.0616763125,
+            "emotion": 0.000700042,
+            "features": 0.000848396,
+            "flow": 1.935172104,
+            "gpt": 0.4753457915,
+            "regulate": 0.034929396,
+            "text": 0.00015375,
+            "vocoder": 0.122458708
+          },
+          "baseline_memory_first": {
+            "footprint_bytes": 11492109304,
+            "rss_bytes": 14090518528
+          },
+          "baseline_memory_last": {
+            "footprint_bytes": 11495533584,
+            "rss_bytes": 14093926400
+          },
+          "candidate_memory_first": {
+            "footprint_bytes": 11490681160,
+            "rss_bytes": 10213605376
+          },
+          "candidate_memory_last": {
+            "footprint_bytes": 11496972640,
+            "rss_bytes": 10219880448
+          },
+          "candidate_metal_allocations": [
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      }
+    }
+  ],
+  "baseline_binary": "outputs/perf/private-base",
+  "candidate_binary": "outputs/perf/private",
+  "cycles_per_round": 4
+}

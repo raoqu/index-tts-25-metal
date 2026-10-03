@@ -22,10 +22,10 @@ std::vector<float> QwenDecoder::prefill(const std::vector<uint32_t>& ids){
     metal_.gptKvCacheCreate(28,4096,1024);auto result=run(ids,0);cached_=ids.size();return result;
 }
 std::vector<float> QwenDecoder::step(uint32_t id){if(!cached_ || cached_>=4096)throw std::invalid_argument("Qwen cache capacity exceeded");auto result=run({id},cached_);cached_++;return result;}
-std::vector<float> QwenDecoder::run(const std::vector<uint32_t>& ids,uint32_t offset){
+std::vector<float> QwenDecoder::run(const std::vector<uint32_t>& ids,uint32_t offset,bool only_token){
     if(std::any_of(ids.begin(),ids.end(),[](auto id){return id>=151936;}))throw std::invalid_argument("Invalid Qwen token");
-    const uint32_t t=ids.size();auto embeddings=metal_.embedding_f32_resident("qwen.model.embed_tokens.weight",weights_.get("qwen.model.embed_tokens.weight"),ids,1024);metal_.beginPass((static_cast<size_t>(t)*48*1024+200000)*4);
-    auto hidden=metal_.passUploadAlloc(embeddings);
+    const uint32_t t=ids.size();metal_.beginPass((static_cast<size_t>(t)*48*1024+200000)*4);
+    auto ids_slot=metal_.passUploadAllocU32(ids);auto hidden=metal_.embedding_f32_pass("qwen.model.embed_tokens.weight",weights_.get("qwen.model.embed_tokens.weight"),ids_slot,t,1024);
     auto a=metal_.passAlloc(t*1024),b=metal_.passAlloc(t*1024);metal_.passSetScratchBase();
     for(uint32_t layer=0;layer<28;layer++){
         auto p="qwen.model.layers."+std::to_string(layer);auto normalized=norm(hidden,t,1024,p+".input_layernorm");
@@ -40,12 +40,12 @@ std::vector<float> QwenDecoder::run(const std::vector<uint32_t>& ids,uint32_t of
         auto out=layer%2?a:b;metal_.add_f32_pass_into(residual,linear(ff,t,p+".mlp.down_proj"),out);hidden=out;metal_.passResetScratch();
     }
     auto last=norm(hidden.slice((t-1)*1024,1024),1,1024,"qwen.model.norm");
-    auto logits=linear(last,1,"qwen.model.embed_tokens");metal_.endPass();return metal_.passRead(logits);
+    auto logits=linear(last,1,"qwen.model.embed_tokens");auto token=only_token?metal_.gpt_argmax_pass(logits,151936):mit2::PassSlot{};metal_.endPass();if(only_token){selected_=metal_.passReadU32(token).at(0);return {};}return metal_.passRead(logits);
 }
 std::vector<uint32_t> QwenDecoder::generate(const std::vector<uint32_t>& ids,uint32_t maximum){
     if(!maximum || maximum>1024 || ids.size()+maximum>4096)throw std::invalid_argument("Qwen generation capacity exceeded");
-    auto logits=prefill(ids);std::vector<uint32_t> result;
-    for(uint32_t i=0;i<maximum;i++){uint32_t id=std::max_element(logits.begin(),logits.end())-logits.begin();result.push_back(id);if(id==151643)return result;if(i+1<maximum)logits=step(id);}
+    if(ids.empty()||ids.size()>3072)throw std::invalid_argument("Qwen prompt capacity is 3072 tokens");metal_.gptKvCacheCreate(28,4096,1024);run(ids,0,true);cached_=ids.size();std::vector<uint32_t> result;
+    for(uint32_t i=0;i<maximum;i++){uint32_t id=selected_;result.push_back(id);if(id==151643)return result;if(i+1<maximum){run({id},cached_,true);cached_++;}}
     throw std::runtime_error("Qwen did not reach EOS within 1024 generated tokens");
 }
 }

@@ -1,0 +1,186 @@
+{
+  "quality_pass": true,
+  "aggregate_improvement_percent": 1.0661953086767748,
+  "cases": {
+    "audio_emo_demo": {
+      "baseline_seconds": 1.6319282085,
+      "candidate_seconds": 1.6145286665,
+      "improvement_percent": 1.0661953086767748,
+      "codes_exact": true,
+      "pcm_max_abs": 0.0,
+      "pcm_rmse": 0.0,
+      "quality_pass": true,
+      "baseline_stages": {
+        "acoustic": 0.8338446665,
+        "codec": 0.059076917,
+        "emotion": 0.24085097900000002,
+        "features": 0.24100625,
+        "flow": 0.744859604,
+        "gpt": 0.4362671875,
+        "regulate": 0.0298224585,
+        "text": 0.00014468750000000001,
+        "vocoder": 0.112558396
+      },
+      "candidate_stages": {
+        "acoustic": 0.832430875,
+        "codec": 0.058107333,
+        "emotion": 0.2304536665,
+        "features": 0.2305994165,
+        "flow": 0.7438140209999999,
+        "gpt": 0.4342034375,
+        "regulate": 0.0303444375,
+        "text": 0.0001499585,
+        "vocoder": 0.111905979
+      },
+      "baseline_memory_first": {
+        "footprint_bytes": 13737080512,
+        "rss_bytes": 18151243776
+      },
+      "baseline_memory_last": {
+        "footprint_bytes": 13748729752,
+        "rss_bytes": 18165039104
+      },
+      "candidate_memory_first": {
+        "footprint_bytes": 13743355776,
+        "rss_bytes": 18157600768
+      },
+      "candidate_memory_last": {
+        "footprint_bytes": 13743224728,
+        "rss_bytes": 18154766336
+      },
+      "candidate_metal_allocations": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    }
+  },
+  "rounds": [
+    {
+      "quality_pass": true,
+      "aggregate_improvement_percent": 0.9027984218943074,
+      "cases": {
+        "audio_emo_demo": {
+          "baseline_seconds": 1.629237396,
+          "candidate_seconds": 1.6145286665,
+          "improvement_percent": 0.9027984218943074,
+          "codes_exact": true,
+          "pcm_max_abs": 0.0,
+          "pcm_rmse": 0.0,
+          "quality_pass": true,
+          "baseline_stages": {
+            "acoustic": 0.8338446665,
+            "codec": 0.0578531875,
+            "emotion": 0.24085097900000002,
+            "features": 0.24100625,
+            "flow": 0.745512437,
+            "gpt": 0.4341552505,
+            "regulate": 0.0297573125,
+            "text": 0.0001490625,
+            "vocoder": 0.112280875
+          },
+          "candidate_stages": {
+            "acoustic": 0.832430875,
+            "codec": 0.057735875,
+            "emotion": 0.2304536665,
+            "features": 0.2305994165,
+            "flow": 0.7438140209999999,
+            "gpt": 0.4342034375,
+            "regulate": 0.030373854,
+            "text": 0.00014570799999999998,
+            "vocoder": 0.1126876455
+          },
+          "baseline_memory_first": {
+            "footprint_bytes": 13737080512,
+            "rss_bytes": 18151243776
+          },
+          "baseline_memory_last": {
+            "footprint_bytes": 13742683840,
+            "rss_bytes": 18156847104
+          },
+          "candidate_memory_first": {
+            "footprint_bytes": 13743355776,
+            "rss_bytes": 18157600768
+          },
+          "candidate_memory_last": {
+            "footprint_bytes": 13744240536,
+            "rss_bytes": 18158469120
+          },
+          "candidate_metal_allocations": [
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      }
+    },
+    {
+      "quality_pass": true,
+      "aggregate_improvement_percent": 1.8006911650927881,
+      "cases": {
+        "audio_emo_demo": {
+          "baseline_seconds": 1.6476694379999999,
+          "candidate_seconds": 1.6179999999999999,
+          "improvement_percent": 1.8006911650927881,
+          "codes_exact": true,
+          "pcm_max_abs": 0.0,
+          "pcm_rmse": 0.0,
+          "quality_pass": true,
+          "baseline_stages": {
+            "acoustic": 0.836270979,
+            "codec": 0.0597482705,
+            "emotion": 0.237872521,
+            "features": 0.23800800049999998,
+            "flow": 0.7435852085000001,
+            "gpt": 0.4398662495,
+            "regulate": 0.032935146,
+            "text": 0.00014025000000000002,
+            "vocoder": 0.112558396
+          },
+          "candidate_stages": {
+            "acoustic": 0.8319681045,
+            "codec": 0.058427375000000004,
+            "emotion": 0.22922825000000002,
+            "features": 0.22937704199999998,
+            "flow": 0.7440225625,
+            "gpt": 0.434554208,
+            "regulate": 0.0299184375,
+            "text": 0.000152896,
+            "vocoder": 0.111437708
+          },
+          "baseline_memory_first": {
+            "footprint_bytes": 13746698136,
+            "rss_bytes": 18163007488
+          },
+          "baseline_memory_last": {
+            "footprint_bytes": 13748729752,
+            "rss_bytes": 18165039104
+          },
+          "candidate_memory_first": {
+            "footprint_bytes": 13739276184,
+            "rss_bytes": 18150817792
+          },
+          "candidate_memory_last": {
+            "footprint_bytes": 13743224728,
+            "rss_bytes": 18154766336
+          },
+          "candidate_metal_allocations": [
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      }
+    }
+  ],
+  "baseline_binary": "outputs/perf/dsp-base",
+  "candidate_binary": "outputs/perf/dsp",
+  "cycles_per_round": 4
+}

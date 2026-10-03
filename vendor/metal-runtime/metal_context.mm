@@ -16,6 +16,19 @@
 #include <unordered_map>
 
 namespace mit2 {
+namespace {
+struct CpuKvSnapshot final : GpuKvSnapshot {
+    std::vector<float> values;
+    uint32_t tokens,layers,width;
+    CpuKvSnapshot(std::vector<float> v,uint32_t t,uint32_t l,uint32_t w):values(std::move(v)),tokens(t),layers(l),width(w) {}
+};
+struct MetalKvSnapshot final : GpuKvSnapshot {
+    id<MTLBuffer> buffer;
+    uint32_t tokens,layers,width;
+    MetalKvSnapshot(id<MTLBuffer> b,uint32_t t,uint32_t l,uint32_t w):buffer(b),tokens(t),layers(l),width(w) {}
+};
+}
+
 
 // Push/pop a real NSAutoreleasePool via the objc runtime. Using the runtime
 // entry points (rather than @autoreleasepool) lets this be a normal C++ RAII
@@ -120,6 +133,7 @@ struct MetalContext::Impl {
     id<MTLComputePipelineState> linear_pipeline = nil;
     id<MTLComputePipelineState> linear_rows_pipeline = nil;
     id<MTLComputePipelineState> nearest_interpolate_pipeline = nil;
+    id<MTLComputePipelineState> codec_gelu_pipeline = nil, codec_scale_pipeline = nil;
     id<MTLComputePipelineState> conv1d_same_pipeline = nil;
     id<MTLComputePipelineState> conv1d_reflect_same_pipeline = nil;
     id<MTLComputePipelineState> conv1d_reflect_same_batched_pipeline = nil;
@@ -225,6 +239,8 @@ struct MetalContext::Impl {
     uint32_t gpt_kv_layers = 0;
     uint32_t gpt_kv_max_tokens = 0;
     uint32_t gpt_kv_width = 0;
+    std::vector<std::shared_ptr<MetalKvSnapshot>> kv_snapshot_pool;
+    id<MTLCommandQueue> kv_copy_queue = nil;
 
     NSUInteger gpt_kv_k_offset(uint32_t layer) const {
         return static_cast<NSUInteger>(layer) * 2 * gpt_kv_max_tokens * gpt_kv_width * sizeof(float);
@@ -762,6 +778,8 @@ MetalContext::MetalContext() : impl_(new Impl()) {
         if (!impl_->library) {
             throw std::runtime_error("failed to compile Metal library: " + std::string([[error localizedDescription] UTF8String]));
         }
+        impl_->codec_gelu_pipeline=make_pipeline(impl_->device,impl_->library,@"itts25_codec_gelu");
+        impl_->codec_scale_pipeline=make_pipeline(impl_->device,impl_->library,@"itts25_codec_scale");
         impl_->qwen_rope_pipeline=make_pipeline(impl_->device,impl_->library,@"itts25_qwen_rope");
         impl_->qwen_store_pipeline=make_pipeline(impl_->device,impl_->library,@"itts25_qwen_store");
         impl_->qwen_attention_pipeline=make_pipeline(impl_->device,impl_->library,@"itts25_qwen_attention");
@@ -4875,6 +4893,15 @@ PassSlot MetalContext::rmsnorm_rows_eps_f32_pass(const std::string& gk,const std
     [impl_->pass_enc setBytes:&tokens length:4 atIndex:3];[impl_->pass_enc setBytes:&width length:4 atIndex:4];[impl_->pass_enc setBytes:&eps length:4 atIndex:5];
     [impl_->pass_enc dispatchThreadgroups:MTLSizeMake(tokens,1,1) threadsPerThreadgroup:MTLSizeMake(1024,1,1)];return out;
 }
+PassSlot MetalContext::embedding_f32_pass(const std::string& key,const std::vector<float>& table,PassSlot ids,uint32_t tokens,uint32_t width) {
+    if(!tokens||!width||ids.element_count!=tokens||table.size()%width)throw std::invalid_argument("Embedding dimensions");
+    PASS_REQUIRE_AND_BARRIER();auto out=impl_->pass_alloc_raw(tokens*width);auto enc=impl_->pass_enc;
+    auto buffer=impl_->resident_buffer_with_bytes(key,table.data(),table.size()*4);
+    [enc setComputePipelineState:impl_->embedding_pipeline];[enc setBuffer:buffer offset:0 atIndex:0];
+    [enc setBuffer:impl_->pass_workspace offset:ids.byte_offset atIndex:1];[enc setBuffer:impl_->pass_workspace offset:out.byte_offset atIndex:2];
+    [enc setBytes:&width length:4 atIndex:3];
+    [enc dispatchThreads:MTLSizeMake(width,tokens,1) threadsPerThreadgroup:MTLSizeMake(32,1,1)];return out;
+}
 PassSlot MetalContext::qwen_rope_f32_pass(PassSlot x,uint32_t tokens,uint32_t heads,uint32_t offset) {
     PASS_REQUIRE_AND_BARRIER();auto out=impl_->pass_alloc_raw(x.element_count);
     [impl_->pass_enc setComputePipelineState:impl_->qwen_rope_pipeline];
@@ -5672,6 +5699,55 @@ void MetalContext::gptKvCacheCreate(uint32_t layers, uint32_t max_tokens, uint32
     impl_->gpt_icb_ready = false;
 }
 
+std::shared_ptr<GpuKvSnapshot> MetalContext::gptKvSnapshot(uint32_t tokens) {
+    if(impl_->pass_mode||!impl_->gpt_kv_buffer||!tokens||tokens>impl_->gpt_kv_max_tokens)throw std::invalid_argument("Invalid KV snapshot");
+    // M1 Max measurements: blit submission overhead loses on short contexts.
+    // Use the original CPU copy below 128 tokens; GPU pooling wins on long beams.
+    if(tokens<128)return std::make_shared<CpuKvSnapshot>(gptKvCacheRead(tokens),tokens,impl_->gpt_kv_layers,impl_->gpt_kv_width);
+    const NSUInteger bytes=static_cast<NSUInteger>(tokens)*impl_->gpt_kv_width*4;
+    const NSUInteger required=bytes*2*impl_->gpt_kv_layers;
+    std::shared_ptr<MetalKvSnapshot> snap;
+    for(auto& entry:impl_->kv_snapshot_pool)if(entry.use_count()==1 && entry->buffer.length>=required){snap=entry;break;}
+    if(!snap) {
+        uint32_t capacity=32;while(capacity<tokens)capacity*=2;
+        auto buffer=new_counted_buffer_with_length(impl_->device,impl_->buffer_allocations,impl_->buffer_bytes_allocated,
+            static_cast<NSUInteger>(capacity)*impl_->gpt_kv_width*4*2*impl_->gpt_kv_layers);
+        snap=std::make_shared<MetalKvSnapshot>(buffer,tokens,impl_->gpt_kv_layers,impl_->gpt_kv_width);
+        bool pooled=false;for(auto& entry:impl_->kv_snapshot_pool)if(entry.use_count()==1){entry=snap;pooled=true;break;}
+        if(!pooled && impl_->kv_snapshot_pool.size()<24)impl_->kv_snapshot_pool.push_back(snap);
+    }
+    snap->tokens=tokens;snap->layers=impl_->gpt_kv_layers;snap->width=impl_->gpt_kv_width;
+    auto buffer=snap->buffer;
+    if(!impl_->kv_copy_queue)impl_->kv_copy_queue=[impl_->device newCommandQueue];
+    if(!impl_->kv_copy_queue)throw std::runtime_error("KV copy queue allocation failed");
+    auto cb=[impl_->kv_copy_queue commandBuffer];auto enc=[cb blitCommandEncoder];
+    for(uint32_t layer=0;layer<impl_->gpt_kv_layers;layer++) {
+        [enc copyFromBuffer:impl_->gpt_kv_buffer sourceOffset:impl_->gpt_kv_k_offset(layer) toBuffer:buffer destinationOffset:2*layer*bytes size:bytes];
+        [enc copyFromBuffer:impl_->gpt_kv_buffer sourceOffset:impl_->gpt_kv_v_offset(layer) toBuffer:buffer destinationOffset:(2*layer+1)*bytes size:bytes];
+    }
+    [enc endEncoding];commit_and_count(impl_->command_buffers_submitted,cb);wait_and_record(impl_->gpu_elapsed_seconds,cb);
+    if(cb.status!=MTLCommandBufferStatusCompleted)throw std::runtime_error("KV snapshot copy failed");
+    return snap;
+}
+void MetalContext::gptKvRestore(const std::shared_ptr<GpuKvSnapshot>& snapshot,uint32_t tokens) {
+    if(auto cpu=std::dynamic_pointer_cast<CpuKvSnapshot>(snapshot)) {
+        if(cpu->tokens!=tokens||cpu->layers!=impl_->gpt_kv_layers||cpu->width!=impl_->gpt_kv_width)throw std::invalid_argument("Invalid CPU KV restore");
+        gptKvCacheWrite(cpu->values,tokens);return;
+    }
+    auto p=std::dynamic_pointer_cast<MetalKvSnapshot>(snapshot);
+    if(impl_->pass_mode||!p||p->tokens!=tokens||p->layers!=impl_->gpt_kv_layers||p->width!=impl_->gpt_kv_width||tokens>impl_->gpt_kv_max_tokens)throw std::invalid_argument("Invalid KV restore");
+    const NSUInteger bytes=static_cast<NSUInteger>(tokens)*impl_->gpt_kv_width*4;
+    if(!impl_->kv_copy_queue)impl_->kv_copy_queue=[impl_->device newCommandQueue];
+    if(!impl_->kv_copy_queue)throw std::runtime_error("KV copy queue allocation failed");
+    auto cb=[impl_->kv_copy_queue commandBuffer];auto enc=[cb blitCommandEncoder];
+    for(uint32_t layer=0;layer<impl_->gpt_kv_layers;layer++) {
+        [enc copyFromBuffer:p->buffer sourceOffset:2*layer*bytes toBuffer:impl_->gpt_kv_buffer destinationOffset:impl_->gpt_kv_k_offset(layer) size:bytes];
+        [enc copyFromBuffer:p->buffer sourceOffset:(2*layer+1)*bytes toBuffer:impl_->gpt_kv_buffer destinationOffset:impl_->gpt_kv_v_offset(layer) size:bytes];
+    }
+    [enc endEncoding];commit_and_count(impl_->command_buffers_submitted,cb);wait_and_record(impl_->gpu_elapsed_seconds,cb);
+    if(cb.status!=MTLCommandBufferStatusCompleted)throw std::runtime_error("KV restore copy failed");
+}
+
 std::vector<float> MetalContext::gptKvCacheRead(uint32_t tokens) const {
     if(impl_->pass_mode || !impl_->gpt_kv_buffer || !tokens || tokens>impl_->gpt_kv_max_tokens)throw std::invalid_argument("Invalid GPT cache snapshot");
     const size_t count=static_cast<size_t>(tokens)*impl_->gpt_kv_width;
@@ -6123,3 +6199,40 @@ PassSlot MetalContext::gpt_cached_attention_f32_pass(
 }
 
 }  // namespace mit2
+
+namespace mit2 {
+
+PassSlot MetalContext::codec_gelu_pass(PassSlot x) {
+    PASS_REQUIRE_AND_BARRIER();auto out=impl_->pass_alloc_raw(x.element_count);auto enc=impl_->pass_enc;
+    [enc setComputePipelineState:impl_->codec_gelu_pipeline];
+    [enc setBuffer:impl_->pass_workspace offset:x.byte_offset atIndex:0];[enc setBuffer:impl_->pass_workspace offset:out.byte_offset atIndex:1];
+    [enc setBytes:&x.element_count length:4 atIndex:2];[enc dispatchThreads:MTLSizeMake(x.element_count,1,1) threadsPerThreadgroup:MTLSizeMake(64,1,1)];return out;
+}
+PassSlot MetalContext::codec_scale_pass(PassSlot x,const std::string& key,const std::vector<float>& gamma) {
+    if(gamma.empty()||x.element_count%gamma.size())throw std::invalid_argument("Codec scale dimensions");
+    PASS_REQUIRE_AND_BARRIER();auto out=impl_->pass_alloc_raw(x.element_count);auto enc=impl_->pass_enc;
+    auto g=impl_->resident_buffer_with_bytes(key,gamma.data(),gamma.size()*4);uint32_t width=gamma.size();
+    [enc setComputePipelineState:impl_->codec_scale_pipeline];
+    [enc setBuffer:impl_->pass_workspace offset:x.byte_offset atIndex:0];[enc setBuffer:g offset:0 atIndex:1];[enc setBuffer:impl_->pass_workspace offset:out.byte_offset atIndex:2];
+    [enc setBytes:&x.element_count length:4 atIndex:3];[enc setBytes:&width length:4 atIndex:4];[enc dispatchThreads:MTLSizeMake(x.element_count,1,1) threadsPerThreadgroup:MTLSizeMake(64,1,1)];return out;
+}
+PassSlot MetalContext::depthwise_conv1d_same_pass(const std::string& wk,const std::vector<float>& w,
+    const std::string& bk,const std::vector<float>& b,PassSlot x,uint32_t tokens,uint32_t channels,uint32_t kernel) {
+    PASS_REQUIRE_AND_BARRIER();auto out=impl_->pass_alloc_raw(tokens*channels);auto enc=impl_->pass_enc;
+    [enc setComputePipelineState:impl_->depthwise_conv1d_same_pipeline];
+    [enc setBuffer:impl_->pass_workspace offset:x.byte_offset atIndex:0];[enc setBuffer:impl_->resident_buffer_with_bytes(wk,w.data(),w.size()*4) offset:0 atIndex:1];
+    [enc setBuffer:impl_->resident_buffer_with_bytes(bk,b.data(),b.size()*4) offset:0 atIndex:2];[enc setBuffer:impl_->pass_workspace offset:out.byte_offset atIndex:3];
+    [enc setBytes:&tokens length:4 atIndex:4];[enc setBytes:&channels length:4 atIndex:5];[enc setBytes:&kernel length:4 atIndex:6];
+    [enc dispatchThreads:MTLSizeMake(channels,tokens,1) threadsPerThreadgroup:MTLSizeMake(32,1,1)];return out;
+}
+PassSlot MetalContext::nearest_interpolate_pass(PassSlot x,uint32_t in_tokens,uint32_t out_tokens,uint32_t width) {
+    if(!in_tokens||!out_tokens||x.element_count!=in_tokens*width)throw std::invalid_argument("Interpolation dimensions");
+    PASS_REQUIRE_AND_BARRIER();auto out=impl_->pass_alloc_raw(out_tokens*width);auto enc=impl_->pass_enc;float scale=float(in_tokens)/out_tokens;
+    [enc setComputePipelineState:impl_->nearest_interpolate_pipeline];[enc setBuffer:impl_->pass_workspace offset:x.byte_offset atIndex:0];[enc setBuffer:impl_->pass_workspace offset:out.byte_offset atIndex:1];
+    [enc setBytes:&in_tokens length:4 atIndex:2];[enc setBytes:&out_tokens length:4 atIndex:3];[enc setBytes:&width length:4 atIndex:4];[enc setBytes:&scale length:4 atIndex:5];
+    [enc dispatchThreads:MTLSizeMake(width,out_tokens,1) threadsPerThreadgroup:MTLSizeMake(32,1,1)];return out;
+}
+
+}
+
+namespace mit2 { void MetalContext::gptKvSnapshotsClear() { impl_->kv_snapshot_pool.clear(); } }
