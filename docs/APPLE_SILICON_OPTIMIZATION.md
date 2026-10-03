@@ -45,3 +45,7 @@
 ## 06：Codec GPU pass（保留，最终复核）
 
 实现 `7d5deef`。7次暖请求整体改善0.99%；Codec阶段约从80–90ms降为48–62ms，提交次数从92降为3（lookup两次、主体一次）。保持原erf GELU多项式和各算子计算顺序，不用GPT tanh GELU替换。复用主体工作区、gamma常驻，避免每个小算子重新分配上传/读回。9组Codec及W2V语义token golden均通过，整句PCM字节完全相同。见 `apple-silicon/06-codec-pass.json`。
+
+## 07：GPT FP32 ICB 重放
+
+实验 `80414df`。每token重放同一组FP32 GEMV、LayerNorm、GELU、残差和KV attention；保持原CPU采样/RNG与显式mel position。ICB使用独立固定8MiB工作区，KV布局变更自动失效，采样路径不读取未写入的history。结果见 `apple-silicon/07-gpt-icb.json`，GPT golden日志见 `07-ctest-gpt.txt`。
