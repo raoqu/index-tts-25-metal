@@ -3130,3 +3130,13 @@ kernel void itts25_qwen_attention(device const float* q [[buffer(0)]],device con
     for(uint stride=64;stride;stride/=2){if(tid<stride)scratch[tid]+=scratch[tid+stride];threadgroup_barrier(mem_flags::mem_threadgroup);}
     float value=0;for(uint key=0;key<count;key++)value+=(scores[key]/scratch[0])*v[key*1024+kv*128+tid];out[base+tid]=value;
 }
+
+// Same erf polynomial and operation order as CodecOps::gelu.
+kernel void itts25_codec_gelu(device const float* x [[buffer(0)]],device float* y [[buffer(1)]],constant uint& n [[buffer(2)]],uint i [[thread_position_in_grid]]) {
+    if(i>=n)return;float v=x[i]*0.7071067811865475f,a=abs(v),t=1.0f/(1.0f+0.3275911f*a);
+    float p=(((((1.061405429f*t-1.453152027f)*t)+1.421413741f)*t-0.284496736f)*t+0.254829592f)*t;
+    float erf=1.0f-p*exp(-a*a);if(v<0)erf=-erf;y[i]=0.5f*x[i]*(1.0f+erf);
+}
+kernel void itts25_codec_scale(device const float* x [[buffer(0)]],device const float* g [[buffer(1)]],device float* y [[buffer(2)]],constant uint& n [[buffer(3)]],constant uint& c [[buffer(4)]],uint i [[thread_position_in_grid]]) {
+    if(i<n)y[i]=x[i]*g[i%c];
+}

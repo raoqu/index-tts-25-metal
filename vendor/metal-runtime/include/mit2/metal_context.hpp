@@ -285,6 +285,11 @@ public:
                                 const std::string& beta_key, const std::vector<float>& beta,
                                 PassSlot x, uint32_t count, float eps);
     PassSlot gelu_f32_pass(PassSlot x, uint32_t count);
+    PassSlot codec_gelu_pass(PassSlot x);
+    PassSlot codec_scale_pass(PassSlot x,const std::string& key,const std::vector<float>& gamma);
+    PassSlot depthwise_conv1d_same_pass(const std::string& wk,const std::vector<float>& w,
+        const std::string& bk,const std::vector<float>& b,PassSlot x,uint32_t tokens,uint32_t channels,uint32_t kernel);
+    PassSlot nearest_interpolate_pass(PassSlot x,uint32_t in_tokens,uint32_t out_tokens,uint32_t width);
     PassSlot gpt_cached_attention_f32_pass(const std::vector<float>& cache_k,
                                            const std::vector<float>& cache_v,
                                            PassSlot current_qkv,
