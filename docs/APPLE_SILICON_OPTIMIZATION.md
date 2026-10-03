@@ -23,3 +23,5 @@
 10. 按设备/形状选择算子与存储模式。
 
 复现：`itts25-benchmark MODEL FRONTEND CASES_JSON OUTPUT_DIR CYCLES WARMUPS` 输出 JSONL；`tools/compare_performance.py BASELINE_JSONL CANDIDATE_JSONL` 对照耗时、阶段、tokens、WAV 和内存。benchmark 不参与默认服务。
+
+基线已有 10 项 CTest 全通过（26.83s）。附加 `tools/run_performance.py` 以 ABBA 顺序独立进程复测，避免同时推理。默认用例保存在 `tools/performance_cases.json`。
