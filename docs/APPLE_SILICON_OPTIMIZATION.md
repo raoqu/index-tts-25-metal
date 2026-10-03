@@ -59,3 +59,7 @@
 ## 09：Qwen GPU embedding / argmax（保留）
 
 实现 `52be7e8`。embedding不再单独提交/读回/重新上传；生成模式把151936 logits的greedy argmax放在同一pass，prefill/step golden接口仍返回完整logits。保持FP32与最小ID平局规则。文字情绪两场景ABBA整体改善1.45%，两轮1.75%/0.85%，语义codes和PCM字节一致，Qwen logits/EOS golden通过。主Metal分配计数不覆盖Qwen自身context，整进程footprint仍记录在结果内。见 `apple-silicon/09-qwen-gpu.json`。
+
+## 10：文字情绪分类缓存（保留）
+
+实现 `ee84f8a`。以完整原始情绪文本为key，仅缓存成功分类的JSON；长度校验在查缓存前，最多16项并随runtime销毁。缓存不包含声音、alpha或随机采样结果。重复文字情绪请求ABBA整体改善41.39%（41.66%/41.09%），PCM字节一致，未缓存的新文本仍走同一Qwen。该收益仅适用于缓存命中的重复情绪文本。见 `apple-silicon/10-emotion-cache.json`；最终验证包含容量淘汰、错误输入及runtime销毁重建。
