@@ -1,0 +1,165 @@
+{
+  "quality_pass": true,
+  "aggregate_improvement_percent": 8.893362252483945,
+  "cases": {
+    "demo_beam": {
+      "baseline_seconds": 2.0980233545,
+      "candidate_seconds": 2.0882049585,
+      "improvement_percent": 0.4679831603847862,
+      "codes_exact": true,
+      "pcm_max_abs": 0.0,
+      "pcm_rmse": 0.0,
+      "quality_pass": true,
+      "baseline_stages": {
+        "acoustic": 0.781726021,
+        "codec": 0.050507791999999996,
+        "emotion": 0.000234854,
+        "features": 0.0003655,
+        "flow": 0.7024416665,
+        "gpt": 1.2198241875,
+        "regulate": 0.025088916500000003,
+        "text": 0.000128083,
+        "vocoder": 0.094417854
+      },
+      "candidate_stages": {
+        "acoustic": 0.783275917,
+        "codec": 0.052468271,
+        "emotion": 0.0002473955,
+        "features": 0.000429604,
+        "flow": 0.7052661665,
+        "gpt": 1.2098143124999998,
+        "regulate": 0.025942667000000003,
+        "text": 0.0001821455,
+        "vocoder": 0.094319291
+      },
+      "baseline_memory_first": {
+        "footprint_bytes": 11574570552,
+        "rss_bytes": 13812940800
+      },
+      "baseline_memory_last": {
+        "footprint_bytes": 11574947408,
+        "rss_bytes": 13813301248
+      },
+      "candidate_memory_first": {
+        "footprint_bytes": 11582729856,
+        "rss_bytes": 13796622336
+      },
+      "candidate_memory_last": {
+        "footprint_bytes": 11583778456,
+        "rss_bytes": 13797670912
+      },
+      "candidate_metal_allocations": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "demo_beam_long": {
+      "baseline_seconds": 10.847490646,
+      "candidate_seconds": 9.3815975835,
+      "improvement_percent": 13.513660535310509,
+      "codes_exact": true,
+      "pcm_max_abs": 0.0,
+      "pcm_rmse": 0.0,
+      "quality_pass": true,
+      "baseline_stages": {
+        "acoustic": 2.20129275,
+        "codec": 0.098132479,
+        "emotion": 0.00023193699999999999,
+        "features": 0.0005874579999999999,
+        "flow": 1.979245271,
+        "gpt": 8.2090323335,
+        "regulate": 0.1227425625,
+        "text": 0.00034860450000000003,
+        "vocoder": 0.4347567495
+      },
+      "candidate_stages": {
+        "acoustic": 2.2170624165,
+        "codec": 0.1038318955,
+        "emotion": 0.00023581250000000002,
+        "features": 0.0005834585,
+        "flow": 1.9799731045,
+        "gpt": 6.708471354,
+        "regulate": 0.132600312,
+        "text": 0.0003475415,
+        "vocoder": 0.4470438545
+      },
+      "baseline_memory_first": {
+        "footprint_bytes": 14193211072,
+        "rss_bytes": 16430088192
+      },
+      "baseline_memory_last": {
+        "footprint_bytes": 14193243864,
+        "rss_bytes": 16430104576
+      },
+      "candidate_memory_first": {
+        "footprint_bytes": 12726563416,
+        "rss_bytes": 14939783168
+      },
+      "candidate_memory_last": {
+        "footprint_bytes": 12726661696,
+        "rss_bytes": 14939930624
+      },
+      "candidate_metal_allocations": [
+        9,
+        9,
+        9,
+        9
+      ]
+    },
+    "qin_beam": {
+      "baseline_seconds": 3.8363232915000003,
+      "candidate_seconds": 3.819565167,
+      "improvement_percent": 0.43682774434393257,
+      "codes_exact": true,
+      "pcm_max_abs": 0.0,
+      "pcm_rmse": 0.0,
+      "quality_pass": true,
+      "baseline_stages": {
+        "acoustic": 2.09178475,
+        "codec": 0.068637375,
+        "emotion": 0.000635104,
+        "features": 0.0007675625,
+        "flow": 1.9891738540000001,
+        "gpt": 1.6137906665,
+        "regulate": 0.033636896,
+        "text": 0.0001324165,
+        "vocoder": 0.125874792
+      },
+      "candidate_stages": {
+        "acoustic": 2.1000983955,
+        "codec": 0.0708556665,
+        "emotion": 0.0006370625,
+        "features": 0.0007645625,
+        "flow": 1.9947245420000002,
+        "gpt": 1.5815787915000001,
+        "regulate": 0.0340322505,
+        "text": 0.0001274585,
+        "vocoder": 0.1316242705
+      },
+      "baseline_memory_first": {
+        "footprint_bytes": 11788988200,
+        "rss_bytes": 14027194368
+      },
+      "baseline_memory_last": {
+        "footprint_bytes": 11789381440,
+        "rss_bytes": 14027571200
+      },
+      "candidate_memory_first": {
+        "footprint_bytes": 11797131096,
+        "rss_bytes": 14010875904
+      },
+      "candidate_memory_last": {
+        "footprint_bytes": 11798196080,
+        "rss_bytes": 14011940864
+      },
+      "candidate_metal_allocations": [
+        0,
+        0,
+        0,
+        0
+      ]
+    }
+  }
+}

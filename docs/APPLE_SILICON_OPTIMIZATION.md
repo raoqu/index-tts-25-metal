@@ -51,3 +51,7 @@
 实验 `80414df`。每token重放同一组FP32 GEMV、LayerNorm、GELU、残差和KV attention；保持原CPU采样/RNG与显式mel position。ICB使用独立固定8MiB工作区，KV布局变更自动失效，采样路径不读取未写入的history。结果见 `apple-silicon/07-gpt-icb.json`，GPT golden日志见 `07-ctest-gpt.txt`。
 
 07结论：初版ICB整体 -1.04%；去重并批量声明GPU资源（`ea7dae1`）后整体仅 +0.188%，三个场景均未达到0.5%。质量全通过，但按门槛将两次实验实现均回退。未采用改FP16或更改采样作为补救。
+
+## 08：Beam KV快照（保留）
+
+实验 `e50779e` 的全GPU版本短句退化2.89%、长句改善19.86%；调整 `e178423` 为128个cached tokens以下沿用CPU拷贝，以上GPU blit。混合版本三用例整体改善8.89%，长句11秒左右降到9.38秒（13.51%），短句+0.44%/+0.47%基本持平。GPT golden通过，beam语义codes与PCM字节完全相同。长句footprint约14.19GB→12.73GB；快照池最多24项，按容量替换闲置小buffer，每次生成退出时清空（含异常退出）。新增分配9次/长句是请求内池化的代价，避免保留最大请求的快照内存。见 `apple-silicon/08-beam-kv.json`。
