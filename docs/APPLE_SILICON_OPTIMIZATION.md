@@ -71,3 +71,7 @@
 ## 12：M1 Max FP32合并卷积GEMM（回退）
 
 实验 `e0ba728`。真实357/790帧交错flow与已有acoustic、MPS bias复用测试通过；flow最大误差4.77e-6，最终PCM在原门槛内。ABBA整体 -0.105%（+0.502%/-0.248%），没有达到0.5%，按门槛回退，不启用这个按设备/形状选择的路径。见 `apple-silicon/12-merged-convolution.json`、`12-real-components.json`。
+
+## 13：剩余CFM时间投影缓存（回退）
+
+实验 `bf13dd2`。额外缓存Wavenet conditioning和末层silu(t1)投影，保持原算子，真实组件和PCM均逐元素一致。ABBA整体改善0.408%，两轮-0.345%/+0.470%，低于门槛，因此回退；不继续保留额外缓存与上传内存。见 `apple-silicon/13-conditioning-cache.json`。
