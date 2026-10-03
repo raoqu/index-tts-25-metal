@@ -86,11 +86,11 @@ std::vector<float> GptDecoder::step(uint32_t code,uint32_t position) {
 GptState GptDecoder::checkpoint() const {return {cached_tokens_,metal_.gptKvCacheRead(cached_tokens_)};}
 void GptDecoder::restore(const GptState& state) {metal_.gptKvCacheWrite(state.kv,state.tokens);cached_tokens_=state.tokens;}
 std::vector<float> GptDecoder::run(const std::vector<float>& input,bool initial,uint32_t code,uint32_t position) {
+    if (!initial) return run_icb(code,position);
     // Resolve/transpose weights before beginning the command buffer. This avoids
     // CPU conversion and allocation stalls while a GPU pass is being encoded.
     for(uint32_t i=0;i<layers;i++) for(const auto* name:{"attn.c_attn","attn.c_proj","mlp.c_fc","mlp.c_proj"})
         conv_weight("gpt.gpt.h."+std::to_string(i)+"."+name+".weight");
-    if (!initial) return run_icb(code,position);
     const uint32_t t=initial?static_cast<uint32_t>(input.size()/width):1;
     metal_.beginPass((static_cast<size_t>(t)*24*width+16384)*4);
     mit2::PassSlot hidden;
