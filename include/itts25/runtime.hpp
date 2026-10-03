@@ -17,6 +17,7 @@ public:
     NativeVoice clone(const std::string& audio);
     Json synthesize(const NativeVoice& voice,const std::string& text,const std::string& output,const Json& options=Json::object());
     Json emotion_text(const std::string& text);
+    mit2::MetalResourceStats resource_stats() const { return metal_.resource_stats(); }
 private:
     Weights weights_;mit2::MetalContext metal_;SpeechFeatures speech_;CampPlus camp_;
     EmotionEncoder emotion_;GptDecoder gpt_;EnhancedCodec codec_;AcousticModel acoustic_;

@@ -89,3 +89,7 @@ set(ITTS25_SAMPLING_GOLDEN "" CACHE PATH "Sampling processor fixtures")
 if(ITTS25_SAMPLING_GOLDEN)
   add_test(NAME sampling_parity COMMAND itts25-metal --test-sampling ${ITTS25_SAMPLING_GOLDEN})
 endif()
+
+# Explicit benchmark target: repeated TTS in one process, model construction timed separately.
+add_executable(itts25-benchmark src/benchmark_main.cpp)
+target_link_libraries(itts25-benchmark PRIVATE itts25_runtime)
