@@ -30,7 +30,7 @@ add_library(itts25_frontend STATIC src/tokenizer.cpp src/audio_frontend.cpp src/
 set_source_files_properties(src/unicode.mm PROPERTIES COMPILE_FLAGS "-fobjc-arc")
 set_source_files_properties(src/text_processor.cpp PROPERTIES COMPILE_OPTIONS "-w")
 target_include_directories(itts25_frontend PUBLIC include vendor/headers ${BASE}/include PRIVATE ${PCRE2_INCLUDE_DIR} ${SNDFILE_INCLUDE_DIR} ${SOXR_INCLUDE_DIR})
-target_link_libraries(itts25_frontend PUBLIC itts25_native itts25_kaldifst ${PCRE2_LIBRARY} ${SNDFILE_LIBRARY} ${SOXR_LIBRARY} "-framework AudioToolbox")
+target_link_libraries(itts25_frontend PUBLIC itts25_native itts25_kaldifst ${PCRE2_LIBRARY} ${SNDFILE_LIBRARY} ${SOXR_LIBRARY} "-framework AudioToolbox" "-framework Accelerate")
 target_compile_options(itts25_frontend PRIVATE -Wall -Wextra)
 add_executable(itts25-frontend src/frontend_main.cpp)
 target_link_libraries(itts25-frontend PRIVATE itts25_frontend)
