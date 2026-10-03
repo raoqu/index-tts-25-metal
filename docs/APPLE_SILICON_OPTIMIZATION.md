@@ -75,3 +75,7 @@
 ## 13：剩余CFM时间投影缓存（回退）
 
 实验 `bf13dd2`。额外缓存Wavenet conditioning和末层silu(t1)投影，保持原算子，真实组件和PCM均逐元素一致。ABBA整体改善0.408%，两轮-0.345%/+0.470%，低于门槛，因此回退；不继续保留额外缓存与上传内存。见 `apple-silicon/13-conditioning-cache.json`。
+
+## 14：Metal编译库共享（回退）
+
+实验 `7c8f93a`。跨MetalContext只编译一次库，model/context初始化属于排除范围。暖TTS ABBA -0.946%（+0.263%/-1.865%），输出完全相同；回退。AOT metallib同样只移走首次编译，不会减少暖TTS算子工作，因此不引入额外构建/部署复杂度。见 `apple-silicon/14-shared-library.json`。
