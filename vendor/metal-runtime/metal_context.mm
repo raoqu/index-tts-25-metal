@@ -4953,7 +4953,7 @@ PassSlot MetalContext::adaptive_rmsnorm_rows_f32_pass(const std::string& gk, con
     [impl_->pass_enc setBytes:&width length:sizeof(width) atIndex:6];
     [impl_->pass_enc setBytes:&eps length:sizeof(eps) atIndex:7];
     [impl_->pass_enc dispatchThreadgroups:MTLSizeMake(tokens, 1, 1)
-               threadsPerThreadgroup:MTLSizeMake(width <= 512 ? 512 : 1024, 1, 1)];
+               threadsPerThreadgroup:MTLSizeMake(1024, 1, 1)];
     return out;
 }
 
