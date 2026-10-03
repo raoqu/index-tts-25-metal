@@ -64,7 +64,7 @@
 
 实现 `ee84f8a`。以完整原始情绪文本为key，仅缓存成功分类的JSON；长度校验在查缓存前，最多16项并随runtime销毁。缓存不包含声音、alpha或随机采样结果。重复文字情绪请求ABBA整体改善41.39%（41.66%/41.09%），PCM字节一致，未缓存的新文本仍走同一Qwen。该收益仅适用于缓存命中的重复情绪文本。见 `apple-silicon/10-emotion-cache.json`；最终验证包含容量淘汰、错误输入及runtime销毁重建。
 
-## 11：Accelerate双精度FFT（保留）
+## 11：Accelerate双精度FFT（最终回退）
 
 实现 `2e5bde1`。固定512/1024点double FFT与setup复用，thread_local工作区最多1024个double的real/imag两组，setup析构释放。完整音频情绪TTS的ABBA改善1.07%，两轮0.90%/1.80%，PCM字节一致。示例参考音频的speech/CAMP/mel特征均逐元素完全一致；没有改resample、窗函数、归一化、裁剪和参考长度。缓存声音的普通请求不走此FFT，因此不宣称有收益。见 `apple-silicon/11-accelerate-fft.json` 和 `11-frontend-parity.json`。
 
@@ -99,3 +99,9 @@
 ## 19：Codec最终组合复核（保留）
 
 撤下Codec pass后，以7次暖请求/轮ABBA复核其实际贡献。整体改善1.948%（2.543%/1.390%），每个场景均改善、语义token和PCM字节完全相同。恢复 `7d5deef` 的实现，保留连续GPU pass与复用工作区。见 `apple-silicon/19-codec-final.json`。
+
+## 20：FFT最终组合复核（保守回退）
+
+混合ABBA中音频情绪整体-0.916%，因此再次做12次暖请求/轮的FFT单项ABBA，并拆出DSP与语音编码计时。整体点估计+0.972%，两轮-0.715%/+3.339%，无法确认稳定超过0.5%的收益；直接DSP仅6.386ms→4.721ms，节省1.665ms（占整句1.579s的0.105%），其他GPU阶段的波动贡献了表面整体收益。按严格门槛保守保留回退 `0481674`，撤去新增FFT setup/工作区与Accelerate链接。质量仍逐字节一致。见 `apple-silicon/20-fft-final.json`。
+
+最终实现仅保留：Codec GPU pass、混合beam KV快照、Qwen GPU embedding/argmax、有界文字情绪分类缓存。计时和验证工具保留作为基础设施。
