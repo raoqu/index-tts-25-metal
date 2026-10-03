@@ -1,0 +1,26 @@
+Internal ctest changing into directory: /Users/raoqu/mylab/index-tts-25-metal/build
+Test project /Users/raoqu/mylab/index-tts-25-metal/build
+      Start  1: metal_device
+ 1/10 Test  #1: metal_device .....................   Passed    0.05 sec
+      Start  2: mps_zero_bias_reuse
+ 2/10 Test  #2: mps_zero_bias_reuse ..............   Passed    0.08 sec
+      Start  3: codec_parity
+ 3/10 Test  #3: codec_parity .....................   Passed    1.34 sec
+      Start  4: acoustic_parity
+ 4/10 Test  #4: acoustic_parity ..................   Passed    5.11 sec
+      Start  5: gpt_parity
+ 5/10 Test  #5: gpt_parity .......................   Passed    5.46 sec
+      Start  6: emotion_parity
+ 6/10 Test  #6: emotion_parity ...................   Passed    3.43 sec
+      Start  7: speech_parity
+ 7/10 Test  #7: speech_parity ....................   Passed    4.23 sec
+      Start  8: camp_parity
+ 8/10 Test  #8: camp_parity ......................   Passed    1.16 sec
+      Start  9: qwen_parity
+ 9/10 Test  #9: qwen_parity ......................   Passed    5.97 sec
+      Start 10: sampling_parity
+10/10 Test #10: sampling_parity ..................   Passed    0.01 sec
+
+100% tests passed, 0 tests failed out of 10
+
+Total Test time (real) =  26.83 sec

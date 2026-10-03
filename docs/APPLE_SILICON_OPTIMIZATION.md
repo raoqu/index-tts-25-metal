@@ -25,3 +25,7 @@
 复现：`itts25-benchmark MODEL FRONTEND CASES_JSON OUTPUT_DIR CYCLES WARMUPS` 输出 JSONL；`tools/compare_performance.py BASELINE_JSONL CANDIDATE_JSONL` 对照耗时、阶段、tokens、WAV 和内存。benchmark 不参与默认服务。
 
 基线已有 10 项 CTest 全通过（26.83s）。附加 `tools/run_performance.py` 以 ABBA 顺序独立进程复测，避免同时推理。默认用例保存在 `tools/performance_cases.json`。
+
+## 02：CFM 时间调制缓存（保留）
+
+实现 `d58cc9e`。先验 A/B 整体改善 1.17%；独立 ABBA 两组均超过门槛（15.92% / 2.21%，合并 9.65%），波动较大，不把 9.65% 解释为纯缓存算子的稳定加速比。所有语义 codes 和 PCM 字节一致；acoustic golden 通过。暖请求主 Metal 分配次数为零。缓存与模型实例同寿命，最多8组；默认25步每组约2.64MiB，新增轨迹上传同等大小。阶段与内存详情见 `apple-silicon/02-cfm-modulation.json`。
