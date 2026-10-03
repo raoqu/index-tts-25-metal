@@ -13,12 +13,15 @@ cd ~/mylab/index-tts-25-metal
 ```
 
 默认打开 `http://127.0.0.1:3456/web`。`dev.sh` 会自动增量构建，资源根据
-脚本位置定位，与调用时的工作目录无关。Ctrl+C停止服务。
+脚本位置定位，与调用时的工作目录无关。首次启动会从
+[ModelScope](https://modelscope.cn/models/iwannaido/index-tts25-metal)
+自动下载缺失的默认模型、文本前端及示例音频，共约8.70GiB。Ctrl+C停止服务。
 依赖：Xcode命令行工具、CMake、PCRE2、libsndfile、libsoxr。
 
 ```sh
 brew install cmake pcre2 libsndfile libsoxr
 ./dev.sh --prepare-only
+./dev.sh --no-download                # 离线启动，要求资源已完整准备
 ./dev.sh --port 3457
 ./dev.sh --no-build
 ./dev.sh --server                     # 仅HTTP API
@@ -27,7 +30,9 @@ brew install cmake pcre2 libsndfile libsoxr
 ```
 
 直接执行 `build/itts25-native` 默认启动Web服务，自动从可执行文件附近定位
-模型、前端和网页；指定 `--voice`/`--text` 或 `--cli` 可使用CLI模式。
+模型、前端和网页，并下载缺失的默认模型与前端；指定 `--voice`/`--text`
+或 `--cli` 可使用CLI模式。`build/itts25-native --download-only` 仅准备模型、
+前端及示例音频，`--no-download` 可关闭下载。
 `./build.sh --help`、`./dev.sh --help` 和 `build/itts25-native --help` 显示选项。
 
 HTTP 和 CLI 每次合成成功后会向 stderr 输出一行 TTS 摘要日志：
@@ -57,7 +62,10 @@ HTTP 和 CLI 每次合成成功后会向 stderr 输出一行 TTS 摘要日志：
 | `docs/` | 接口说明、来源及验收记录 |
 
 模型包、音色、示例音频、编译产物和生成音频放在本地，已从Git中忽略。
-复制整个项目时须包含 `bundles/`；仅克隆Git源码不会包含模型包。
+仅克隆Git源码后运行 `./dev.sh` 即可自动准备模型。下载支持断点续传、
+SHA-256校验和并发启动保护；已完整准备的资源在启动时不会访问网络。
+显式指定的自定义模型或前端目录须自行准备。详见
+[模型下载说明](docs/MODEL_DOWNLOAD.md)。
 源码和模型来源见 `SOURCE.md`；许可证见 `LICENSE`、`LICENSE_ZH.txt` 和各vendor目录。
 
 ```sh

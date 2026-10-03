@@ -13,6 +13,7 @@ task_example="$task_root/examples/voice_01.wav"
 task_cli=0
 task_prepare=0
 task_build_needed=1
+task_download_args=()
 task_args=()
 
 while (($#)); do
@@ -21,7 +22,9 @@ while (($#)); do
       cat <<'HELP'
 Run standalone native IndexTTS 2.5. Default: http://127.0.0.1:3456/web
 Usage: ./dev.sh [native options]
-  --prepare-only       Build and check resources, then exit.
+  --prepare-only       Build and download missing default resources, then exit.
+  --download-only      Same as --prepare-only.
+  --no-download        Require local resources; disable automatic downloads.
   --no-build           Run the existing native binary.
   --cli                Synthesize/clone with --voice, --text, --output.
   --host HOST --port N --web --server --webkey KEY
@@ -32,7 +35,8 @@ Environment: BUILD_DIR, HOST, PORT, MODEL_BUNDLE, ITTS25_FRONTEND,
 HELP
       exit 0 ;;
     --cli) task_cli=1; shift ;;
-    --prepare-only) task_prepare=1; shift ;;
+    --prepare-only|--download-only) task_prepare=1; shift ;;
+    --no-download) task_download_args+=("$1"); shift ;;
     --no-build) task_build_needed=0; shift ;;
     --model_bundle|--frontend|--voice_store|--web_file|--example_audio)
       if (($#<2)); then echo "Missing value for $1" >&2; exit 2; fi
@@ -55,21 +59,19 @@ done
 
 if ((task_build_needed)); then "$task_root/build.sh"; fi
 [[ -x "$task_build/itts25-native" ]] || { echo "Native binary missing: $task_build/itts25-native; run ./build.sh" >&2; exit 1; }
-for task_file in "$task_model/manifest.json" "$task_model/weights.bin" \
-  "$task_frontend/manifest.json" "$task_frontend/weights.bin" "$task_frontend/frontend.json" \
-  "$task_frontend/text.tiktoken" "$task_frontend/libmecab.2.dylib" "$task_frontend/unidic/sys.dic" \
-  "$task_frontend/fsts/zh/tn/tagger.fst" "$task_frontend/fsts/zh/tn/verbalizer.fst" \
-  "$task_frontend/fsts/en/tn/tagger.fst" "$task_frontend/fsts/en/tn/verbalizer.fst"; do
-  [[ -f "$task_file" ]] || { echo "Missing resource: $task_file" >&2; exit 1; }
-done
-if ((task_prepare)); then echo 'Native binary and model/frontend packages are ready.'; exit 0; fi
+if ((task_prepare)); then
+  exec "$task_build/itts25-native" --download-only --model_bundle "$task_model" --frontend "$task_frontend" \
+    --example_audio "$task_example" ${task_download_args[@]+"${task_download_args[@]}"}
+fi
 
 if ((task_cli)); then
-  exec "$task_build/itts25-native" --cli --model_bundle "$task_model" --frontend "$task_frontend" ${task_args[@]+"${task_args[@]}"}
+  exec "$task_build/itts25-native" --cli --model_bundle "$task_model" --frontend "$task_frontend" \
+    ${task_download_args[@]+"${task_download_args[@]}"} ${task_args[@]+"${task_args[@]}"}
 fi
 exec "$task_build/itts25-native" --http --web --model_bundle "$task_model" --frontend "$task_frontend" \
   --voice_store "$task_store" --web_file "$task_web" --example_audio "$task_example" --seed_example \
   --host "${HOST:-127.0.0.1}" --port "${PORT:-3456}" --webkey "${MIT2_WEBKEY:-}" \
   --queue_size "${MIT2_QUEUE_SIZE:-16}" --voice_cache_size "${MIT2_VOICE_CACHE_SIZE:-20}" \
   --tts_concurrency "${MIT2_TTS_CONCURRENCY:-1}" --clone_concurrency "${MIT2_CLONE_CONCURRENCY:-1}" \
+  ${task_download_args[@]+"${task_download_args[@]}"} \
   ${task_args[@]+"${task_args[@]}"}

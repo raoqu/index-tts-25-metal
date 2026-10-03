@@ -3,4 +3,6 @@
 /voices/
 /outputs/
 /examples/*.wav
+/examples/*.part
+/examples/.download.lock
 .DS_Store

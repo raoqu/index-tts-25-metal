@@ -1,0 +1,63 @@
+{
+  "timestamp": "2026-10-03T21:31:32.882044+08:00",
+  "repository": "https://modelscope.cn/models/iwannaido/index-tts25-metal",
+  "revision": "d4c5e3db4cccc466a811997d3272d862884e85a8",
+  "verified_remote_resources": 33,
+  "resource_bytes": 9344912321,
+  "remote_size_and_sha256_match": true,
+  "local_package_sha256_verified": 32,
+  "ctest_passed": 11,
+  "download_tests": [
+    "fresh",
+    "complete_local_skip",
+    "offline_missing",
+    "partial_resume",
+    "truncated_file_resume",
+    "complete_part_promotion",
+    "range_fallback",
+    "interrupted_transfer_recovery",
+    "sha256_failure",
+    "http_404",
+    "concurrent_download",
+    "unsafe_path",
+    "invalid_custom_directory_before_download"
+  ],
+  "real_modelscope_download": {
+    "restored_files": [
+      "bundles/full/manifest.json",
+      "bundles/frontend/manifest.json",
+      "bundles/frontend/libmecab.2.dylib",
+      "bundles/frontend/unidic/dicrc",
+      "bundles/frontend/weights.bin",
+      "examples/voice_01.wav"
+    ],
+    "frontend_weights_resumed_from_bytes": 128000,
+    "executed_from": "/tmp",
+    "resource_directory_contains_spaces": true,
+    "complete_resources_work_with_unreachable_proxy": true,
+    "large_weights_reused_locally_for_synthesis": true
+  },
+  "native_synthesis": {
+    "sample_rate": 22050,
+    "channels": 1,
+    "sample_width": 2,
+    "frames": 58112,
+    "seconds": 2.6354648526077096,
+    "sha256": "f1c28ace4eb44b742b515a1ab9da2785f6ea033a2164617924d53bf34fb3f0ec",
+    "byte_equal_to_original_resources": true
+  },
+  "remote_weight_ranges": [
+    {
+      "start": 0,
+      "end": 8191,
+      "status": 206,
+      "bytes_match": true
+    },
+    {
+      "start": 9065848832,
+      "end": 9065857023,
+      "status": 206,
+      "bytes_match": true
+    }
+  ]
+}
