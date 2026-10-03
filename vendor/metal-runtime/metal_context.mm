@@ -133,7 +133,6 @@ struct MetalContext::Impl {
     id<MTLComputePipelineState> linear_pipeline = nil;
     id<MTLComputePipelineState> linear_rows_pipeline = nil;
     id<MTLComputePipelineState> nearest_interpolate_pipeline = nil;
-    id<MTLComputePipelineState> codec_gelu_pipeline = nil, codec_scale_pipeline = nil;
     id<MTLComputePipelineState> conv1d_same_pipeline = nil;
     id<MTLComputePipelineState> conv1d_reflect_same_pipeline = nil;
     id<MTLComputePipelineState> conv1d_reflect_same_batched_pipeline = nil;
@@ -777,8 +776,6 @@ MetalContext::MetalContext() : impl_(new Impl()) {
         if (!impl_->library) {
             throw std::runtime_error("failed to compile Metal library: " + std::string([[error localizedDescription] UTF8String]));
         }
-        impl_->codec_gelu_pipeline=make_pipeline(impl_->device,impl_->library,@"itts25_codec_gelu");
-        impl_->codec_scale_pipeline=make_pipeline(impl_->device,impl_->library,@"itts25_codec_scale");
         impl_->qwen_rope_pipeline=make_pipeline(impl_->device,impl_->library,@"itts25_qwen_rope");
         impl_->qwen_store_pipeline=make_pipeline(impl_->device,impl_->library,@"itts25_qwen_store");
         impl_->qwen_attention_pipeline=make_pipeline(impl_->device,impl_->library,@"itts25_qwen_attention");
@@ -6194,40 +6191,5 @@ PassSlot MetalContext::gpt_cached_attention_f32_pass(
 }
 
 }  // namespace mit2
-
-namespace mit2 {
-
-PassSlot MetalContext::codec_gelu_pass(PassSlot x) {
-    PASS_REQUIRE_AND_BARRIER();auto out=impl_->pass_alloc_raw(x.element_count);auto enc=impl_->pass_enc;
-    [enc setComputePipelineState:impl_->codec_gelu_pipeline];
-    [enc setBuffer:impl_->pass_workspace offset:x.byte_offset atIndex:0];[enc setBuffer:impl_->pass_workspace offset:out.byte_offset atIndex:1];
-    [enc setBytes:&x.element_count length:4 atIndex:2];[enc dispatchThreads:MTLSizeMake(x.element_count,1,1) threadsPerThreadgroup:MTLSizeMake(64,1,1)];return out;
-}
-PassSlot MetalContext::codec_scale_pass(PassSlot x,const std::string& key,const std::vector<float>& gamma) {
-    if(gamma.empty()||x.element_count%gamma.size())throw std::invalid_argument("Codec scale dimensions");
-    PASS_REQUIRE_AND_BARRIER();auto out=impl_->pass_alloc_raw(x.element_count);auto enc=impl_->pass_enc;
-    auto g=impl_->resident_buffer_with_bytes(key,gamma.data(),gamma.size()*4);uint32_t width=gamma.size();
-    [enc setComputePipelineState:impl_->codec_scale_pipeline];
-    [enc setBuffer:impl_->pass_workspace offset:x.byte_offset atIndex:0];[enc setBuffer:g offset:0 atIndex:1];[enc setBuffer:impl_->pass_workspace offset:out.byte_offset atIndex:2];
-    [enc setBytes:&x.element_count length:4 atIndex:3];[enc setBytes:&width length:4 atIndex:4];[enc dispatchThreads:MTLSizeMake(x.element_count,1,1) threadsPerThreadgroup:MTLSizeMake(64,1,1)];return out;
-}
-PassSlot MetalContext::depthwise_conv1d_same_pass(const std::string& wk,const std::vector<float>& w,
-    const std::string& bk,const std::vector<float>& b,PassSlot x,uint32_t tokens,uint32_t channels,uint32_t kernel) {
-    PASS_REQUIRE_AND_BARRIER();auto out=impl_->pass_alloc_raw(tokens*channels);auto enc=impl_->pass_enc;
-    [enc setComputePipelineState:impl_->depthwise_conv1d_same_pipeline];
-    [enc setBuffer:impl_->pass_workspace offset:x.byte_offset atIndex:0];[enc setBuffer:impl_->resident_buffer_with_bytes(wk,w.data(),w.size()*4) offset:0 atIndex:1];
-    [enc setBuffer:impl_->resident_buffer_with_bytes(bk,b.data(),b.size()*4) offset:0 atIndex:2];[enc setBuffer:impl_->pass_workspace offset:out.byte_offset atIndex:3];
-    [enc setBytes:&tokens length:4 atIndex:4];[enc setBytes:&channels length:4 atIndex:5];[enc setBytes:&kernel length:4 atIndex:6];
-    [enc dispatchThreads:MTLSizeMake(channels,tokens,1) threadsPerThreadgroup:MTLSizeMake(32,1,1)];return out;
-}
-PassSlot MetalContext::nearest_interpolate_pass(PassSlot x,uint32_t in_tokens,uint32_t out_tokens,uint32_t width) {
-    if(!in_tokens||!out_tokens||x.element_count!=in_tokens*width)throw std::invalid_argument("Interpolation dimensions");
-    PASS_REQUIRE_AND_BARRIER();auto out=impl_->pass_alloc_raw(out_tokens*width);auto enc=impl_->pass_enc;float scale=float(in_tokens)/out_tokens;
-    [enc setComputePipelineState:impl_->nearest_interpolate_pipeline];[enc setBuffer:impl_->pass_workspace offset:x.byte_offset atIndex:0];[enc setBuffer:impl_->pass_workspace offset:out.byte_offset atIndex:1];
-    [enc setBytes:&in_tokens length:4 atIndex:2];[enc setBytes:&out_tokens length:4 atIndex:3];[enc setBytes:&width length:4 atIndex:4];[enc setBytes:&scale length:4 atIndex:5];
-    [enc dispatchThreads:MTLSizeMake(width,out_tokens,1) threadsPerThreadgroup:MTLSizeMake(32,1,1)];return out;
-}
-
-}
 
 namespace mit2 { void MetalContext::gptKvSnapshotsClear() { impl_->kv_snapshot_pool.clear(); } }
