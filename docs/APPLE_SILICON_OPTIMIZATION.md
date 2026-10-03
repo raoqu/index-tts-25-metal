@@ -33,3 +33,7 @@
 ## 03：FP32 attention 32-key staging（保留，最终复核）
 
 实现 `d8b241f`。复用已经加载到寄存器的 Q 共享存储作为 O epilogue，保持低于32KiB和原16-key softmax计算顺序。ABBA整体改善2.21%（单组0.24%/5.42%，仍有系统波动），三个场景全部改善且 PCM 字节一致，acoustic golden通过。最终基准复核仍包含此项。见 `apple-silicon/03-attention-tiles.json`。
+
+## 04：512通道 RMSNorm 线程数（待最终复核）
+
+实现 `a9ad3c0`。原1024线程上半部分只加零，改512线程保持同一有效加法树。ABBA两组整体改善0.508%/0.608%，处于门槛边缘，最终再复测才决定是否保留。三个场景 PCM 字节一致，acoustic golden通过。见 `apple-silicon/04-rms-threads.json`。
