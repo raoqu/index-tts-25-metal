@@ -762,7 +762,8 @@ kernel void mit2_adaptive_rmsnorm_f32_rows(
     constant uint& width [[buffer(6)]],
     constant float& eps [[buffer(7)]],
     uint3 tid3 [[thread_position_in_threadgroup]],
-    uint3 group [[threadgroup_position_in_grid]]
+    uint3 group [[threadgroup_position_in_grid]],
+    uint3 tg_size [[threads_per_threadgroup]]
 ) {
     const uint tid = tid3.x;
     const uint token = group.x;
@@ -772,20 +773,20 @@ kernel void mit2_adaptive_rmsnorm_f32_rows(
     threadgroup float scratch[1024];
     const uint base = token * width;
     float local_sum_sq = 0.0f;
-    for (uint i = tid; i < width; i += 1024) {
+    for (uint i = tid; i < width; i += tg_size.x) {
         const float v = x[base + i];
         local_sum_sq += v * v;
     }
     scratch[tid] = local_sum_sq;
     threadgroup_barrier(mem_flags::mem_threadgroup);
-    for (uint stride = 512; stride > 0; stride >>= 1) {
+    for (uint stride = tg_size.x / 2; stride > 0; stride >>= 1) {
         if (tid < stride) {
             scratch[tid] += scratch[tid + stride];
         }
         threadgroup_barrier(mem_flags::mem_threadgroup);
     }
     const float inv_rms = rsqrt(scratch[0] / float(width) + eps);
-    for (uint i = tid; i < width; i += 1024) {
+    for (uint i = tid; i < width; i += tg_size.x) {
         const float normed = x[base + i] * inv_rms * gamma[i];
         out[base + i] = adaptive_weight[i] * normed + adaptive_bias[i];
     }
