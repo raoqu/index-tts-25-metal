@@ -31,10 +31,11 @@ int main(int argc,char** argv) {
                 auto invalid=voice;invalid.prompt.pop_back();rejected=false;
                 try{runtime.synthesize(invalid,"你好世界",std::string(argv[4])+"/invalid.wav",{{"seed",424242}});}catch(const std::invalid_argument&){rejected=true;}
                 if(!rejected)throw std::runtime_error("Malformed voice prompt accepted");
-                for(const auto& name:{"recovery","emotion","beam"}) {
+                for(const auto& name:{"recovery","emotion","beam","audio"}) {
                     auto output=std::string(argv[4])+"/"+name+"-"+std::to_string(epoch)+".wav";
                     Json options{{"seed",424242}};std::string text="你好世界";
                     if(std::string(name)=="emotion")options["emo_text"]=emotional;
+                    if(std::string(name)=="audio"){options["emo_audio_prompt"]="examples/voice_01.wav";options["emo_alpha"]=0.5;}
                     if(std::string(name)=="beam"){options["num_beams"]=3;text="你好，今天我们一起测试本地语音合成的性能，并检查较长文本的输出是否稳定。";}
                     auto result=runtime.synthesize(voice,text,output,options);auto hash=hash_file(output);
                     if(epoch==0)hashes[name]=hash;else if(hashes.at(name)!=hash)throw std::runtime_error("Output changed after runtime reconstruction");
