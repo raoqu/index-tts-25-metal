@@ -11,6 +11,7 @@
 #include <cstring>
 #include <limits>
 #include <sstream>
+#include <mutex>
 #include <stdexcept>
 #include <string>
 #include <unordered_map>
@@ -773,7 +774,13 @@ MetalContext::MetalContext() : impl_(new Impl()) {
         MTLCompileOptions* options = [[MTLCompileOptions alloc] init];
         if (@available(macOS 15.0, *)) options.mathMode = MTLMathModeSafe;
         else options.fastMathEnabled = NO;
-        impl_->library = [impl_->device newLibraryWithSource:source options:options error:&error];
+        static std::once_flag library_once;
+        static id<MTLLibrary> shared_library;
+        std::call_once(library_once,[&]{
+            shared_library=[impl_->device newLibraryWithSource:source options:options error:&error];
+            if(!shared_library)throw std::runtime_error("Failed to compile shared Metal library");
+        });
+        impl_->library=shared_library;
         if (!impl_->library) {
             throw std::runtime_error("failed to compile Metal library: " + std::string([[error localizedDescription] UTF8String]));
         }
