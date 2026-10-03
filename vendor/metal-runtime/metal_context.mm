@@ -4892,6 +4892,15 @@ PassSlot MetalContext::rmsnorm_rows_eps_f32_pass(const std::string& gk,const std
     [impl_->pass_enc setBytes:&tokens length:4 atIndex:3];[impl_->pass_enc setBytes:&width length:4 atIndex:4];[impl_->pass_enc setBytes:&eps length:4 atIndex:5];
     [impl_->pass_enc dispatchThreadgroups:MTLSizeMake(tokens,1,1) threadsPerThreadgroup:MTLSizeMake(1024,1,1)];return out;
 }
+PassSlot MetalContext::embedding_f32_pass(const std::string& key,const std::vector<float>& table,PassSlot ids,uint32_t tokens,uint32_t width) {
+    if(!tokens||!width||ids.element_count!=tokens||table.size()%width)throw std::invalid_argument("Embedding dimensions");
+    PASS_REQUIRE_AND_BARRIER();auto out=impl_->pass_alloc_raw(tokens*width);auto enc=impl_->pass_enc;
+    auto buffer=impl_->resident_buffer_with_bytes(key,table.data(),table.size()*4);
+    [enc setComputePipelineState:impl_->embedding_pipeline];[enc setBuffer:buffer offset:0 atIndex:0];
+    [enc setBuffer:impl_->pass_workspace offset:ids.byte_offset atIndex:1];[enc setBuffer:impl_->pass_workspace offset:out.byte_offset atIndex:2];
+    [enc setBytes:&width length:4 atIndex:3];
+    [enc dispatchThreads:MTLSizeMake(width,tokens,1) threadsPerThreadgroup:MTLSizeMake(32,1,1)];return out;
+}
 PassSlot MetalContext::qwen_rope_f32_pass(PassSlot x,uint32_t tokens,uint32_t heads,uint32_t offset) {
     PASS_REQUIRE_AND_BARRIER();auto out=impl_->pass_alloc_raw(x.element_count);
     [impl_->pass_enc setComputePipelineState:impl_->qwen_rope_pipeline];

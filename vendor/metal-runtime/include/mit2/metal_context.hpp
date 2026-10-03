@@ -187,6 +187,7 @@ public:
     PassSlot linear_f32_pass(const std::string& wk, const std::vector<float>& w, const std::string& bk, const std::vector<float>& b, PassSlot x, uint32_t rows, uint32_t cols);
     PassSlot linear_rows_f32_pass(const std::string& wk, const std::vector<float>& w, const std::string& bk, const std::vector<float>& b, PassSlot x, uint32_t tokens, uint32_t rows, uint32_t cols);
     PassSlot rmsnorm_rows_eps_f32_pass(const std::string& gk,const std::vector<float>& g,PassSlot x,uint32_t tokens,uint32_t width,float eps);
+    PassSlot embedding_f32_pass(const std::string& key,const std::vector<float>& table,PassSlot ids,uint32_t tokens,uint32_t width);
     PassSlot qwen_rope_f32_pass(PassSlot x,uint32_t tokens,uint32_t heads,uint32_t offset);
     PassSlot qwen_attention_f32_pass(uint32_t layer,PassSlot q,PassSlot k,PassSlot v,uint32_t tokens,uint32_t offset);
     PassSlot rmsnorm_rows_f32_pass(const std::string& gk, const std::vector<float>& g, PassSlot x, uint32_t tokens, uint32_t width);
