@@ -2,7 +2,6 @@
 #include <sndfile.h>
 #include <soxr.h>
 #include <complex>
-#include <Accelerate/Accelerate.h>
 #include <cmath>
 #include <numeric>
 #include <algorithm>
@@ -13,23 +12,11 @@ namespace itts25 {
 std::vector<float> decode_apple_audio(const std::string&,uint32_t&);
 namespace {
 constexpr double pi=3.14159265358979323846;
-struct SpectralWorkspace {
-    FFTSetupD small=vDSP_create_fftsetupD(9,kFFTRadix2),large=vDSP_create_fftsetupD(10,kFFTRadix2);
-    std::vector<double> real,imag;
-    ~SpectralWorkspace(){if(small)vDSP_destroy_fftsetupD(small);if(large)vDSP_destroy_fftsetupD(large);}
-};
 std::vector<double> spectrum(const std::vector<double>& frame,size_t n,bool power) {
-    if((n!=512&&n!=1024)||frame.size()>n)throw std::invalid_argument("Unsupported FFT size");
-    thread_local SpectralWorkspace workspace;
-    if(!workspace.small||!workspace.large)throw std::runtime_error("FFT setup allocation failed");
-    workspace.real.resize(n);workspace.imag.resize(n);
-    std::fill(workspace.real.begin(),workspace.real.end(),0);std::fill(workspace.imag.begin(),workspace.imag.end(),0);
-    std::copy(frame.begin(),frame.end(),workspace.real.begin());
-    DSPDoubleSplitComplex split{workspace.real.data(),workspace.imag.data()};
-    vDSP_fft_zipD(n==512?workspace.small:workspace.large,&split,1,n==512?9:10,FFT_FORWARD);
-    std::vector<double> out(n/2+1);
-    for(size_t i=0;i<out.size();i++){double v=workspace.real[i]*workspace.real[i]+workspace.imag[i]*workspace.imag[i];out[i]=power?v:std::sqrt(v+1e-9);}
-    return out;
+    std::vector<std::complex<double>> a(n);for(size_t i=0;i<frame.size();i++)a[i]=frame[i];
+    for(size_t i=1,j=0;i<n;i++){size_t bit=n>>1;for(;j&bit;bit>>=1)j^=bit;j^=bit;if(i<j)std::swap(a[i],a[j]);}
+    for(size_t len=2;len<=n;len<<=1){auto root=std::polar(1.0,-2*pi/len);for(size_t i=0;i<n;i+=len){std::complex<double> w=1;for(size_t j=0;j<len/2;j++){auto u=a[i+j],v=a[i+j+len/2]*w;a[i+j]=u+v;a[i+j+len/2]=u-v;w*=root;}}}
+    std::vector<double> out(n/2+1);for(size_t i=0;i<out.size();i++)out[i]=power?std::norm(a[i]):std::sqrt(std::norm(a[i])+1e-9);return out;
 }
 std::vector<float> soxr_resample(const std::vector<float>& input,uint32_t from,uint32_t to) {
     if(from==to)return input;std::vector<float> out(static_cast<size_t>(std::ceil(input.size()*double(to)/from)));
