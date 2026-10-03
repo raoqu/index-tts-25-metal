@@ -31,7 +31,7 @@ std::vector<float> AcousticModel::flow(std::vector<float> noise,const std::vecto
         throw std::invalid_argument("Invalid CFM dimensions");
     auto found = timestep_cache_.find(steps);
     if (found == timestep_cache_.end()) {
-        if (timestep_cache_.size() >= 8) { timestep_cache_.clear(); modulation_cache_.clear(); conditioning_cache_.clear(); }
+        if (timestep_cache_.size() >= 8) { timestep_cache_.clear(); modulation_cache_.clear(); }
         std::pair<std::vector<float>, std::vector<float>> table;
         std::vector<float> timesteps(steps);
         for (uint32_t i = 0; i < steps; ++i) timesteps[i] = static_cast<float>(i) / steps;
@@ -41,10 +41,8 @@ std::vector<float> AcousticModel::flow(std::vector<float> noise,const std::vecto
     }
     auto mod = modulation_cache_.find(steps);
     if (mod == modulation_cache_.end()) mod = modulation_cache_.emplace(steps, prepare_cfm_modulation(metal_, weights_.bundle(), found->second.first, steps)).first;
-    auto conditioning=conditioning_cache_.find(steps);
-    if(conditioning==conditioning_cache_.end())conditioning=conditioning_cache_.emplace(steps,prepare_cfm_conditioning(metal_,weights_.bundle(),found->second.first,found->second.second,steps)).first;
     return run_cfm_trajectory_metal_pass(metal_, weights_.bundle(), noise, px, cond, style,
-        found->second.first, found->second.second, tokens, prompt_tokens, steps, cfg, mod->second, conditioning->second);
+        found->second.first, found->second.second, tokens, prompt_tokens, steps, cfg, mod->second);
 }
 std::vector<float> AcousticModel::vocode(const std::vector<float>& mel,uint32_t tokens) {
     if(!tokens || tokens>4096 || mel.size()!=static_cast<size_t>(tokens)*80) throw std::invalid_argument("Invalid BigVGAN mel dimensions");

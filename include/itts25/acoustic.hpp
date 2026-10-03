@@ -16,11 +16,10 @@ private:
     Weights& weights_;
     mit2::MetalContext& metal_;
     std::unordered_map<uint32_t, std::pair<std::vector<float>, std::vector<float>>> timestep_cache_;
-    std::unordered_map<uint32_t, std::vector<float>> modulation_cache_, conditioning_cache_;
+    std::unordered_map<uint32_t, std::vector<float>> modulation_cache_;
 };
 namespace acoustic_detail {
-std::vector<float> run_cfm_trajectory_metal_pass(mit2::MetalContext&, const mit2::Bundle&, const std::vector<float>&, const std::vector<float>&, const std::vector<float>&, const std::vector<float>&, const std::vector<float>&, const std::vector<float>&, uint32_t, uint32_t, uint32_t, float, const std::vector<float>&, const std::vector<float>&);
-std::vector<float> prepare_cfm_conditioning(mit2::MetalContext&, const mit2::Bundle&, const std::vector<float>&, const std::vector<float>&, uint32_t);
+std::vector<float> run_cfm_trajectory_metal_pass(mit2::MetalContext&, const mit2::Bundle&, const std::vector<float>&, const std::vector<float>&, const std::vector<float>&, const std::vector<float>&, const std::vector<float>&, const std::vector<float>&, uint32_t, uint32_t, uint32_t, float, const std::vector<float>&);
 std::vector<float> prepare_cfm_modulation(mit2::MetalContext&, const mit2::Bundle&, const std::vector<float>&, uint32_t);
 std::vector<float> run_length_regulator_full_metal(mit2::MetalContext&,const mit2::Bundle&,const std::vector<float>&,uint32_t,uint32_t);
 std::vector<float> run_timestep_embedder_metal(mit2::MetalContext&,const mit2::Bundle&,const std::vector<float>&,const std::string&);

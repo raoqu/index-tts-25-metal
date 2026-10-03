@@ -269,7 +269,7 @@ static std::pair<std::vector<float>, std::vector<float>> run_cfg_pass(
     const std::vector<float>& t2,
     const std::vector<uint32_t>& mask,
     uint32_t tokens, uint32_t steps, uint32_t prompt_tokens, float cfg_rate,
-    const std::vector<float>& modulation = {}, const std::vector<float>& conditioning = {})
+    const std::vector<float>& modulation = {})
 {
     if (tokens > kFusedDitAttentionMaxTokens) throw std::invalid_argument("CFM token capacity exceeded");
 
@@ -279,7 +279,7 @@ static std::pair<std::vector<float>, std::vector<float>> run_cfg_pass(
     // Workspace: persistent region (~26000 el/token) + reusable scratch (~21500 el/token, reset per block).
     // Formula: (persistent + scratch) × 4 bytes/element + alignment padding.
     const size_t ws = static_cast<size_t>(tokens) * (26000 + 27000 + 160) * 4 +
-                      static_cast<size_t>(std::max(steps, 1u)) * 1024 * 4 + 256 * 208 + (modulation.size()+conditioning.size()) * sizeof(float);
+                      static_cast<size_t>(std::max(steps, 1u)) * 1024 * 4 + 256 * 208 + modulation.size() * sizeof(float);
     metal.beginPass(ws);
 
     // ----------------------------------------------------------------
@@ -319,7 +319,6 @@ static std::pair<std::vector<float>, std::vector<float>> run_cfg_pass(
     auto mask_slot  = metal.passUploadAllocU32(mask_bat);
     auto t1_all_slot = metal.passUploadAlloc(t1);
     auto t2_all_slot = metal.passUploadAlloc(t2);
-    const auto conditioning_slot = conditioning.empty()?mit2::PassSlot{}:metal.passUploadAlloc(conditioning);
     const auto modulation_slot = modulation.empty() ? mit2::PassSlot{} : metal.passUploadAlloc(modulation);
 
     // Persistent outputs for input merge
@@ -493,7 +492,6 @@ static std::pair<std::vector<float>, std::vector<float>> run_cfg_pass(
     // Wavenet conditioning: conv1d(t2, 1, 512, 8192, 1) → wn_cond_slot
     // ----------------------------------------------------------------
     {
-        if(conditioning_slot.valid()) {wn_cond_slot=conditioning_slot.slice(step*9216,8192);} else {
         const std::string cond_pfx = "s2mel.net.cfm.estimator.wavenet.cond_layer.conv.conv";
         auto cond_w = (metal.residentExists(cond_pfx + ".weight_norm.resident") ||
                        metal.residentExists(cond_pfx + ".weight_norm.resident.f16"))
@@ -504,7 +502,6 @@ static std::pair<std::vector<float>, std::vector<float>> run_cfg_pass(
             cond_pfx + ".weight_norm.resident", cond_w,
             cond_pfx + ".bias.resident", cond_b,
             t2_slot, 1, 512, 8192, 1, wn_cond_slot);
-        }
         metal.passResetScratch();
     }
 
@@ -594,8 +591,8 @@ static std::pair<std::vector<float>, std::vector<float>> run_cfg_pass(
         auto lin_b = tensor_for_resident(metal, bundle, "s2mel.net.cfm.estimator.final_layer.linear.bias");
         auto lin_w = lin_res ? std::vector<float>{} : weight_norm_rowmajor(lin_g, lin_v, 512, 512);
 
-        auto silu_t1 = conditioning_slot.valid()?mit2::PassSlot{}:metal.silu_f32_pass(t1_slot,512);
-        auto shift_scale = conditioning_slot.valid()?conditioning_slot.slice(step*9216+8192,1024):metal.linear_f32_pass(
+        auto silu_t1     = metal.silu_f32_pass(t1_slot, 512);
+        auto shift_scale = metal.linear_f32_pass(
             "s2mel.net.cfm.estimator.final_layer.adaLN_modulation.1.weight.resident", ada_w,
             "s2mel.net.cfm.estimator.final_layer.adaLN_modulation.1.bias.resident", ada_b,
             silu_t1, 1024, 512);
@@ -677,37 +674,17 @@ std::vector<float> prepare_cfm_modulation(mit2::MetalContext& metal, const mit2:
     return metal.passRead(first);
 }
 
-std::vector<float> prepare_cfm_conditioning(mit2::MetalContext& metal,const mit2::Bundle& bundle,
-        const std::vector<float>& t1,const std::vector<float>& t2,uint32_t steps) {
-    if(!steps||t1.size()!=steps*512u||t2.size()!=t1.size())throw std::invalid_argument("Invalid conditioning schedule");
-    const std::string wn="s2mel.net.cfm.estimator.wavenet.cond_layer.conv.conv";
-    const std::string ada="s2mel.net.cfm.estimator.final_layer.adaLN_modulation.1";
-    auto w=metal.residentExists(wn+".weight_norm.resident")?std::vector<float>{}:weight_norm_conv_weight(bundle,wn,8192,512,1);
-    auto bias=tensor_for_resident(metal,bundle,wn+".bias");
-    metal.beginPass((t1.size()+t2.size()+steps*9216u)*4+32768);
-    auto a=metal.passUploadAlloc(t1),b=metal.passUploadAlloc(t2),out=metal.passAlloc(steps*9216u);
-    metal.passSetScratchBase();
-    for(uint32_t step=0;step<steps;step++) {
-        metal.conv1d_same_f32_pass_into(wn+".weight_norm.resident",w,wn+".bias.resident",bias,b.slice(step*512,512),1,512,8192,1,out.slice(step*9216,8192));
-        auto silu=metal.silu_f32_pass(a.slice(step*512,512),512);
-        auto result=metal.linear_f32_pass(ada+".weight.resident",tensor_for_resident(metal,bundle,ada+".weight"),ada+".bias.resident",tensor_for_resident(metal,bundle,ada+".bias"),silu,1024,512);
-        metal.copy_f32_pass_into(result,out.slice(step*9216+8192,1024),1024);
-        metal.passResetScratch();
-    }
-    metal.endPass();return metal.passRead(out);
-}
-
 std::vector<float> run_cfm_trajectory_metal_pass(
     mit2::MetalContext& metal, const mit2::Bundle& bundle,
     const std::vector<float>& x, const std::vector<float>& prompt_x,
     const std::vector<float>& cond, const std::vector<float>& style,
     const std::vector<float>& t1, const std::vector<float>& t2,
     uint32_t tokens, uint32_t prompt_tokens, uint32_t steps, float cfg_rate,
-    const std::vector<float>& modulation, const std::vector<float>& conditioning) {
+    const std::vector<float>& modulation) {
     return run_cfg_pass(metal, bundle, x, prompt_x, cond, style,
         std::vector<float>(x.size(), 0), std::vector<float>(cond.size(), 0),
         std::vector<float>(192, 0), t1, t2, std::vector<uint32_t>(tokens, 1),
-        tokens, steps, prompt_tokens, cfg_rate, modulation, conditioning).first;
+        tokens, steps, prompt_tokens, cfg_rate, modulation).first;
 }
 
 std::vector<float> run_length_regulator_front_metal(mit2::MetalContext& metal, const mit2::Bundle& bundle, const std::vector<float>& input, uint32_t in_tokens, uint32_t out_tokens) {
