@@ -34,7 +34,7 @@
 
 实现 `d8b241f`。复用已经加载到寄存器的 Q 共享存储作为 O epilogue，保持低于32KiB和原16-key softmax计算顺序。ABBA整体改善2.21%（单组0.24%/5.42%，仍有系统波动），三个场景全部改善且 PCM 字节一致，acoustic golden通过。最终基准复核仍包含此项。见 `apple-silicon/03-attention-tiles.json`。
 
-## 04：512通道 RMSNorm 线程数（待最终复核）
+## 04：512通道 RMSNorm 线程数（最终回退）
 
 实现 `a9ad3c0`。原1024线程上半部分只加零，改512线程保持同一有效加法树。ABBA两组整体改善0.508%/0.608%，处于门槛边缘，最终再复测才决定是否保留。三个场景 PCM 字节一致，acoustic golden通过。见 `apple-silicon/04-rms-threads.json`。
 
@@ -83,3 +83,7 @@
 ## 15：GPU-only权重private存储（回退）
 
 实验 `52140d5`。BigVGAN用于CPU展开tap的基础权重仍shared，其余常驻FP32 buffer通过一次staging blit上传private，临时staging完成后释放。10项CTest全部通过、PCM字节一致。暖TTS ABBA -0.233%（-1.141%/+0.735%），未达门槛，回退。没有更改工作区/KV的CPU可见布局。见 `apple-silicon/15-private-residents.json`。
+
+## 16：RMSNorm最终组合复核（回退）
+
+对当前组合逐项撤下并比较，7次暖请求/每轮，ABBA共两轮。512线程方案整体改善仅0.292%（1.125%/0.048%），PCM字节相同。初测0.507%的结果未重复，保留回退提交 `f8c6182`，不把首轮1.13%作为保留理由。见 `apple-silicon/16-rms-final.json`。
