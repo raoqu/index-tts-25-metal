@@ -29,6 +29,8 @@ const std::vector<float>& GptDecoder::conv_weight(const std::string& name) {
     std::vector<float> out(raw.size());
     for(size_t in=0;in<static_cast<size_t>(shape[0]);in++)
         for(size_t col=0;col<static_cast<size_t>(shape[1]);col++) out[col*shape[0]+in]=raw[in*shape[1]+col];
+    // The source layout is no longer needed after its transpose is complete.
+    weights_.release(name);
     return transposed_.emplace(name,std::move(out)).first->second;
 }
 mit2::PassSlot GptDecoder::linear(mit2::PassSlot x,uint32_t tokens,const std::string& p,bool transpose) {
@@ -121,6 +123,9 @@ std::vector<float> GptDecoder::run(const std::vector<float>& input,bool initial,
     last=norm(norm(last,1,"gpt.gpt.ln_f"),1,"gpt.final_norm");
     auto logits=linear(last,1,"gpt.mel_head",false);
     metal_.endPass();
+    // Resident buffers own their data. Keep empty key markers so a future
+    // prefill can skip both CPU copies without repeating the transpose.
+    for (auto& entry : transposed_) if (!entry.second.empty()) std::vector<float>().swap(entry.second);
     return metal_.passRead(logits);
 }
 }
