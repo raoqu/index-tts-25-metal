@@ -79,3 +79,7 @@
 ## 14：Metal编译库共享（回退）
 
 实验 `7c8f93a`。跨MetalContext只编译一次库，model/context初始化属于排除范围。暖TTS ABBA -0.946%（+0.263%/-1.865%），输出完全相同；回退。AOT metallib同样只移走首次编译，不会减少暖TTS算子工作，因此不引入额外构建/部署复杂度。见 `apple-silicon/14-shared-library.json`。
+
+## 15：GPU-only权重private存储（回退）
+
+实验 `52140d5`。BigVGAN用于CPU展开tap的基础权重仍shared，其余常驻FP32 buffer通过一次staging blit上传private，临时staging完成后释放。10项CTest全部通过、PCM字节一致。暖TTS ABBA -0.233%（-1.141%/+0.735%），未达门槛，回退。没有更改工作区/KV的CPU可见布局。见 `apple-silicon/15-private-residents.json`。
